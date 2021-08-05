@@ -6,20 +6,18 @@ import {
   Provider as PaperProvider,
 } from 'react-native-paper';
 
-import Login from './pages/Login'
+import SocialLogin from './pages/SocialLogin'
+import Home from './pages/Home'
 
 const Stack = createStackNavigator()
 
 const Routes = () => {
   return (
     <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Login"
-        >
-          <Stack.Screen  name='Login' component={Login} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen  name='Home' component={Home} />
+        <Stack.Screen  name='SocialLogin' component={SocialLogin} />
+      </Stack.Navigator>
     </PaperProvider>
   )
 }
