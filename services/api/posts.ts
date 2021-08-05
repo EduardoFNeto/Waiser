@@ -1,13 +1,13 @@
 import { Post } from "../../models/post";
 
-export const questionService = {
-  async createQuestion(title: string, description: string) {
-    const question = new Parse.Object("Question");
-    question.set("text", title);
-    question.set("anon", description);
-    question.set("user", await Parse.User.currentAsync());
+export const postService = {
+  async createPost(title: string, description: string) {
+    const post = new Parse.Object("Post");
+    post.set("text", title);
+    post.set("anon", description);
+    post.set("user", await Parse.User.currentAsync());
 
-    return await question.save().then((result) => {
+    return await post.save().then((result) => {
       return {
         id: result.id,
         title: result.get("title"),
@@ -22,7 +22,7 @@ export const questionService = {
   },
 
   async getFeed() {
-    const query = new Parse.Query("Question");
+    const query = new Parse.Query("Post");
 
     return await query.find().then((results) => {
       return results.map((result) => ({
@@ -34,7 +34,7 @@ export const questionService = {
           name: result.get("user").get("name"),
           username: result.get("user").get("username"),
         },
-      }));
+      } as Post));
     });
   },
 
@@ -42,7 +42,7 @@ export const questionService = {
     const parseGroup = new Parse.Object("Group");
     parseGroup.id = groupId;
 
-    const query = new Parse.Query("Question");
+    const query = new Parse.Query("Post");
     query.equalTo("group", parseGroup);
 
     return await query.find().then((results) => {
@@ -55,7 +55,7 @@ export const questionService = {
           name: result.get("user").get("name"),
           username: result.get("user").get("username"),
         },
-      }));
+      } as Post));
     });
   },
 };
