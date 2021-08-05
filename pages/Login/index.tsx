@@ -2,12 +2,14 @@ import React from "react"
 import { StyleSheet, View} from "react-native"
 import { Title, TextInput, Button } from 'react-native-paper'
 
+import Parse from "parse"
+
 const Login = () => {
-  const [email, setEmail] = React.useState('')
+  const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  const handleAccountCreation = async () => {
-    alert("Hello World")
+  const handleAccountCreation = async () => {    
+    alert("Hello world")
   }
 
   return (
@@ -17,9 +19,9 @@ const Login = () => {
       <View>
         <TextInput
           style={styles.input}
-          label="Email"
-          value={email}
-          onChangeText={email => setEmail(email)}
+          label="Usuário"
+          value={username}
+          onChangeText={email => setUsername(email)}
         />
 
         <TextInput

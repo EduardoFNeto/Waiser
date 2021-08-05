@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
 import * as Facebook from "expo-facebook";
 import { FACEBOOK_APP_ID }from '../../config/constants';
+import { facebookLogin } from '../../services/api/authentication';
 
 const LoginSocial = () => {
   const [user, setUser] = useState<any>(null);
@@ -9,14 +10,21 @@ const LoginSocial = () => {
   const signUpFacebook = async () => {
     try {
       await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID});
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      const { expirationDate, type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile"],
       });
       if (type === "success") {
         const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
+          `https://graph.facebook.com/me?fields=id,name,picture.type(large),email&access_token=${token}`
         );
         const data = await response.json();
+        const { id, name, picture } = data;
+        await facebookLogin({
+          id,
+          name,
+          access_token: token,
+          picture: picture.data.url
+        })
         setUser(data);
       } else {
         console.log('Deu ruim')
@@ -49,8 +57,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: { 
-    width: 200,
-    height: 200 
+    justifyContent: 'center',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
   },
   text: { 
     fontSize: 18,
