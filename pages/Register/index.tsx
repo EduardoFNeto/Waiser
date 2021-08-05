@@ -1,23 +1,45 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Text, TextInput, Button } from 'react-native-paper';
+import React from "react"
+import { StyleSheet, View } from "react-native"
+import { Title, TextInput, Button } from 'react-native-paper'
+
+import Parse from "../../services/parse"
 
 const Register = () => {
   const [name, setName] = React.useState('')
+  const [username, setUsername] = React.useState('')
   const [email, setEmail] = React.useState('')
 
   const handleAccountCreation = async () => {
-    alert("Pressed")
+    const user = new Parse.User()
+    
+    user.set("username", username)
+    user.set("password", "my pass")
+    user.set("email", email)
+
+    try {
+      if (username && email) {
+        await user.signUp()
+        alert("sucesso")
+      }
+    } catch (error) {
+      alert("Error: " + error.code + " " + error.message)
+    }
   }
 
   return (
     <View style={styles.container}>
-      <Text>Cadastre-se</Text>
+      <Title>Cadastre-se</Title>
 
       <TextInput
         label="Nome"
         value={name}
         onChangeText={name => setName(name)}
+      />
+
+      <TextInput
+        label="Nome de usuário"
+        value={username}
+        onChangeText={username => setUsername(username)}
       />
 
       <TextInput
