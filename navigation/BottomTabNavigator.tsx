@@ -111,7 +111,7 @@ function ProfileNavigator({ navigation }) {
       <ProfileStack.Screen
         name="ProfileTab"
         initialParams={{
-          userId: user.id,
+          userId: user?.id,
         }}
         component={Profile}
         options={{ headerTitle: "Profile" }}
