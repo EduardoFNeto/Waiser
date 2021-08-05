@@ -4,7 +4,7 @@ import * as Facebook from "expo-facebook";
 import { FACEBOOK_APP_ID }from '../../config/constants';
 import { facebookLogin } from '../../services/api/authentication';
 
-const Login = () => {
+const LoginSocial = () => {
   const [user, setUser] = useState<any>(null);
 
   const signUpFacebook = async () => {
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
     textAlign: "center" },
 });
 
-export default Login;
+export default LoginSocial;
