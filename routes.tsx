@@ -17,7 +17,8 @@ const Routes = () => {
     <PaperProvider>
       <Stack.Navigator 
         headerMode='none'
-        initialRouteName="Home">
+        initialRouteName="Home"
+      >
         <Stack.Screen  name='Home' component={Home} />
         <Stack.Screen  name='Register' component={Register} />
         <Stack.Screen  name='Login' component={Login} />
