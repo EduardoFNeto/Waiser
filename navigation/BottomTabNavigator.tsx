@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
+import { IconButton } from "react-native-paper";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -10,7 +11,7 @@ import Home from "../pages/Home";
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator() {
+export default function BottomTabNavigator({navigation}) {
   const colorScheme = useColorScheme();
 
   return (
@@ -33,6 +34,15 @@ export default function BottomTabNavigator() {
       <BottomTab.Screen
         name="GroupsScreen"
         component={GroupsNavigator}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="people" color={color} />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="ProfileScreen"
+        component={ProfileNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="people" color={color} />
@@ -73,5 +83,26 @@ function GroupsNavigator() {
         options={{ headerTitle: "Grupos de estudos" }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+
+const ProfileStack = createStackNavigator();
+function ProfileNavigator({navigation}) {
+  return (
+    <ProfileStack.Navigator
+      screenOptions={{
+        headerRight: () => (
+          <IconButton icon="dots-vertical" onPress={() => {
+            navigation.push("Settings");
+          }} />
+        )
+      }}
+    >
+      <ProfileStack.Screen
+        name="Profile"
+        component={Groups}
+        options={{ headerTitle: "Profile" }}
+      />
+    </ProfileStack.Navigator>
   );
 }

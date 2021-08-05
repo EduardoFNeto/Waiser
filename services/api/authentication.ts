@@ -25,3 +25,8 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
     } as User
   })
 }
+
+
+export async function logOut() {
+ return await Parse.User.logOut()
+}

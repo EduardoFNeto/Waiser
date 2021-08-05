@@ -1,25 +1,55 @@
-import React from "react";
-import { StyleSheet, Text, Button, View } from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, Text, View, Button, Image, Alert } from "react-native";
+import * as Facebook from "expo-facebook";
+import { FACEBOOK_APP_ID } from "../../config/constants";
+import { facebookLogin } from "../../services/api/authentication";
+import { UserContext } from "../../contexts/user";
 
-const Home = ({ navigation }) => {
+const Welcome = ({ navigation }) => {
+  const [, setUser] = useContext(UserContext);
+
+  const signUpFacebook = async () => {
+    try {
+      await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID });
+      const { expirationDate, type, token } =
+        await Facebook.logInWithReadPermissionsAsync({
+          permissions: ["public_profile"],
+        });
+      if (type === "success") {
+        const response = await fetch(
+          `https://graph.facebook.com/me?fields=id,name,picture.type(large),email&access_token=${token}`
+        );
+        const data = await response.json();
+        const { id, name, picture } = data;
+
+        const user = await facebookLogin({
+          id,
+          name,
+          access_token: token,
+          picture: picture.data.url,
+        });
+
+        setUser(user);
+
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Main" }],
+        });
+      } else {
+        Alert.alert("Deu ruim");
+      }
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Waiser</Text>
-      <Text>Pergunte, aprenda e conecte-se!</Text>
-
-      <Button
-        title="Entrar com Facebook"
-        onPress={() => navigation.navigate('LoginSocial')}
-      />
-
-      <Button
-        title="Entrar com Email"
-        onPress={() => navigation.navigate('Login')}
-      />
-        
+      <Button title="Login Facebook" onPress={signUpFacebook} />
+      <Button title="Entrar com Email" />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -28,14 +58,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  image: { 
-    width: 200,
-    height: 200 
+  image: {
+    justifyContent: "center",
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
   },
-  text: { 
+  text: {
     fontSize: 18,
-    textAlign: "center" 
-  }
+    textAlign: "center",
+  },
 });
 
-export default Home;
+export default Welcome;
