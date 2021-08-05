@@ -1,4 +1,5 @@
 import { User } from "../../models/user";
+import Parse from '../parse';
 
 export const profileService = {
   async getProfileById(profileId: string) {
@@ -6,10 +7,10 @@ export const profileService = {
 
     return await query.get(profileId).then((result) => {
       return {
-        id: result.get("user").id,
-        name: result.get("user").get("name"),
-        username: result.get("user").get("username"),
-        avatar: result.get("user").get("avatar"),
+        id: result.id,
+        name: result.get("name"),
+        username: result.get("username"),
+        avatar: result.get("avatar"),
       } as User;
     });
   },
@@ -21,10 +22,10 @@ export const profileService = {
       return results.map(
         (result) =>
           ({
-            id: result.get("user").id,
-            name: result.get("user").get("name"),
-            username: result.get("user").get("username"),
-            avatar: result.get("user").get("avatar"),
+            id: result.id,
+            name: result.get("name"),
+            username: result.get("username"),
+            avatar: result.get("avatar"),
           } as User)
       );
     });

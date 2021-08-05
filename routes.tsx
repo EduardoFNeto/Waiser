@@ -9,6 +9,7 @@ import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import { UserContext } from "./contexts/user";
 import Welcome from "./pages/Welcome";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 
 const Stack = createStackNavigator();
 
@@ -20,14 +21,16 @@ const Routes = () => {
       <Stack.Navigator
         initialRouteName={user ? 'Main' : 'Welcome'}
         screenOptions={{
-          headerShown: false,
         }}
       >
-        <Stack.Screen name="Main" component={BottomTabNavigator} />
+        <Stack.Screen name="Main" component={BottomTabNavigator} options={{
+          headerShown: false
+        }} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Profile" component={Profile} />
       </Stack.Navigator>
     </PaperProvider>
   );
