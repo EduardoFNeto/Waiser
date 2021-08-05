@@ -10,11 +10,11 @@ const Login = () => {
     try {
       await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID});
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
-        permissions: ["public_profile", "email"],
+        permissions: ["public_profile"],
       });
       if (type === "success") {
         const response = await fetch(
-          `https://graph.facebook.com/me?fields=id,name,picture.type(large),email&access_token=${token}`
+          `https://graph.facebook.com/me?access_token=${token}`
         );
         const data = await response.json();
         setUser(data);
@@ -22,7 +22,7 @@ const Login = () => {
         console.log('Deu ruim')
       }
     } catch (err) {
-      console.log(err.message);
+      throw new Error(err.message);
     }
   };
 
