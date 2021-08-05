@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
 import * as Facebook from "expo-facebook";
 import { FACEBOOK_APP_ID }from '../../config/constants';
+import { facebookLogin } from '../../services/api/authentication';
 
 const Login = () => {
   const [user, setUser] = useState<any>(null);
