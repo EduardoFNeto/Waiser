@@ -4,11 +4,19 @@ import { StyleSheet, Text, Button, View } from "react-native";
 const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Login é aqui</Text>
+      <Text>Waiser</Text>
+      <Text>Pergunte, aprenda e conecte-se!</Text>
+
       <Button
-        title="Go to Login Social"
-        onPress={() => navigation.navigate('SocialLogin')}
+          title="Entrar com Facebook"
+          onPress={() => navigation.navigate('loginSocial')}
       />
+
+      <Button
+        title="Entrar com Email"
+        onPress={() => navigation.navigate('Register')}
+      />
+        
     </View>
   );
 }
@@ -26,7 +34,8 @@ const styles = StyleSheet.create({
   },
   text: { 
     fontSize: 18,
-    textAlign: "center" },
+    textAlign: "center" 
+  }
 });
 
 export default Home;

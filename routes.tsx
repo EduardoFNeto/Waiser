@@ -1,5 +1,4 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import {
@@ -7,6 +6,7 @@ import {
 } from 'react-native-paper';
 
 import SocialLogin from './pages/SocialLogin'
+import Register from './pages/Register'
 import Home from './pages/Home'
 
 const Stack = createStackNavigator()
@@ -16,7 +16,8 @@ const Routes = () => {
     <PaperProvider>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen  name='Home' component={Home} />
-        <Stack.Screen  name='SocialLogin' component={SocialLogin} />
+        <Stack.Screen  name='Register' component={Register} />
+        <Stack.Screen  name='loginSocial' component={SocialLogin} />
       </Stack.Navigator>
     </PaperProvider>
   )
