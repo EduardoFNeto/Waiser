@@ -18,6 +18,13 @@ const LoginSocial = () => {
           `https://graph.facebook.com/me?fields=id,name,picture.type(large),email&access_token=${token}`
         );
         const data = await response.json();
+        const { id, name, picture } = data;
+        await facebookLogin({
+          id,
+          name,
+          access_token: token,
+          picture: picture.data.url
+        })
         setUser(data);
       } else {
         console.log('Deu ruim')
