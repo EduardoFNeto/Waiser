@@ -10,6 +10,7 @@ export const profileService = {
         id: result.id,
         name: result.get("name"),
         username: result.get("username"),
+        bio: result.get("bio"),
         avatar: result.get("avatar"),
       } as User;
     });
@@ -25,6 +26,7 @@ export const profileService = {
             id: result.id,
             name: result.get("name"),
             username: result.get("username"),
+            bio: result.get("bio"),
             avatar: result.get("avatar"),
           } as User)
       );
