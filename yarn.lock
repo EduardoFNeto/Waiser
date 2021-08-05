@@ -3868,6 +3868,14 @@ expo-error-recovery@~2.2.0:
   resolved "https://registry.yarnpkg.com/expo-error-recovery/-/expo-error-recovery-2.2.0.tgz#89e5494d97347530dd53cd817d7ac63f07bf8de0"
   integrity sha512-HKbu6VHAlfhoP7y+HaGJwJizoUTY2eBTBHAi1RE7l/r4sc+cAegTmwwqf/3AOR8C7VntDvuQKtW7NZIyA+62KQ==
 
+expo-facebook@~11.3.1:
+  version "11.3.1"
+  resolved "https://registry.yarnpkg.com/expo-facebook/-/expo-facebook-11.3.1.tgz#acbbecddbe0f041edcdee45ff72cacb0b53bbfb5"
+  integrity sha512-UxIzHkbMEui7oKXYZM+lK0smVsVQmaSX8aVFwuhjGw1vXfrG0qbvx7paDc3vSfno1rEAlOPyrI12O4kggoKVvA==
+  dependencies:
+    "@expo/config-plugins" "^3.0.0"
+    expo-modules-core "~0.2.0"
+
 expo-file-system@~11.1.3:
   version "11.1.3"
   resolved "https://registry.yarnpkg.com/expo-file-system/-/expo-file-system-11.1.3.tgz#f344bd175a5f65e2a97d2d6a1fd4c8da06386639"
@@ -7040,7 +7048,7 @@ react-native-crypto-js@1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-crypto-js/-/react-native-crypto-js-1.0.0.tgz#e677e022e147f41b35614416c92d655f87e2450a"
   integrity sha512-FNbLuG/HAdapQoybeZSoes1PWdOj0w242gb+e1R0hicf3Gyj/Mf8M9NaED2AnXVOX01b2FXomwUiw1xP1K+8sA==
 
-react-native-gesture-handler@~1.10.2:
+react-native-gesture-handler@^1.10.3:
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz#942bbf2963bbf49fa79593600ee9d7b5dab3cfc0"
   integrity sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw==
