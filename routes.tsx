@@ -14,7 +14,9 @@ const Stack = createStackNavigator()
 const Routes = () => {
   return (
     <PaperProvider>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator 
+        headerMode='none'
+        initialRouteName="Home">
         <Stack.Screen  name='Home' component={Home} />
         <Stack.Screen  name='Register' component={Register} />
         <Stack.Screen  name='loginSocial' component={SocialLogin} />

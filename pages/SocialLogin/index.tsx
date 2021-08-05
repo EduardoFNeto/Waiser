@@ -9,12 +9,12 @@ const Login = () => {
   const signUpFacebook = async () => {
     try {
       await Facebook.initializeAsync({ appId: FACEBOOK_APP_ID});
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      const { expirationDate, type, token } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ["public_profile"],
       });
       if (type === "success") {
         const response = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}`
+          `https://graph.facebook.com/me?fields=id,name,picture.type(large),email&access_token=${token}`
         );
         const data = await response.json();
         setUser(data);
@@ -49,8 +49,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   image: { 
-    width: 200,
-    height: 200 
+    justifyContent: 'center',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginBottom: 16,
   },
   text: { 
     fontSize: 18,
