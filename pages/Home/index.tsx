@@ -8,13 +8,13 @@ const Home = ({ navigation }) => {
       <Text>Pergunte, aprenda e conecte-se!</Text>
 
       <Button
-          title="Entrar com Facebook"
-          onPress={() => navigation.navigate('loginSocial')}
+        title="Entrar com Facebook"
+        onPress={() => navigation.navigate('LoginSocial')}
       />
 
       <Button
         title="Entrar com Email"
-        onPress={() => navigation.navigate('Register')}
+        onPress={() => navigation.navigate('Login')}
       />
         
     </View>

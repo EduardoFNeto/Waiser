@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button, Image } from "react-native";
 import * as Facebook from "expo-facebook";
 import { FACEBOOK_APP_ID }from '../../config/constants';
 
-const Login = () => {
+const LoginSocial = () => {
   const [user, setUser] = useState<any>(null);
 
   const signUpFacebook = async () => {
@@ -57,4 +57,4 @@ const styles = StyleSheet.create({
     textAlign: "center" },
 });
 
-export default Login;
+export default LoginSocial;
