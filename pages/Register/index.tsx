@@ -6,26 +6,18 @@ import Parse from "../../services/parse"
 
 const Register = ({ navigation }) => {
   const [name, setName] = React.useState('')
-  const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [email, setEmail] = React.useState('')
 
   const handleAccountCreation = async () => {
-    const user = new Parse.User()
-    
-    user.set("name", name)
-    user.set("username", username)
-    user.set("password", password)
-    user.set("email", email)
-
     try {
-      if (name && username && email && password) {
-        await user.signUp()
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Main" }],
+      if (name && email && password) {
+        navigation.navigate("FinishRegister", {
+          name, email, password
         });
-        alert("sucesso")
+      }
+      else {
+        alert("Faltou campo ai fio")
       }
     } catch (error) {
       alert("Error: " + error.code + " " + error.message)
@@ -39,16 +31,9 @@ const Register = ({ navigation }) => {
       <View>
         <TextInput
           style={styles.input}
-          label="Nome Completo"
+          label="Nome"
           value={name}
           onChangeText={name => setName(name)}
-        />
-
-        <TextInput
-          style={styles.input}
-          label="Usuário"
-          value={username}
-          onChangeText={username => setUsername(username)}
         />
 
         <TextInput

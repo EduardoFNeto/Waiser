@@ -3,7 +3,7 @@ import * as React from "react";
 import { useEffect } from "react";
 import { View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import { Avatar, Headline } from "react-native-paper";
+import { Avatar, Headline, Text } from "react-native-paper";
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
 
@@ -27,6 +27,9 @@ const Profile = () => {
     <View style={{ flex: 1 }}>
       <Avatar.Image source={{ uri: profile.avatar }} />
       <Headline>{profile.name}</Headline>
+      <Text>{ profile.username }</Text>
+      <Text>{ profile.email }</Text>
+      <Text>{ profile.bio }</Text>
     </View>
   );
 };

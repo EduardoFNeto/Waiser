@@ -10,8 +10,10 @@ export const profileService = {
         id: result.id,
         name: result.get("name"),
         username: result.get("username"),
+        email: result.get("email"),
         bio: result.get("bio"),
         avatar: result.get("avatar"),
+        tags: result.get("tags"),
       } as User;
     });
   },
@@ -26,8 +28,10 @@ export const profileService = {
             id: result.id,
             name: result.get("name"),
             username: result.get("username"),
+            email: result.get("email"),
             bio: result.get("bio"),
             avatar: result.get("avatar"),
+            tags: result.get("tags"),
           } as User)
       );
     });

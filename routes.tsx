@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Provider as PaperProvider } from "react-native-paper";
 
 import Register from "./pages/Register";
+import FinishRegister from "./pages/FinishRegister";
 import Login from "./pages/Login";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import { UserContext } from "./contexts/user";
@@ -20,14 +21,14 @@ const Routes = () => {
     <PaperProvider>
       <Stack.Navigator
         initialRouteName={user ? 'Main' : 'Welcome'}
-        screenOptions={{
-        }}
+        screenOptions={{}}
       >
         <Stack.Screen name="Main" component={BottomTabNavigator} options={{
           headerShown: false
         }} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen name="FinishRegister" component={FinishRegister} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
