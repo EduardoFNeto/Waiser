@@ -1,15 +1,29 @@
 import React from "react"
 import { StyleSheet, View} from "react-native"
-import { Title, TextInput, Button } from 'react-native-paper'
+import { Title, Text, TextInput, Button } from 'react-native-paper'
+import Parse from "../../services/parse"
 
-import Parse from "parse"
-
-const Login = () => {
+const Login = ({ navigation }) => {
   const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  const handleAccountCreation = async () => {    
-    alert("Hello world")
+  const signInEmail = async () => {    
+    try {
+      const user = await Parse.User.logIn(username, password);
+      if (!!user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Main" }],
+        });
+        alert("Success")
+      }
+    } catch (error) {
+      alert("Error")
+    }
+  }
+
+  const signUpEmail = async () => {
+    navigation.push("Register");
   }
 
   return (
@@ -33,9 +47,14 @@ const Login = () => {
           right={<TextInput.Icon name="eye" />}
         />
 
-        <Button mode="contained" onPress={handleAccountCreation}>
+        <Button mode="contained" onPress={signInEmail}>
           Entrar
         </Button>
+      </View>
+
+      <View>
+        <Text>Não possui conta?</Text>
+        <Button onPress={signUpEmail}>Cadastre-se</Button>
       </View>
       
     </View>

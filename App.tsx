@@ -18,6 +18,7 @@ function App() {
           id: user.id,
           username: user.getUsername(),
           name: user.get("name"),
+          bio: user.get("bio"),
           avatar: user.get("avatar"),
         });
       }

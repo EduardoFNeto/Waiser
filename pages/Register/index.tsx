@@ -4,25 +4,20 @@ import { Title, TextInput, Caption, Button } from 'react-native-paper'
 
 import Parse from "../../services/parse"
 
-const Register = () => {
+const Register = ({ navigation }) => {
   const [name, setName] = React.useState('')
-  const [username, setUsername] = React.useState('')
   const [password, setPassword] = React.useState('')
   const [email, setEmail] = React.useState('')
 
   const handleAccountCreation = async () => {
-    const user = new Parse.User()
-    
-    user.set("username", username)
-    user.set("password", password)
-    user.set("email", email)
-
     try {
-      console.log(username, email, password)
-
-      if (username && email && password) {
-        await user.signUp()
-        alert("sucesso")
+      if (name && email && password) {
+        navigation.navigate("FinishRegister", {
+          name, email, password
+        });
+      }
+      else {
+        alert("Faltou campo ai fio")
       }
     } catch (error) {
       alert("Error: " + error.code + " " + error.message)
@@ -36,16 +31,9 @@ const Register = () => {
       <View>
         <TextInput
           style={styles.input}
-          label="Nome Completo"
+          label="Nome"
           value={name}
           onChangeText={name => setName(name)}
-        />
-
-        <TextInput
-          style={styles.input}
-          label="Usuário"
-          value={username}
-          onChangeText={username => setUsername(username)}
         />
 
         <TextInput

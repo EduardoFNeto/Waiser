@@ -1,5 +1,7 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, Button, Image, Alert } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+import { Title, Text, Button } from 'react-native-paper'
+
 import * as Facebook from "expo-facebook";
 import { FACEBOOK_APP_ID } from "../../config/constants";
 import { facebookLogin } from "../../services/api/authentication";
@@ -43,10 +45,16 @@ const Welcome = ({ navigation }) => {
     }
   };
 
+  const signUpEmail = () => {
+    navigation.push("Login");
+  }
+
   return (
     <View style={styles.container}>
-      <Button title="Login Facebook" onPress={signUpFacebook} />
-      <Button title="Entrar com Email" />
+      <Title style={styles.title}>Waiser</Title>
+      <Text style={styles.text}>Pergunte, aprenda e conecte-se!</Text>
+      <Button mode="contained" onPress={signUpFacebook} style={styles.facebookBtn}>Entrar com Facebook</Button>
+      <Button mode="contained" onPress={signUpEmail} style={styles.emailBtn}>Entrar com Email</Button>
     </View>
   );
 };
@@ -65,10 +73,23 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     marginBottom: 16,
   },
-  text: {
-    fontSize: 18,
-    textAlign: "center",
+  title: {
+    fontSize: 32
   },
+  text: {
+    fontSize: 16,
+    marginTop: 30,
+    marginBottom: 60
+  },
+  facebookBtn: {
+    backgroundColor: "#4267B2",
+    color: "#ffffff",
+    marginBottom: 15
+  },
+  emailBtn: {
+    backgroundColor: "#1ECD8C",
+    color: "#ffffff"
+  }
 });
 
 export default Welcome;
