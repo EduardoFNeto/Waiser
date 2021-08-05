@@ -1,14 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, Button, View } from "react-native";
 
-const Home = ({ }) => {
+const Groups = ({}) => {
   return (
     <View style={styles.container}>
-      <Text>Waiser</Text>
-      <Text>Pergunte, aprenda e conecte-se!</Text>
+      <Text>Groups</Text>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -17,14 +16,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  image: { 
+  image: {
     width: 200,
-    height: 200 
+    height: 200,
   },
-  text: { 
+  text: {
     fontSize: 18,
-    textAlign: "center" 
-  }
+    textAlign: "center",
+  },
 });
 
-export default Home;
+export default Groups;

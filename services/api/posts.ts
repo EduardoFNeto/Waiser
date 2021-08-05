@@ -21,8 +21,14 @@ export const postService = {
     });
   },
 
-  async getFeed() {
+  async getFeed(tagId?: string) {
     const query = new Parse.Query("Post");
+
+    if (!tagId) {
+      const userFollowQuery = new Parse.Query('UserFollow');
+      userFollowQuery.equalTo('from', Parse.User.current());
+      query.matchesKeyInQuery('user', 'to', userFollowQuery);
+    }
 
     return await query.find().then((results) => {
       return results.map((result) => ({
