@@ -1,26 +1,35 @@
-import React from "react"
-import { StyleSheet, View} from "react-native"
-import { Title, TextInput, Caption, Button } from 'react-native-paper'
+import React, { useContext } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+import { Title, TextInput, Caption, Button } from "react-native-paper";
 
-import Parse from "../../services/parse"
+import { UserContext } from "../../contexts/user";
+import { userService } from "../../services/api/user";
 
 const Register = ({ navigation }) => {
-  const [name, setName] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [email, setEmail] = React.useState('')
+  const [, setUser] = useContext(UserContext);
 
-  const handleAccountCreation = async () => {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
+
+  const handleProfileRegister = async () => {
+
     try {
-      if (name && email && password) {
-        navigation.navigate("FinishRegister", {
-          name, email, password
+      if (!!username && !!password && !!email) {
+        const user = await userService.createProfile(username, password, email);
+  
+        setUser(user);
+  
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "FinishRegister" }],
         });
       }
       else {
-        alert("Faltou campo ai fio")
+        Alert.alert("Por favor, preencha todos os campos.");
       }
-    } catch (error) {
-      alert("Error: " + error.code + " " + error.message)
+    } catch (err) {
+      throw new Error(err.message);
     }
   }
 
@@ -31,9 +40,9 @@ const Register = ({ navigation }) => {
       <View>
         <TextInput
           style={styles.input}
-          label="Nome"
-          value={name}
-          onChangeText={name => setName(name)}
+          label="Usuário"
+          value={username}
+          onChangeText={username => setUsername(username)}
         />
 
         <TextInput
@@ -52,7 +61,7 @@ const Register = ({ navigation }) => {
           right={<TextInput.Icon name="eye" />}
         />
 
-        <Button mode="contained" onPress={handleAccountCreation}>
+        <Button mode="contained" onPress={handleProfileRegister}>
           Criar conta
         </Button>
       </View>

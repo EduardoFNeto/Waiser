@@ -36,10 +36,10 @@ const Welcome = ({ navigation }) => {
 
         navigation.reset({
           index: 0,
-          routes: [{ name: "Main" }],
+          routes: [{ name: "FinishRegister" }],
         });
       } else {
-        Alert.alert("Deu ruim");
+        Alert.alert("Erro");
       }
     } catch (err) {
       throw new Error(err.message);
@@ -58,13 +58,17 @@ const Welcome = ({ navigation }) => {
         mode="contained"
         uppercase={false}
         onPress={signUpFacebook} 
-        style={styles.facebookBtn}>Entrar com Facebook
+        style={styles.facebookBtn}
+      >
+        Entrar com Facebook
       </Button>
       <Button 
         mode="contained"
         uppercase={false}
         onPress={handleEmailLogin} 
-        style={styles.emailBtn}>Entrar com Email
+        style={styles.emailBtn}
+      >
+        Entrar com Email
       </Button>
       <Caption style={styles.caption}>Ao entrar você concorda com os Termos e condições.</Caption>
     </View>

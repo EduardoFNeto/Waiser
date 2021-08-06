@@ -1,10 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StatusBar, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+
+import { UserContext, UserProvider } from "./contexts/user";
+
 import Parse from "./services/parse";
 import Routes from "./routes";
-import { useEffect } from "react";
-import { UserContext, UserProvider } from "./contexts/user";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);

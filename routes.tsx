@@ -1,11 +1,12 @@
 import React, { useContext, useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import Register from "./pages/Register";
-import FinishRegister from "./pages/FinishRegister";
-import Login from "./pages/Login";
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import { UserContext } from "./contexts/user";
+import BottomTabNavigator from "./navigation/BottomTabNavigator";
+
+import Register from "./pages/Register";
+import FinishRegister from "./pages/Register/finish";
+import Login from "./pages/Login";
 import Welcome from "./pages/Welcome";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
@@ -25,6 +26,7 @@ import {
 } from "react-native-paper";
 
 import merge from "deepmerge";
+import TagsView from "./pages/Tags";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
@@ -39,9 +41,9 @@ const Routes = () => {
       ...CombinedDefaultTheme,
       colors: {
         ...CombinedDefaultTheme.colors,
-        // primary: "red",
-        // accent: 'black',
-        background: "#fff",
+        primary: "#585EED",
+        accent: "#21CA8E",
+        background: "#fafafa",
         card: '#fff',
       },
     }),
@@ -69,6 +71,7 @@ const Routes = () => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CreatePost" component={CreatePost} />
         <Stack.Screen name="PostDetail" component={PostDetail} />
+        <Stack.Screen name="Tags" component={TagsView} />
       </Stack.Navigator>
     </PaperProvider>
   );
