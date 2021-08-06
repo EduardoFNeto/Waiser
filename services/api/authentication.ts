@@ -24,20 +24,6 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
   })
 }
 
-export async function createProfile(username: string, bio: string) {
-  const parseUser = await Parse.User.currentAsync();
-
-  if (!parseUser) {
-    return;
-  }
-
-  parseUser.set("username", username);
-  parseUser.set("bio",  bio);
-
-  return await parseUser.save().then((result: Parse.User) => buildUserFromParse(result))
-}
-
-
 export async function logOut() {
  return await Parse.User.logOut()
 }
