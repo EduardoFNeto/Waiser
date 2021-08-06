@@ -27,6 +27,9 @@ import {
 
 import merge from "deepmerge";
 import TagsView from "./pages/Tags";
+import CreateGroup from "./pages/CreateGroup";
+import GroupDetail from "./pages/GroupDetail";
+import ExploreGroups from "./pages/ExploreGroups";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
@@ -44,7 +47,7 @@ const Routes = () => {
         primary: "#585EED",
         accent: "#21CA8E",
         background: "#fafafa",
-        card: '#fff',
+        card: "#fff",
       },
     }),
     [CombinedDefaultTheme]
@@ -70,7 +73,10 @@ const Routes = () => {
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CreatePost" component={CreatePost} />
+        <Stack.Screen name="CreateGroup" component={CreateGroup} />
         <Stack.Screen name="PostDetail" component={PostDetail} />
+        <Stack.Screen name="GroupDetail" component={GroupDetail} />
+        <Stack.Screen name="ExploreGroups" component={ExploreGroups} />
         <Stack.Screen name="Tags" component={TagsView} />
       </Stack.Navigator>
     </PaperProvider>

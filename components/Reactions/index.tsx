@@ -35,7 +35,12 @@ export const Reactions = ({
     if (isLoading) return;
     setIsDisliked(false);
     setIsLiked(!isLiked);
-    setTotalLikes((value) => value + 1);
+
+    if (isLiked) {
+      setTotalLikes((value) => value - 1);
+    } else {
+      setTotalLikes((value) => value + 1);
+    }
 
     setIsLoading(true);
     likeService.like(post.id).finally(() => {
