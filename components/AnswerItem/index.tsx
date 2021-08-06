@@ -40,7 +40,7 @@ export const AnswerItem = ({ post }: { post: Post }) => {
               · {dateUtils.timeAgo(post.createdAt)}
             </Text>
           </Text>
-          <Text style={{marginTop: 0, lineHeight: 14, color: Colors.grey800}}>12 respostas · 325 curtidas</Text>
+          <Text style={{marginTop: 0, lineHeight: 14, color: Colors.grey800}}>{post.user.totalAnswers} respostas · {post.user.totalPoints} pontos</Text>
         </View>
       </View>
       <View>

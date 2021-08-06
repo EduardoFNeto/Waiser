@@ -2,9 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import {
-  FAB,
-} from "react-native-paper";
+import { FAB } from "react-native-paper";
 import { Posts } from "../../components/Posts";
 import { TagItem } from "../../components/TagItem";
 import { Post } from "../../models/post";
@@ -18,9 +16,27 @@ const Home = ({}) => {
   const [selectedTag, setSelectedTag] = useState<null | undefined | Tag>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  
+  const [isExplore, setExplore] = useState(false);
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+
+  const onRefresh = () => {
+    return postService.getFeed().then((results) => {
+      setPosts(results);
+      setIsLoadingPosts(false);
+      return results
+    });
+  };
+
+  const getMoreResults = (currentPage: number) => {
+    return postService.getFeed(undefined, currentPage).then((results) => {
+      setPosts(prev => [...results, ...prev]);
+      setIsLoadingPosts(false);
+      return results;
+    });
+  }
 
   useFocusEffect(
     useCallback(() => {
@@ -42,11 +58,18 @@ const Home = ({}) => {
     }, [])
   );
 
-  const handleTag = (tag?: Tag) => () => {
+  const handleTag = (tag?: Tag | 'explore') => () => {
     setIsLoadingPosts(true);
-    setSelectedTag(tag);
+    
+    if (tag !== 'explore') {
+      setSelectedTag(tag)
+      setExplore(false);
+     } else {
+      setExplore(true);
+    }
+
     postService
-      .getFeed(tag?.id)
+      .getFeed(tag === 'explore' ? tag : tag?.id)
       .then((results) => {
         setPosts(results);
       })
@@ -85,7 +108,12 @@ const Home = ({}) => {
         <TagItem
           name="Para você"
           onPress={handleTag()}
-          checked={!selectedTag}
+          checked={!selectedTag && !isExplore}
+        />
+        <TagItem
+          name="Explorar"
+          onPress={handleTag('explore')}
+          checked={isExplore}
         />
         {tags.map((tag) => {
           return (
@@ -99,7 +127,7 @@ const Home = ({}) => {
         })}
       </ScrollView>
     );
-  },[tags, selectedTag]);
+  }, [tags, selectedTag, isExplore]);
 
   return (
     <View style={styles.container}>
@@ -107,6 +135,8 @@ const Home = ({}) => {
       <Posts
         posts={posts}
         isLoading={isLoadingPosts}
+        onRefresh={onRefresh}
+        getMoreResults={getMoreResults}
       />
       <FAB
         style={styles.createButton}
