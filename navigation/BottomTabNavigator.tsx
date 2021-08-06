@@ -15,6 +15,7 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import Chat from "../pages/Chat";
 import LiveChat from "../pages/Chat/LiveChat";
+
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ }) {
