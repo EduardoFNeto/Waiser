@@ -56,6 +56,7 @@ const Welcome = ({ navigation }) => {
       <Text style={styles.text}>Pergunte, aprenda e conecte-se!</Text>
       <Button 
         mode="contained"
+        labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
         uppercase={false}
         onPress={signUpFacebook} 
         style={styles.facebookBtn}
@@ -64,6 +65,7 @@ const Welcome = ({ navigation }) => {
       </Button>
       <Button 
         mode="contained"
+        labelStyle={{ color: "#21CA8E", fontSize: 16, fontFamily: "InterMedium" }}
         uppercase={false}
         onPress={handleEmailLogin} 
         style={styles.emailBtn}
@@ -78,38 +80,40 @@ const Welcome = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
   text: {
     color: "#333333",
     fontSize: 20,
+    fontFamily: "InterRegular",
     marginTop: 30,
-    marginBottom: 60
+    marginBottom: 120
   },
   facebookBtn: {
     backgroundColor: "#4267B2",
     color: "#ffffff",
     marginBottom: 15,
     fontSize: 16,
+    fontFamily: "InterMedium",
     textTransform: "lowercase",
-    height: 58,
+    padding: 10,
     borderRadius: 58,
     elevation: 0,
-    minWidth: 300,
+    minWidth: 280,
     justifyContent: 'center',
     alignItems: 'center'
   },
   emailBtn: {
-    backgroundColor: "#21CA8E",
-    color: "#ffffff",
-    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#21CA8E",
+    backgroundColor: "transparent",
     textTransform: "lowercase",
-    height: 58,
+    padding: 10,
     borderRadius: 58,
     elevation: 0,
-    minWidth: 300,
+    minWidth: 280,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -119,6 +123,7 @@ const styles = StyleSheet.create({
   },
   caption: {
     fontSize: 12,
+    fontFamily: "InterLight",
     color: "#333",
     marginTop: 60
   }

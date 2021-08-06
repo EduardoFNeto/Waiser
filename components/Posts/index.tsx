@@ -9,9 +9,11 @@ import { PostItem } from "../PostItem";
 export const Posts = ({
   posts,
   isLoading,
+  renderHeader
 }: {
   posts: Post[];
   isLoading: boolean;
+  renderHeader?: any
 }) => {
   const navigation = useNavigation();
 
@@ -59,6 +61,7 @@ export const Posts = ({
             <Caption>Nenhuma publicação encontrada</Caption>
           </View>
         )}
+        ListHeaderComponent={renderHeader}
       />
     </View>
   );

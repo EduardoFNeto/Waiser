@@ -1,7 +1,13 @@
-import { buildUserFromParse, User } from '../../models/user';
-import Parse from '../parse';
+import { buildUserFromParse } from "../../models/user";
+import Parse from "../parse";
 
-export async function facebookLogin({ id, name, access_token, expiration_date, picture }: any) {
+export async function facebookLogin({
+  id,
+  name,
+  access_token,
+  expiration_date,
+  picture,
+}: any) {
   const authData = {
     id,
     access_token,
@@ -9,22 +15,18 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
     name,
   };
 
-  const parseUser = ((await Parse.FacebookUtils.logIn(authData)) as unknown) as Parse.User;
+  const parseUser = (await Parse.FacebookUtils.logIn(
+    authData
+  )) as unknown as Parse.User;
 
-  parseUser.set("name", name);
-  parseUser.set("avatar",  picture);
+  if (!parseUser.get('name')) parseUser.set("name", name);
+  if (!parseUser.get('avatar')) parseUser.set("avatar", picture);
 
   return await parseUser.save().then((result: Parse.User) => {
-    return {
-      id: result.id,
-      name: result.get("name"),
-      bio: result.get("bio"),
-      username: result.getUsername(),
-      avatar: result.get("avatar")
-    } as User
-  })
+    return buildUserFromParse(result);
+  });
 }
 
 export async function logOut() {
- return await Parse.User.logOut()
+  return await Parse.User.logOut();
 }
