@@ -41,6 +41,26 @@ export const chatService = {
     });
   },
 
+  async getMessagesQuery(friendId: string) {
+    const user = Parse.User.current();
+    const friend = new Parse.User();
+    friend.id = friendId;
+
+    const getChat = new Parse.Query("Chat");
+
+    getChat.equalTo("user", user);
+    getChat.equalTo("friend", friend);
+    getChat.include("owner");
+
+    let chat = await getChat.first();
+    if (!chat) throw new Error('');
+
+    const query = new Parse.Query("Message");
+    query.equalTo("chat", chat);
+
+    return query;
+  },
+
   async getAllChats() {
     const user = Parse.User.current();
 

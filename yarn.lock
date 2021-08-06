@@ -2032,7 +2032,22 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@react-native-async-storage/async-storage@^1.15.5":
+"@parse/react-base@^0.0.1-alpha.13":
+  version "0.0.1-alpha.13"
+  resolved "https://registry.yarnpkg.com/@parse/react-base/-/react-base-0.0.1-alpha.13.tgz#8616f55b787826135a208d0f3d137f19a91d371c"
+  integrity sha512-YRFcpv497fnaIu+lrjIxeVczrqMwBzRH1ljgztBxJIO2QSPc+vLI9vK0JY+Ux8PjpnnDYW0KaSidmn03x0nfGg==
+  dependencies:
+    tslib "^2.0.3"
+
+"@parse/react-native@^0.0.1-alpha.15":
+  version "0.0.1-alpha.15"
+  resolved "https://registry.yarnpkg.com/@parse/react-native/-/react-native-0.0.1-alpha.15.tgz#a6a57b361662a552eb80c322273b3fdc64dec803"
+  integrity sha512-2VXsqziloG6l8IjeYNxYZuIxwHljJh6id4kU8/qL6CoZB8hPQEOmIgRwPFTxQdJBysafGSTrg2qM7BwhW4MQhw==
+  dependencies:
+    "@parse/react-base" "^0.0.1-alpha.13"
+    "@react-native-async-storage/async-storage" "^1.15.4"
+
+"@react-native-async-storage/async-storage@^1.15.4", "@react-native-async-storage/async-storage@^1.15.5":
   version "1.15.5"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.15.5.tgz#0d221a5ef1cd7a6494a42fcaad43136d68379afb"
   integrity sha512-4AYehLH39B9a8UXCMf3ieOK+G61wGMP72ikx6/XSMA0DUnvx0PgaeaT2Wyt06kTrDTy8edewKnbrbeqwaM50TQ==
@@ -8223,6 +8238,11 @@ ts-interface-checker@^0.1.9:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz#784fd3d679722bc103b1b4b8030bcddb5db2a699"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
+
+tslib@^2.0.3:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
+  integrity sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"
