@@ -16,36 +16,56 @@ const Home = ({}) => {
   const [selectedTag, setSelectedTag] = useState<null | undefined | Tag>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
-  
+
   const [isExplore, setExplore] = useState(false);
+  const [isDirect, setIsDirect] = useState(false);
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
 
   const onRefresh = () => {
-    return postService.getFeed().then((results) => {
-      setPosts(results);
-      setIsLoadingPosts(false);
-      return results
-    });
+    return postService
+      .getFeed(
+        selectedTag === "explore" || selectedTag === "direct"
+          ? selectedTag
+          : selectedTag?.id
+      )
+      .then((results) => {
+        setPosts(results);
+        setIsLoadingPosts(false);
+        return results;
+      });
   };
 
   const getMoreResults = (currentPage: number) => {
-    return postService.getFeed(undefined, currentPage).then((results) => {
-      setPosts(prev => [...results, ...prev]);
-      setIsLoadingPosts(false);
-      return results;
-    });
-  }
+    return postService
+      .getFeed(
+        selectedTag === "explore" || selectedTag === "direct"
+          ? selectedTag
+          : selectedTag?.id,
+        currentPage
+      )
+      .then((results) => {
+        setPosts((prev) => [...results, ...prev]);
+        setIsLoadingPosts(false);
+        return results;
+      });
+  };
 
   useFocusEffect(
     useCallback(() => {
       async function getResources() {
         await Promise.all([
-          postService.getFeed().then((results) => {
-            setPosts(results);
-            setIsLoadingPosts(false);
-          }),
+          postService
+            .getFeed(
+              selectedTag === "explore" || selectedTag === "direct"
+                ? selectedTag
+                : selectedTag?.id
+            )
+            .then((results) => {
+              setPosts(results);
+              setIsLoadingPosts(false);
+            }),
           tagService.getMyTags().then((results) => {
             setTags(results);
           }),
@@ -55,21 +75,28 @@ const Home = ({}) => {
       }
 
       getResources();
-    }, [])
+    }, [selectedTag])
   );
 
-  const handleTag = (tag?: Tag | 'explore') => () => {
+  const handleTag = (tag?: Tag | "explore" | "direct") => () => {
     setIsLoadingPosts(true);
-    
-    if (tag !== 'explore') {
-      setSelectedTag(tag)
+
+    if (tag !== "explore" && tag !== "direct") {
+      setSelectedTag(tag);
       setExplore(false);
-     } else {
-      setExplore(true);
+      setIsDirect(false);
+    } else {
+      setSelectedTag(tag);
+
+      if (tag === "explore") {
+        setExplore(true);
+      } else if (tag === "direct") {
+        setIsDirect(true);
+      }
     }
 
     postService
-      .getFeed(tag === 'explore' ? tag : tag?.id)
+      .getFeed(tag === "explore" || selectedTag === "direct" ? tag : tag?.id)
       .then((results) => {
         setPosts(results);
       })
@@ -106,15 +133,21 @@ const Home = ({}) => {
           <MaterialCommunityIcons name="cog" size={26} />
         </TouchableOpacity>
         <TagItem
-          name="Para você"
+          name="Seguindo"
           onPress={handleTag()}
           checked={!selectedTag && !isExplore}
         />
         <TagItem
+          name="Para você"
+          onPress={handleTag("direct")}
+          checked={isDirect}
+        />
+        <TagItem
           name="Explorar"
-          onPress={handleTag('explore')}
+          onPress={handleTag("explore")}
           checked={isExplore}
         />
+
         {tags.map((tag) => {
           return (
             <TagItem
@@ -127,7 +160,7 @@ const Home = ({}) => {
         })}
       </ScrollView>
     );
-  }, [tags, selectedTag, isExplore]);
+  }, [tags, selectedTag, isExplore, isDirect]);
 
   return (
     <View style={styles.container}>

@@ -32,7 +32,7 @@ export const postService = {
     }
 
     if (profileId) {
-      const profile = new Parse.Object("User");
+      const profile = new Parse.User();
       profile.id = profileId;
       post.set("profile", profile);
     }
@@ -51,9 +51,13 @@ export const postService = {
     query.limit(10);
     query.skip((currentPage || 0) * 10);
 
-    if (tagId !== "explore") {
-      const user = Parse.User.current();
-      if (!user) return [];
+    const user = Parse.User.current();
+    if (!user) return [];
+
+    if (tagId === "direct") {
+      query.equalTo("profile", user);
+    } else if (tagId !== "explore") {
+      query.doesNotExist("profile");
 
       if (user.get("tags") && user.get("tags").length) {
         query.containedIn("tags", user.get("tags"));
