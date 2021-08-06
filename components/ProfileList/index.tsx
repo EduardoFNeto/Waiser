@@ -4,13 +4,13 @@ import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text, View, FlatList } from "react-native";
 import {
   ActivityIndicator,
-  Avatar,
   Colors,
   Divider,
   IconButton,
 } from "react-native-paper";
 import MiniTagList from "../MiniTagList";
 import { User } from "../../models/user";
+import { Avatar } from "../Avatar";
 
 const ProfileList = ({ users, isLoading }: { users: User[], isLoading: boolean }) => {
   const navigation = useNavigation();
@@ -25,7 +25,7 @@ const ProfileList = ({ users, isLoading }: { users: User[], isLoading: boolean }
         style={{ paddingLeft: 16 }}
       >
         <View style={{ flexDirection: "row", alignItems: 'flex-start' }}>
-          <Avatar.Text size={50} label={item.name.charAt(0)} />
+          <Avatar user={item} size={42} />
           <View style={{ marginLeft: 12, flex: 1 }}>
             <Text style={{ fontWeight: "bold", marginBottom: 6 }}>
               {item.name}

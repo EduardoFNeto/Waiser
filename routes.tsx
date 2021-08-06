@@ -83,7 +83,9 @@ const Routes = () => {
         <Stack.Screen name="ExploreGroups" component={ExploreGroups} />
         <Stack.Screen name="Tags" component={TagsView} />
         <Stack.Screen name="LiveChat" component={LiveChat} />
-        <Stack.Screen name="Explore" component={Explore} />
+        <Stack.Screen name="Explore" component={Explore} options={{
+          title: 'Explorar usuários'
+        }} />
       </Stack.Navigator>
     </PaperProvider>
   );

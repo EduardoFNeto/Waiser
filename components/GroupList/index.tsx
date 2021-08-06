@@ -12,11 +12,17 @@ import {
 import MiniTagList from "../../components/MiniTagList";
 import { Group } from "../../models/group";
 
-const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean }) => {
+const GroupList = ({
+  groups,
+  isLoading,
+}: {
+  groups: Group[];
+  isLoading: boolean;
+}) => {
   const navigation = useNavigation();
 
   const renderItem = ({ item }: { item: Group }) => {
-    console.log(item)
+    console.log(item);
     return (
       <TouchableOpacity
         activeOpacity={0.9}
@@ -25,7 +31,7 @@ const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean 
         }}
         style={{ paddingLeft: 16 }}
       >
-        <View style={{ flexDirection: "row", alignItems: 'flex-start' }}>
+        <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
           <Avatar.Text size={50} label={item.title.charAt(0)} />
           <View style={{ marginLeft: 12, flex: 1 }}>
             <Text style={{ fontWeight: "bold", marginBottom: 6 }}>
@@ -45,6 +51,16 @@ const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean 
         data={groups}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        ItemSeparatorComponent={() => (
+          <Divider style={{ marginVertical: 12 }} />
+        )}
+        contentContainerStyle={{ paddingVertical: 16 }}
+        ListFooterComponent={() => {
+          if (isLoading) {
+            return <ActivityIndicator />;
+          }
+          return null;
+        }}
       />
     </View>
   );
