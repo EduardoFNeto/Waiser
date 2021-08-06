@@ -1,49 +1,84 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Button, Image} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
-import { FlatList } from "react-native-gesture-handler";
+import { StyleSheet, View, Text, Button } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
-import { Avatar, List } from "react-native-paper";
+import ProfileList from "../../components/ProfileList";
 
 const Explore = () => {
   const [profiles, setProfiles] = React.useState<User[]>([]);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const navigation = useNavigation();
 
   React.useEffect(() => {
     profileService.getProfileSuggestions().then((results) => {
       setProfiles(results);
     });
+
   }, []);
 
-  return (
-    <FlatList
-      style={styles.container}
-      keyExtractor={(item) => item.id}
-      data={profiles}
-      renderItem={({ item }) => (
-        <List.Item
-          onPress={() => {
-            navigation.push("Profile", { userId: item.id });
+  useFocusEffect(
+    React.useCallback(() => {
+      profileService
+        .getProfileSuggestions()
+        .then((results) => {
+          setProfiles(results);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }, [])
+  );
+
+  const renderEmpty = () => {
+    return (
+      <View style={styles.container}>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            paddingHorizontal: 32,
+            flex: 1,
           }}
-          title={item.name}
-          description={item.username}
-          left={(props) => item?.avatar ? 
-          <Avatar.Image {...props} source={{ uri: item.avatar }} /> : 
-          <Avatar.Text size={60} label={item.name.charAt(0)} />
-          }
-        />
-      )}
-    />
+        >
+          <Text style={{ textAlign: "center", marginBottom: 16 }}>
+            Não temos nenhum usuário cadasdtrado no momento.
+          </Text>
+          <Button
+            mode="contained"
+            onPress={() => {
+              navigation.push("Main");
+            }}
+            title="Voltar para a Home"
+          />
+        </View>
+      </View>
+    );
+  };
+
+  if (!isLoading || !profiles.length) {
+    return renderEmpty();
+  } 
+
+  return (
+    <View style={styles.container}>
+        <ProfileList users={profiles} isLoading={isLoading} />
+    </View>
   )}
 
 const styles = StyleSheet.create({
   container: {
     padding: 10,
     backgroundColor: "#fff"
-  }
+  },
+  createButton: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    elevation: 0,
+  },
 });
 
 export default Explore;
