@@ -4,12 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
+import { Avatar } from "react-native-paper";
 import Swiper from "react-native-deck-swiper";
 
 const Explore = () => {
   const [profiles, setProfiles] = React.useState<User[]>([]);
   const navigation = useNavigation();
   const [index, setIndex] = React.useState<number>(0);
+  const [blockSwipe, setBlockSwipe] = React.useState<boolean>(false)
 
   React.useEffect(() => {
     profileService.getProfileSuggestions().then((results) => {
@@ -18,13 +20,24 @@ const Explore = () => {
   }, []);
 
   const onSwipe = () => {
+    const ghostProfiles = 3
+    if(index >= profiles.length - ghostProfiles) {
+      setBlockSwipe(true); 
+      return ;
+    }
+    
     setIndex(index + 1)
   }
 
   const Profile = ({ data }: { data: User}) => {
     return (
       <View style={styles.container}>
-         <Image resizeMode='cover' style={styles.card} source={{ uri: data?.avatar }} />
+         {data?.avatar ? (
+         <Image resizeMode='cover' style={styles.card} source={{ uri: data?.avatar }} />         
+        ) : (
+          <Avatar.Text size={32} label={data?.name.charAt(0)} />
+        )
+          }
          <Text style={styles.text}>{data?.name}</Text>
          <Text style={styles.bio}>{data?.bio}</Text>
       </View>
@@ -36,7 +49,6 @@ const Explore = () => {
     <Swiper
         cardStyle={{ paddingTop: 0, marginTop: 0 }}
         cards={profiles}
-        infinite={true}
         renderCard={(user) => <Profile data={user} />}
         onTapCard={(cardIndex) => {navigation.push("Profile", { userId: profiles[cardIndex].id })}}
         onSwiped={onSwipe}
@@ -45,8 +57,10 @@ const Explore = () => {
         backgroundColor={'#FFF'}
         stackSize={2}
         stackScale={10}
-        disableTopSwipe
-        disableBottomSwipe
+        disableLeftSwipe={blockSwipe}
+        disableRightSwipe={blockSwipe}
+        disableTopSwipe={true}
+        disableBottomSwipe={true}
         cardVerticalMargin={0}
         >
     </Swiper>
