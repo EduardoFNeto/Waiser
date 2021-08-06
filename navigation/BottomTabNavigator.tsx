@@ -13,7 +13,8 @@ import Explore from "../pages/Explore";
 import Groups from "../pages/Groups";
 import Home from "../pages/Home";
 import Profile from "../pages/Profile";
-
+import Chat from "../pages/Chat";
+import LiveChat from "../pages/Chat/LiveChat";
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({ }) {
@@ -50,6 +51,13 @@ export default function BottomTabNavigator({ }) {
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="account-plus" color={color} />
           ),
+        }}
+      />
+      <BottomTab.Screen
+        name="ChatScreen"
+        component={ChatNavigator}
+        options={{
+          tabBarIcon: ({ color }) => <TabBarIcon name="comment-account" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -111,6 +119,27 @@ function GroupsNavigator() {
   );
 }
 
+const ChatStack = createStackNavigator();
+function ChatNavigator() {
+  return (
+    <ChatStack.Navigator
+    >
+      <ChatStack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerTitle: 'Chat - Sugestões' }}
+      />
+
+      <ChatStack.Screen
+        name="LiveChat"
+        component={LiveChat}
+        options={({ route }: { route: any }) => ({ title: route?.params?.name })}
+      />
+      
+    </ChatStack.Navigator>
+  );
+}
+
 const ProfileStack = createStackNavigator();
 function ProfileNavigator({ navigation }) {
   const [user] = useContext(UserContext);
@@ -139,6 +168,8 @@ function ProfileNavigator({ navigation }) {
     </ProfileStack.Navigator>
   );
 }
+
+
 
 const ExploreStack = createStackNavigator();
 function ExploreNavigator({ navigation }) {

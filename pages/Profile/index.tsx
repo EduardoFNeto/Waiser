@@ -23,6 +23,12 @@ const Profile = () => {
     return <View />;
   }
 
+  const renderTagItem = ({ item }) => (
+    <View>
+      <Text style={styles.tagItem}>{item.get("name")}</Text>
+    </View>
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.profileInfo}>
@@ -39,7 +45,15 @@ const Profile = () => {
 
       <View style={styles.profileText}>
         <Text style={styles.profileAbout}>Interesses</Text>
-        <Text>React, Vue, Angular, NodeJs, NestJs, Javascript, SQL, Programação, Engenharia de Software</Text>
+        
+        <FlatList
+          data={profile.tags}
+          renderItem={renderTagItem}
+          keyExtractor={(item => item.index)}
+          contentContainerStyle={{
+            flexDirection:'row'
+          }}
+        />
       </View>
     </View>
   );
@@ -77,6 +91,13 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     marginLeft: 10,
     color: "#333"
+  },
+  tagItem: {
+    marginRight: 15,
+    backgroundColor: "#1ECD8C",
+    color: "#fff",
+    borderRadius: 100,
+    padding: 10
   }
 });
 

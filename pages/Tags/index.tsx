@@ -30,11 +30,11 @@ const TagsView = ({ navigation }) => {
       if(selectedTags.some(tag => tag.id === item.id)) {
         return '#585EED';
       } else {
-        return '#FFF'
+        return '#fff'
       }
     } else if(where === FieldType.Text) {
       if(selectedTags.some(tag => tag.id === item.id)) {
-        return '#FFF'
+        return '#fff'
       } else {
         return '#585EED';
       }
@@ -65,12 +65,12 @@ const TagsView = ({ navigation }) => {
   const clickTag = (item: Tag) => {
     if(selectedTags.some((tag: Tag) => tag.id === item.id)) {
       return removeTag(item.id)
-    } else {
+    } 
+    else {
       setSelectedTags((prevTags) => {
         return [...prevTags, item];
-    })
+      })
     }
-
   }
 
   function linkTagsToUser() {
@@ -108,10 +108,16 @@ const TagsView = ({ navigation }) => {
         style={styles.flatlist}
         contentContainerStyle={{
           flexDirection:'row',
-          flexWrap: 'wrap'
         }}
       />
-      <Button onPress={linkTagsToUser} style={styles.button}>Continuar</Button>
+      <Button 
+        mode="contained" 
+        labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
+        onPress={linkTagsToUser} 
+        style={styles.button}
+      >
+          Continuar
+      </Button>
     </View>
   );
 }
@@ -122,29 +128,33 @@ container: {
   flex: 1,
   justifyContent: 'center',
   paddingTop: 20,
-  backgroundColor: '#E5E5E5',
-  padding: 8,
+  backgroundColor: '#fff',
+  padding: 15,
 },
 paragraph: {
+  fontFamily: "PoppinsBlack",
   margin: 24,
-  marginBottom: 32,
+  marginBottom: 15,
   fontSize: 24,
-  fontWeight: 'bold',
   textAlign: 'center',
 },
 suggest: {
-  fontSize: 14,
-  color: 'grey',
+  fontFamily: "InterRegular",
+  fontSize: 16,
+  color: '#333',
   textAlign: 'center',
-  marginBottom: 50,
+  marginBottom: 90,
 },
 itemView: {
   margin: 4,
 },
 item: {
-  borderRadius: 20,
-  padding: 12,
+  borderRadius: 32,
+  padding: 16,
+  borderWidth: 1,
+  borderColor: "#585EED",
   justifyContent: 'flex-start',
+  textAlign: "center"
 },
 flatlist:{
   flex: 1,
@@ -153,9 +163,9 @@ flatlist:{
 },
 button: {
   backgroundColor: '#1ECD8C',
-  color: '#FFF',
   padding: 12,
-  borderRadius: 20
+  borderRadius: 100,
+  elevation: 0,
 }
 });
 
