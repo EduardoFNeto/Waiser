@@ -67,15 +67,21 @@ const Profile = () => {
             <Headline style={{ marginBottom: 8 }}>{profile.username}</Headline>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <View style={{ marginRight: 8 }}>
-                <Text style={{ fontWeight: "bold" }}>{profile.totalAnswers}</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  {profile.totalAnswers}
+                </Text>
                 <Paragraph>Respostas</Paragraph>
               </View>
               <View style={{ marginRight: 8 }}>
-                <Text style={{ fontWeight: "bold" }}>{profile.totalReceivedLikes}</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  {profile.totalReceivedLikes}
+                </Text>
                 <Paragraph>Curtidas</Paragraph>
               </View>
               <View>
-                <Text style={{ fontWeight: "bold" }}>{profile.totalPoints}</Text>
+                <Text style={{ fontWeight: "bold" }}>
+                  {profile.totalPoints}
+                </Text>
                 <Paragraph>Pontos</Paragraph>
               </View>
             </View>
@@ -83,22 +89,29 @@ const Profile = () => {
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Button icon="help-circle" mode="contained" style={{ marginRight: 8, flex: 1 }} 
-          onPress={() => {
-            navigation.navigate("CreatePost", { userId: profile.id });
-          }}>
-            Perguntar
-          </Button>
           <Button
-            icon="chat"
+            icon="help-circle"
             mode="contained"
-            style={{ flex: 1 }}
+            style={{ marginRight: 8, flex: 1 }}
             onPress={() => {
-              navigation.navigate("LiveChat", { friend: profile });
+              navigation.navigate("CreatePost", { userId: profile.id });
             }}
           >
-            Mensagem
+            Perguntar
           </Button>
+
+          {profile?.id !== user?.id && (
+            <Button
+              icon="chat"
+              mode="contained"
+              style={{ flex: 1 }}
+              onPress={() => {
+                navigation.navigate("LiveChat", { friend: profile });
+              }}
+            >
+              Mensagem
+            </Button>
+          )}
         </View>
 
         {profile.bio && (

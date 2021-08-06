@@ -112,6 +112,7 @@ function LiveChat({ navigation }) {
         user={{
           _id: user.id,
         }}
+        placeholder="Digite sua mensagem..."
         renderBubble={(props) => {
           return (
             <Bubble
