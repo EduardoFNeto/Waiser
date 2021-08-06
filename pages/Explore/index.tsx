@@ -24,6 +24,7 @@ const Explore = () => {
     <View style={styles.container}>
     <Swiper
         cards={profiles}
+        infinite
         renderCard={(user) => {
             return (
               <View style={styles.card}>
@@ -32,6 +33,7 @@ const Explore = () => {
             )}}
         onSwiped={(cardIndex) => {console.log(cardIndex)}}
         onSwipedAll={() => {console.log('Swapou')}}
+        onTapCard={(cardIndex) => {navigation.push("Profile", { userId: profiles[cardIndex].id })}}
         cardIndex={index}
         backgroundColor={'#4FD0E9'}
         stackSize={3}>
