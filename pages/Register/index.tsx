@@ -1,15 +1,16 @@
-import React, { useContext } from "react"
-import { StyleSheet, View, Alert } from "react-native"
-import { Title, TextInput, Caption, Button } from 'react-native-paper'
-import { UserContext } from "../../contexts/user"
+import React, { useContext } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+import { Title, TextInput, Caption, Button } from "react-native-paper";
+
+import { UserContext } from "../../contexts/user";
 import { userService } from "../../services/api/user";
 
 const Register = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
 
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [email, setEmail] = React.useState('')
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
   const handleProfileRegister = async () => {
 
@@ -27,8 +28,8 @@ const Register = ({ navigation }) => {
       else {
         Alert.alert("Por favor, preencha todos os campos.");
       }
-    } catch (error) {
-      Alert.alert("Erro");
+    } catch (err) {
+      throw new Error(err.message);
     }
   }
 

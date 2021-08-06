@@ -22,7 +22,7 @@ export const TagItem = ({ name, onPress, checked }) => {
     >
       <Text
         style={{
-          color: checked ? "#fff" : "#222",
+          color: checked ? "#fff" : "#333",
         }}
       >
         {name}

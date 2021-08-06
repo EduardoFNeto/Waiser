@@ -1,11 +1,12 @@
 import React, { useContext, useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import { UserContext } from "./contexts/user";
+import BottomTabNavigator from "./navigation/BottomTabNavigator";
+
 import Register from "./pages/Register";
 import FinishRegister from "./pages/Register/finish";
 import Login from "./pages/Login";
-import BottomTabNavigator from "./navigation/BottomTabNavigator";
-import { UserContext } from "./contexts/user";
 import Welcome from "./pages/Welcome";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
@@ -40,9 +41,9 @@ const Routes = () => {
       ...CombinedDefaultTheme,
       colors: {
         ...CombinedDefaultTheme.colors,
-        // primary: "red",
-        // accent: 'black',
-        background: "#fff",
+        primary: "#585EED",
+        accent: "#21CA8E",
+        background: "#fafafa",
         card: '#fff',
       },
     }),
