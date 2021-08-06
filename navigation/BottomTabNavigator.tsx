@@ -45,15 +45,6 @@ export default function BottomTabNavigator({}) {
         }}
       />
       <BottomTab.Screen
-        name="ExploreScreen"
-        component={ExploreNavigator}
-        options={{
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="cards-outline" color={color} />
-          ),
-        }}
-      />
-      <BottomTab.Screen
         name="ChatScreen"
         component={ChatNavigator}
         options={{
@@ -163,26 +154,3 @@ function ProfileNavigator({ navigation }) {
   );
 }
 
-const ExploreStack = createStackNavigator();
-function ExploreNavigator({ navigation }) {
-  return (
-    <ExploreStack.Navigator
-      screenOptions={{
-        headerRight: () => (
-          <IconButton
-            icon="dots-vertical"
-            onPress={() => {
-              navigation.push("Settings");
-            }}
-          />
-        ),
-      }}
-    >
-      <ExploreStack.Screen
-        name="Explore"
-        component={Explore}
-        options={{ headerTitle: "Conecte-se" }}
-      />
-    </ExploreStack.Navigator>
-  );
-}

@@ -20,10 +20,8 @@ const Explore = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [profiles])
+  }, []);
 
-    
-  
   const renderEmpty = () => {
     return (
       <View style={styles.container}>
@@ -33,7 +31,7 @@ const Explore = () => {
             alignItems: "center",
             paddingHorizontal: 32,
             flex: 1,
-            marginBottom: 40
+            marginBottom: 40,
           }}
         >
           <Text style={{ textAlign: "center", fontSize: 18, color: "#333" }}>
@@ -51,20 +49,21 @@ const Explore = () => {
     );
   };
 
-  if(!isLoading || !profiles.length) {
-    return renderEmpty()
+  if (!isLoading && !profiles.length) {
+    return renderEmpty();
   }
 
   return (
     <View style={styles.container}>
-        <ProfileList users={profiles} isLoading={isLoading} />
+      <ProfileList users={profiles} isLoading={isLoading} />
     </View>
-  )}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    backgroundColor: "#fff"
+    flex: 1,
+    backgroundColor: "#fff",
   },
   createButton: {
     position: "absolute",

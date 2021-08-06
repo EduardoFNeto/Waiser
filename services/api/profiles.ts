@@ -11,6 +11,7 @@ export const profileService = {
 
   async getProfileSuggestions() {
     const query = new Parse.Query(Parse.User);
+    query.include('tags');
 
     return await query.find().then((results) => {
       return results.map(buildUserFromParse);

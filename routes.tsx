@@ -31,6 +31,7 @@ import CreateGroup from "./pages/CreateGroup";
 import GroupDetail from "./pages/GroupDetail";
 import ExploreGroups from "./pages/ExploreGroups";
 import LiveChat from "./pages/Chat/LiveChat";
+import Explore from "./pages/Explore";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
@@ -82,6 +83,7 @@ const Routes = () => {
         <Stack.Screen name="ExploreGroups" component={ExploreGroups} />
         <Stack.Screen name="Tags" component={TagsView} />
         <Stack.Screen name="LiveChat" component={LiveChat} />
+        <Stack.Screen name="Explore" component={Explore} />
       </Stack.Navigator>
     </PaperProvider>
   );

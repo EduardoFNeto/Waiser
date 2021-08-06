@@ -2,7 +2,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useContext, useLayoutEffect, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Colors, FAB, Text } from "react-native-paper";
+import { Colors, FAB, IconButton, Text } from "react-native-paper";
 import { Posts } from "../../components/Posts";
 import { TagItem } from "../../components/TagItem";
 import { UserContext } from "../../contexts/user";
@@ -83,6 +83,9 @@ const Home = ({}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <IconButton icon="account-plus" onPress={() => navigation.navigate('Explore')} />
+      ),
       headerRight: () => (
         <View style={{ marginRight: 12, flexDirection: 'row', alignItems: "center" }}>
           <Text style={{fontSize: 12, marginRight: 4, color: Colors.orangeA700}}>{user.totalPoints} pontos</Text>
