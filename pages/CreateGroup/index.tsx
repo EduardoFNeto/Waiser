@@ -15,7 +15,6 @@ import {
 import { TagItem } from "../../components/TagItem";
 import { Tag } from "../../models/tag";
 import { groupService } from "../../services/api/groups";
-import { postService } from "../../services/api/posts";
 import { tagService } from "../../services/api/tags";
 
 const CreateGroup = ({ navigation }) => {

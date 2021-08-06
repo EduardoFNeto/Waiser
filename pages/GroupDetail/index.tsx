@@ -1,5 +1,5 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useLayoutEffect, useState } from "react";
+import { useFocusEffect, useNavigation, useRoute } from "@react-navigation/native";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import {
@@ -35,13 +35,13 @@ const GroupDetail = ({}) => {
     setIsJoined(!!group?.isJoined);
   }, [group]);
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     async function getResources() {
       await Promise.all([
         groupService.getGroupById(groupId).then((result) => {
           setGroup(result);
         }),
-        postService.getFeed().then((results) => {
+        postService.getGroupFeed(groupId).then((results) => {
           setPosts(results);
           setIsLoadingPosts(false);
         }),
@@ -51,7 +51,8 @@ const GroupDetail = ({}) => {
     }
 
     getResources();
-  }, [groupId]);
+  }, [groupId]));
+  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -89,7 +90,15 @@ const GroupDetail = ({}) => {
         <Text style={{ textAlign: "center", marginBottom: 12 }}>
           {group.description}
         </Text>
-        <MiniTagList tags={group.tags} />
+        <View
+          style={{
+            alignSelf: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MiniTagList tags={group.tags} center />
+        </View>
         <View style={{ marginTop: 24 }}>
           <Button
             mode={isJoined ? "outlined" : "contained"}

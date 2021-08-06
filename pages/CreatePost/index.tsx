@@ -86,7 +86,7 @@ const CreatePost = () => {
     setIsLoading(true);
 
     postService
-      .createPost(form.title, form.text, selectedTags)
+      .createPost(form.title, form.text, selectedTags, groupId)
       .then(() => {
         setMessage("Pergunta enviada com sucesso!");
         navigation.goBack();

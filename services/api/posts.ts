@@ -3,7 +3,7 @@ import { Tag } from "../../models/tag";
 import Parse from "../parse";
 
 export const postService = {
-  async createPost(title: string, text: string, tags?: Tag[]) {
+  async createPost(title: string, text: string, tags?: Tag[], groupId?: string) {
     const post = new Parse.Object("Post");
     post.set("title", title);
     post.set("text", text);
@@ -18,6 +18,12 @@ export const postService = {
       post.set("tags", parseTags);
     }
 
+    if (groupId) {
+      const group = new Parse.Object('Group');
+      group.id = groupId;
+      post.set("group", group);
+    }
+
     return await post.save().then(buildPostFromParse);
   },
 
@@ -26,7 +32,9 @@ export const postService = {
     query.include("user");
     query.include("tags");
     query.exists("user");
+    query.doesNotExist("group");
     query.doesNotExist("parent");
+    query.descending("createdAt");
 
     if (tagId) {
       const parseTag = new Parse.Object("Tag");
@@ -47,6 +55,8 @@ export const postService = {
     query.equalTo("group", parseGroup);
     query.include("user");
     query.exists("user");
+    query.doesNotExist("parent");
+    query.descending("createdAt");
 
     return await query.find().then((results) => {
       return results.map(buildPostFromParse);

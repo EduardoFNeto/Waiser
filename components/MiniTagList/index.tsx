@@ -5,7 +5,7 @@ import { Colors, Headline, Text, useTheme } from "react-native-paper";
 import { UserContext } from "../../contexts/user";
 import { Tag } from "../../models/tag";
 
-const MiniTagList = ({ tags }: { tags: Tag[] }) => {
+const MiniTagList = ({ tags, center }: { tags: Tag[], center?: boolean }) => {
   const [user] = useContext(UserContext);
   const theme = useTheme();
 
@@ -22,7 +22,7 @@ const MiniTagList = ({ tags }: { tags: Tag[] }) => {
   );
 
   return (
-    <View style={{ flexDirection: "row", flexWrap: 'wrap', }}>
+    <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: center ? 'center' : 'flex-start' }}>
       {tagList?.map((tag) => (
         <View
           key={tag.id}
