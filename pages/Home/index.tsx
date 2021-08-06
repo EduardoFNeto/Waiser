@@ -1,8 +1,10 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
-import { useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { ActivityIndicator, FAB, Text, useTheme } from "react-native-paper";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  FAB,
+} from "react-native-paper";
 import { Posts } from "../../components/Posts";
 import { TagItem } from "../../components/TagItem";
 import { Post } from "../../models/post";
@@ -28,7 +30,7 @@ const Home = ({}) => {
             setPosts(results);
             setIsLoadingPosts(false);
           }),
-          tagService.getAllTags().then((results) => {
+          tagService.getMyTags().then((results) => {
             setTags(results);
           }),
         ]).finally(() => {
@@ -53,27 +55,33 @@ const Home = ({}) => {
       });
   };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
-
-  const renderHeader = () => {
+  const renderHeader = useCallback(() => {
     return (
       <ScrollView
         horizontal
         style={{
-          maxHeight: 50,
-          marginBottom: 16,
+          marginTop: 12,
+          maxHeight: 32,
         }}
         contentContainerStyle={{
           paddingHorizontal: 8,
-          flex: 1,
         }}
+        showsHorizontalScrollIndicator={false}
       >
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Tags");
+          }}
+          activeOpacity={0.9}
+          style={{
+            width: 40,
+            height: 32,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MaterialCommunityIcons name="cog" size={26} />
+        </TouchableOpacity>
         <TagItem
           name="Para você"
           onPress={handleTag()}
@@ -91,14 +99,14 @@ const Home = ({}) => {
         })}
       </ScrollView>
     );
-  };
+  },[tags, selectedTag]);
 
   return (
     <View style={styles.container}>
+      {renderHeader()}
       <Posts
         posts={posts}
         isLoading={isLoadingPosts}
-        renderHeader={renderHeader}
       />
       <FAB
         style={styles.createButton}

@@ -11,7 +11,7 @@ export const TagItem = ({ name, onPress, checked }) => {
       onPress={onPress}
       style={{
         backgroundColor: checked ? theme.colors.primary : "#ebebeb",
-        paddingHorizontal: 22,
+        paddingHorizontal: 12,
         marginRight: 8,
         borderRadius: 100,
         alignItems: "center",

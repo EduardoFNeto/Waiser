@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useCallback } from "react";
 import { TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Divider, ActivityIndicator, Caption } from "react-native-paper";
@@ -9,15 +9,15 @@ import { PostItem } from "../PostItem";
 export const Posts = ({
   posts,
   isLoading,
-  renderHeader
+  renderHeader,
 }: {
   posts: Post[];
   isLoading: boolean;
-  renderHeader?: any
+  renderHeader?: any;
 }) => {
   const navigation = useNavigation();
 
-  const renderItem = ({ item }: { item: Post }) => {
+  const renderItem = useCallback(({ item }: { item: Post }) => {
     return (
       <TouchableOpacity
         activeOpacity={1}
@@ -28,15 +28,7 @@ export const Posts = ({
         <PostItem post={item} />
       </TouchableOpacity>
     );
-  };
-
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator />
-      </View>
-    );
-  }
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
@@ -50,18 +42,36 @@ export const Posts = ({
         ItemSeparatorComponent={() => (
           <Divider style={{ marginVertical: 16 }} />
         )}
-        ListEmptyComponent={() => (
-          <View
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <Caption>Nenhuma publicação encontrada</Caption>
-          </View>
-        )}
+        ListEmptyComponent={() =>
+          !isLoading ? (
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Caption>Nenhuma publicação encontrada</Caption>
+            </View>
+          ) : null
+        }
         ListHeaderComponent={renderHeader}
+        ListFooterComponent={() => {
+          if (isLoading) {
+            return (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <ActivityIndicator />
+              </View>
+            );
+          }
+          return null;
+        }}
       />
     </View>
   );

@@ -26,6 +26,7 @@ export const postService = {
     query.include("user");
     query.include("tags");
     query.exists("user");
+    query.doesNotExist("parent");
 
     if (tagId) {
       const parseTag = new Parse.Object("Tag");

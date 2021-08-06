@@ -24,7 +24,7 @@ const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean 
         }}
         style={{ paddingLeft: 16 }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <View style={{ flexDirection: "row", alignItems: 'flex-start' }}>
           <Avatar.Text size={50} label={item.title.charAt(0)} />
           <View style={{ marginLeft: 12, flex: 1 }}>
             <Text style={{ fontWeight: "bold", marginBottom: 6 }}>

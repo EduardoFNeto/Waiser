@@ -9,4 +9,10 @@ export const tagService = {
       return results.map(buildTagFromParse);
     });
   },
+
+  async getMyTags() {
+    const user = await Parse.User.currentAsync();
+
+    return user?.get('tags')?.map(buildTagFromParse);
+  },
 };
