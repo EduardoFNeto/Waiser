@@ -25,6 +25,7 @@ import {
 } from "react-native-paper";
 
 import merge from "deepmerge";
+import TagsView from "./pages/Tags";
 
 const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
 const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
@@ -69,6 +70,7 @@ const Routes = () => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CreatePost" component={CreatePost} />
         <Stack.Screen name="PostDetail" component={PostDetail} />
+        <Stack.Screen name="Tags" component={TagsView} />
       </Stack.Navigator>
     </PaperProvider>
   );

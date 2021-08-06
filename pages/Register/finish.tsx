@@ -19,10 +19,7 @@ const FinishRegister = ({ navigation }) => {
   
         setUser(user);
   
-        navigation.reset({
-          index: 0,
-          routes: [{ name: "Main" }],
-        });
+        navigation.push("Tags");
       }
       else {
         Alert.alert("Por favor, preencha todos os campos.");

@@ -1,4 +1,4 @@
-import { buildTagFromParse } from "../../models/tag";
+import { buildTagFromParse, Tag } from "../../models/tag";
 import Parse from '../parse';
 
 export const tagService = {

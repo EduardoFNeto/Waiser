@@ -1,3 +1,5 @@
+import { parse } from "expo-linking";
+import { Tag } from "../../models/tag";
 import { buildUserFromParse } from "../../models/user";
 import Parse from "../parse";
 
@@ -35,5 +37,18 @@ export const userService = {
 
   async loginProfile(username: string, password: string) {
     await Parse.User.logIn(username, password);
+  },
+  
+  async addUserTags(tags: Tag[]) {
+    const user = await Parse.User.currentAsync();
+
+    if(!user) return;
+    const parseTags = tags.map((tag) => {
+      const parseTag = new Parse.Object("Tag");
+      parseTag.id = tag.id;
+      return parseTag;
+    })
+
+    user?.set("tags", parseTags)  
   },
 };
