@@ -1,8 +1,6 @@
 import { User } from '../../models/user';
 import Parse from '../parse';
 
-
-
 export async function facebookLogin({ id, name, access_token, expiration_date, picture }: any) {
   const authData = {
     id,
@@ -20,7 +18,7 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
     return {
       id: result.id,
       name: result.get("name"),
-      username: result.username,
+      username: result.getUsername(),
       avatar: result.get("avatar")
     } as User
   })

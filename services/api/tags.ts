@@ -1,4 +1,4 @@
-import { Tag } from "../../models/tag";
+import { buildTagFromParse } from "../../models/tag";
 import Parse from '../parse';
 
 export const tagService = {
@@ -6,10 +6,7 @@ export const tagService = {
     const query = new Parse.Query("Tag");
 
     return await query.find().then((results) => {
-      return results.map((result) => ({
-        id: result.id,
-        name: result.get('name')
-      } as Tag));
+      return results.map(buildTagFromParse);
     });
   },
 };
