@@ -61,15 +61,15 @@ const Home = ({}) => {
     );
   }
 
-  return (
-    <View style={styles.container}>
+  const renderHeader = () => {
+    return (
       <ScrollView
         horizontal
         style={{
           maxHeight: 50,
+          marginBottom: 16,
         }}
         contentContainerStyle={{
-          paddingTop: 16,
           paddingHorizontal: 8,
           flex: 1,
         }}
@@ -90,7 +90,16 @@ const Home = ({}) => {
           );
         })}
       </ScrollView>
-      <Posts posts={posts} isLoading={isLoadingPosts} />
+    );
+  };
+
+  return (
+    <View style={styles.container}>
+      <Posts
+        posts={posts}
+        isLoading={isLoadingPosts}
+        renderHeader={renderHeader}
+      />
       <FAB
         style={styles.createButton}
         icon="plus"
