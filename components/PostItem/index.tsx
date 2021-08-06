@@ -5,7 +5,7 @@ import { TouchableOpacity, View } from "react-native";
 import { Avatar, Headline, Text } from "react-native-paper";
 import { Post } from "../../models/post";
 
-export const PostItem = ({ post }: { post: Post }) => {
+export const PostItem = ({ post, showText }: { post: Post, showText: boolean }) => {
   const navigation = useNavigation();
 
   return (
@@ -44,7 +44,7 @@ export const PostItem = ({ post }: { post: Post }) => {
         <Headline style={{ fontSize: 20, lineHeight: 26 }}>
           {post.title}
         </Headline>
-        {post.text && <Text style={{marginTop: 10, color: "#4d4d4d"}}>
+        {post.text && showText && <Text style={{marginTop: 10, color: "#4d4d4d"}}>
           {post.text}
         </Text>}
       </View>

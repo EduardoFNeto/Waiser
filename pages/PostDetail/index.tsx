@@ -45,7 +45,7 @@ export const PostDetail = () => {
 
   return (
     <View style={styles.container}>
-      <PostItem post={post} />
+      <PostItem post={post} showText/>
       <View
         style={{
           flexDirection: "row",
