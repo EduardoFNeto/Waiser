@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Button } from "react-native-paper";
+
 import { UserContext } from "../../contexts/user";
 import { logOut } from "../../services/api/authentication";
 

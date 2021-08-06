@@ -1,8 +1,9 @@
-import React, { useContext } from "react"
-import { StyleSheet, View, Image, Alert } from "react-native"
-import { Title, Text, TextInput, Button } from 'react-native-paper'
-import { UserContext } from "../../contexts/user"
-import { userService } from "../../services/api/user"
+import React, { useContext } from "react";
+import { StyleSheet, View, Image, Alert } from "react-native";
+import { Title, Text, TextInput, Button } from "react-native-paper";
+
+import { UserContext } from "../../contexts/user";
+import { userService } from "../../services/api/user";
 
 const Login = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
@@ -25,8 +26,8 @@ const Login = ({ navigation }) => {
       else {
         Alert.alert("Por favor, preencha todos os campos.");
       }
-    } catch (error) {
-      Alert.alert("Erro");
+    } catch (err) {
+      throw new Error(err.message);
     }
   }
 

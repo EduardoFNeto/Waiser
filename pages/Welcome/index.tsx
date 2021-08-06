@@ -58,13 +58,17 @@ const Welcome = ({ navigation }) => {
         mode="contained"
         uppercase={false}
         onPress={signUpFacebook} 
-        style={styles.facebookBtn}>Entrar com Facebook
+        style={styles.facebookBtn}
+      >
+        Entrar com Facebook
       </Button>
       <Button 
         mode="contained"
         uppercase={false}
         onPress={handleEmailLogin} 
-        style={styles.emailBtn}>Entrar com Email
+        style={styles.emailBtn}
+      >
+        Entrar com Email
       </Button>
       <Caption style={styles.caption}>Ao entrar você concorda com os Termos e condições.</Caption>
     </View>

@@ -8,8 +8,8 @@ import { userService } from "../../services/api/user";
 const FinishRegister = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
 
-  const [name, setName] = React.useState('')
-  const [bio, setBio] = React.useState('')
+  const [name, setName] = React.useState('');
+  const [bio, setBio] = React.useState('');
 
   const handleProfileFinishRegister = async () => {
 
@@ -27,8 +27,8 @@ const FinishRegister = ({ navigation }) => {
       else {
         Alert.alert("Por favor, preencha todos os campos.");
       }
-    } catch (error) {
-      Alert.alert("Erro");
+    } catch (err) {
+      throw new Error(err.message);
     }
   }
 
