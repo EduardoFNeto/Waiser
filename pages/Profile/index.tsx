@@ -83,8 +83,11 @@ const Profile = () => {
         </View>
 
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <Button mode="contained" style={{ marginRight: 8, flex: 1 }}>
-            Seguir
+          <Button icon="help-circle" mode="contained" style={{ marginRight: 8, flex: 1 }} 
+          onPress={() => {
+            navigation.navigate("CreatePost", { userId: profile.id });
+          }}>
+            Perguntar
           </Button>
           <Button
             icon="chat"

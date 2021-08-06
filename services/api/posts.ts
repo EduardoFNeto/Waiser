@@ -3,7 +3,7 @@ import { Tag } from "../../models/tag";
 import Parse from "../parse";
 
 export const postService = {
-  async createPost(title: string, text: string, tags?: Tag[], groupId?: string) {
+  async createPost(title: string, text: string, tags?: Tag[], groupId?: string, profileId?: string) {
     const post = new Parse.Object("Post");
     post.set("title", title);
     post.set("text", text);
@@ -22,6 +22,12 @@ export const postService = {
       const group = new Parse.Object('Group');
       group.id = groupId;
       post.set("group", group);
+    }
+
+    if (profileId) {
+      const profile = new Parse.Object('User');
+      profile.id = profileId;
+      post.set("profile", profile);
     }
 
     return await post.save().then(buildPostFromParse);
