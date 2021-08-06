@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { Alert, StyleSheet, View} from "react-native";
 import { Title, TextInput, Button } from "react-native-paper";
 
@@ -8,13 +8,17 @@ import { userService } from "../../services/api/user";
 const FinishRegister = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
 
-  const [name, setName] = React.useState('');
-  const [bio, setBio] = React.useState('');
+  const [form, setForm] = useState({
+    name: "",
+    bio: ""
+  });
+
+  const isFormValid = useMemo(() => form.name && form.bio, [form]);
 
   const handleProfileFinishRegister = async () => {
     try {
-      if (!!name && !!bio) {
-        const user = await userService.finishProfile(name, bio);
+      if (!!isFormValid) {
+        const user = await userService.finishProfile(form.name, form.bio);
   
         setUser(user);
   
@@ -39,8 +43,13 @@ const FinishRegister = ({ navigation }) => {
         <TextInput
           style={styles.input}
           label="Nome"
-          value={name}
-          onChangeText={name => setName(name)}
+          value={form.name}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              name: value,
+            }))
+          }
         />
 
         <TextInput
@@ -48,8 +57,13 @@ const FinishRegister = ({ navigation }) => {
           multiline = {true}
           numberOfLines = {6}
           label="Biografia"
-          value={bio}
-          onChangeText={bio => setBio(bio)}
+          value={form.bio}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              bio: value,
+            }))
+          }
         />
 
         <Button 
@@ -57,6 +71,7 @@ const FinishRegister = ({ navigation }) => {
           style={styles.button}
           labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
           onPress={handleProfileFinishRegister}
+          disabled={!isFormValid}
         >
           Continuar
         </Button>
@@ -88,7 +103,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   button: {
-    backgroundColor: '#585EED',
     padding: 12,
     borderRadius: 100,
     elevation: 0,
