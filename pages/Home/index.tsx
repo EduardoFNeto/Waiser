@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -9,7 +10,9 @@ import { Tag } from "../../models/tag";
 import { postService } from "../../services/api/posts";
 import { tagService } from "../../services/api/tags";
 
-const Home = ({ navigation }) => {
+const Home = ({}) => {
+  const navigation = useNavigation();
+
   const [selectedTag, setSelectedTag] = useState<null | undefined | Tag>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
@@ -22,7 +25,7 @@ const Home = ({ navigation }) => {
       await Promise.all([
         postService.getFeed().then((results) => {
           setPosts(results);
-          setIsLoadingPosts(false)
+          setIsLoadingPosts(false);
         }),
         tagService.getAllTags().then((results) => {
           setTags(results);
@@ -85,7 +88,7 @@ const Home = ({ navigation }) => {
           );
         })}
       </ScrollView>
-      <Posts posts={posts} isLoading={isLoadingPosts}/>
+      <Posts posts={posts} isLoading={isLoadingPosts} />
       <FAB
         style={styles.createButton}
         icon="plus"

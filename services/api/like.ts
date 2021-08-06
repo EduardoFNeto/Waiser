@@ -1,26 +1,46 @@
 import { User } from "../../models/user";
+import Parse from "../parse";
 
-export const followService = {
-  async follow(profileId: string) {
-    const parseProfile = new Parse.User();
-    parseProfile.id = profileId
+export const likeService = {
+  async like(postId: string) {
+    const parsePost = new Parse.Object("Post");
+    parsePost.id = postId;
 
-    const userFollowQuery = new Parse.Query('UserFollow');
-    userFollowQuery.equalTo('from', Parse.User.current());
-    userFollowQuery.equalTo('to', parseProfile);
+    const parseUser = await Parse.User.currentAsync();
 
-    const isFollowing = await userFollowQuery.first();
+    const isLiked = parseUser
+      ?.get("userLikes")
+      ?.some((user: User) => user.id === parseUser.id);
 
-    if (isFollowing) {
-        await isFollowing.destroy()
-        return true;
+    if (isLiked) {
+      parseUser?.remove("userLikes", parseUser);
+      await parseUser?.save();
+      return true;
     }
 
-    const userFollow = new Parse.Object('UserFollow');
-    userFollow.set('from', parseProfile);
-    userFollow.set('to', Parse.User.current());
+    parseUser?.add("userLikes", parseUser);
+    await parseUser?.save();
+    return true;
+  },
 
-    await userFollow.save();
+  async dislike(postId: string) {
+    const parsePost = new Parse.Object("Post");
+    parsePost.id = postId;
+
+    const parseUser = await Parse.User.currentAsync();
+
+    const isDisliked = parseUser
+      ?.get("userDislikes")
+      ?.some((user: User) => user.id === parseUser.id);
+
+    if (isDisliked) {
+      parseUser?.remove("userDislikes", parseUser);
+      await parseUser?.save();
+      return true;
+    }
+
+    parseUser?.add("userDislikes", parseUser);
+    await parseUser?.save();
     return true;
   },
 };

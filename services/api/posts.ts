@@ -25,6 +25,7 @@ export const postService = {
     const query = new Parse.Query("Post");
     query.include("user");
     query.include("tags");
+    query.exists('user');
 
     if (tagId) {
       const parseTag = new Parse.Object("Tag");
@@ -44,6 +45,7 @@ export const postService = {
     const query = new Parse.Query("Post");
     query.equalTo("group", parseGroup);
     query.include("user");
+    query.exists('user');
 
     return await query.find().then((results) => {
       return results.map(buildPostFromParse);
