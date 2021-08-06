@@ -1,24 +1,32 @@
-import React from "react"
-import { StyleSheet, View, Image } from "react-native"
+import React, { useContext } from "react"
+import { StyleSheet, View, Image, Alert } from "react-native"
 import { Title, Text, TextInput, Button } from 'react-native-paper'
-import Parse from "../../services/parse"
+import { UserContext } from "../../contexts/user"
+import { userService } from "../../services/api/user"
 
 const Login = ({ navigation }) => {
-  const [username, setUsername] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [, setUser] = useContext(UserContext);
+  
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
 
   const signInEmail = async () => {    
     try {
-      const user = await Parse.User.logIn(username, password);
-      if (!!user) {
+      if (!!username && !!password) {
+        const user = await userService.loginProfile(username, password);
+  
+        setUser(user);
+  
         navigation.reset({
           index: 0,
           routes: [{ name: "Main" }],
         });
-        alert("Success")
+      }
+      else {
+        Alert.alert("Por favor, preencha todos os campos.");
       }
     } catch (error) {
-      alert("Error")
+      Alert.alert("Erro");
     }
   }
 

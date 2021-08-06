@@ -36,10 +36,10 @@ const Welcome = ({ navigation }) => {
 
         navigation.reset({
           index: 0,
-          routes: [{ name: "Main" }],
+          routes: [{ name: "FinishRegister" }],
         });
       } else {
-        Alert.alert("Deu ruim");
+        Alert.alert("Erro");
       }
     } catch (err) {
       throw new Error(err.message);

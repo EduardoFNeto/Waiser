@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import Register from "./pages/Register";
-import FinishRegister from "./pages/FinishRegister";
+import FinishRegister from "./pages/Register/finish";
 import Login from "./pages/Login";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import { UserContext } from "./contexts/user";
