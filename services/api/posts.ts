@@ -71,6 +71,7 @@ export const postService = {
     query.equalTo("parent", parsePost);
     query.include("user");
     query.exists("user");
+    query.descending("createdAt");
 
     return await query.find().then((results) => {
       return results.map(buildPostFromParse);

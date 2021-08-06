@@ -31,7 +31,7 @@ export const PostItem = ({
             navigation.push("Profile", { userId: post.user.id });
           }}
         >
-          <AvatarWithProgress user={post.user} />
+          <AvatarWithProgress user={post.user} createdAt={post.createdAt} />
         </TouchableOpacity>
         <View style={{ marginLeft: 8 }}>
           <Text style={{ marginBottom: 4 }}>
