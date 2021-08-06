@@ -65,7 +65,7 @@ const CreatePost = () => {
     }
   }, [groupId, userId]);
 
-  const isFormValid = useMemo(() => form.text && form.title, [form]);
+  const isFormValid = useMemo(() => form.title, [form]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
