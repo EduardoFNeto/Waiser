@@ -57,7 +57,9 @@ const Routes = () => {
     <PaperProvider theme={theme}>
       <Stack.Navigator
         initialRouteName={user ? "Main" : "Welcome"}
-        screenOptions={{}}
+        screenOptions={{
+          headerBackTitleVisible: false
+        }}
       >
         <Stack.Screen
           name="Main"

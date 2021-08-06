@@ -31,16 +31,23 @@ export const PostDetail = () => {
   const [form, setForm] = useState({ text: "" });
   const [submittingAnswer, setSubmittingAnswer] = useState(false);
 
+  const [totalAnswers, setTotalAnswers] = useState(0);
+
   const postId = router.params!.postId;
+
+  const getAnswers = () => {
+    postService.getAnswersByPostId(postId).then((results) => {
+      setAnswers(results);
+    });
+  };
 
   useEffect(() => {
     postService.getPostById(postId).then((result) => {
       setPost(result);
+      setTotalAnswers(result.totalAnswers);
     });
 
-    postService.getAnswersByPostId(postId).then((results) => {
-      setAnswers(results);
-    });
+    getAnswers();
   }, [postId]);
 
   useLayoutEffect(() => {
@@ -58,6 +65,10 @@ export const PostDetail = () => {
           ...form,
           text: "",
         });
+
+        setTotalAnswers(totalAnswers + 1);
+
+        getAnswers();
       })
       .finally(() => {
         setSubmittingAnswer(false);
@@ -77,11 +88,11 @@ export const PostDetail = () => {
             marginTop: 16,
           }}
         >
-          <Text>{post?.totalAnswers} respostas</Text>
+          <Text>{totalAnswers} respostas</Text>
         </View>
       </View>
     );
-  }, [post]);
+  }, [post, totalAnswers]);
 
   if (!post) {
     return (
@@ -105,7 +116,7 @@ export const PostDetail = () => {
           backgroundColor: "#fff",
         }}
         contentContainerStyle={{
-          paddingBottom: 80
+          paddingBottom: 80,
         }}
       />
       <View
@@ -113,7 +124,7 @@ export const PostDetail = () => {
           flexDirection: "row",
           alignItems: "center",
           paddingLeft: 16,
-          position: 'absolute',
+          position: "absolute",
           bottom: 0,
           left: 0,
           right: 0,
@@ -136,7 +147,7 @@ export const PostDetail = () => {
         >
           <TextInput
             style={{
-              fontSize: 17
+              fontSize: 17,
             }}
             placeholderTextColor={Colors.grey700}
             maxLength={500}
