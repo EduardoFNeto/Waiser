@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Title, TextInput, Text, Button } from "react-native-paper";
 
@@ -7,16 +7,19 @@ import { userService } from "../../services/api/user";
 
 const Register = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
+  
+  const [form, setForm] = useState({
+    username: "",
+    password: "",
+    email: ""
+  });
 
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [email, setEmail] = React.useState('');
+  const isFormValid = useMemo(() => form.username && form.password && form.email, [form]);
 
   const handleProfileRegister = async () => {
-
     try {
-      if (!!username && !!password && !!email) {
-        const user = await userService.createProfile(username, password, email);
+      if (!!isFormValid) {
+        const user = await userService.createProfile(form.username, form.password, form.email);
   
         setUser(user);
   
@@ -45,22 +48,37 @@ const Register = ({ navigation }) => {
         <TextInput
           style={styles.input}
           label="Usuário"
-          value={username}
-          onChangeText={username => setUsername(username)}
+          value={form.username}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              username: value,
+            }))
+          }
         />
 
         <TextInput
           style={styles.input}
           label="Email"
-          value={email}
-          onChangeText={email => setEmail(email)}
+          value={form.email}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              email: value,
+            }))
+          }
         />
 
         <TextInput
           style={styles.input}
           label="Senha"
-          value={password}
-          onChangeText={password => setPassword(password)}
+          value={form.password}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              password: value,
+            }))
+          }
           secureTextEntry
           right={<TextInput.Icon name="eye" />}
         />
@@ -70,6 +88,7 @@ const Register = ({ navigation }) => {
           mode="contained" 
           labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
           onPress={handleProfileRegister}
+          disabled={!isFormValid}
         >
           Criar conta
         </Button>
@@ -106,7 +125,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   button: {
-    backgroundColor: '#585EED',
     padding: 12,
     borderRadius: 100,
     elevation: 0,

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import { StyleSheet, View, Image, Alert } from "react-native";
 import { Title, Text, TextInput, Button } from "react-native-paper";
 
@@ -8,13 +8,17 @@ import { userService } from "../../services/api/user";
 const Login = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
   
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [form, setForm] = useState({
+    username: "",
+    password: ""
+  });
+
+  const isFormValid = useMemo(() => form.username && form.password, [form]);
 
   const signInEmail = async () => {    
     try {
-      if (!!username && !!password) {
-        const user = await userService.loginProfile(username, password);
+      if (!!isFormValid) {
+        const user = await userService.loginProfile(form.username, form.password);
   
         setUser(user);
   
@@ -43,15 +47,25 @@ const Login = ({ navigation }) => {
         <TextInput
           style={styles.input}
           label="Usuário"
-          value={username}
-          onChangeText={email => setUsername(email)}
+          value={form.username}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              email: value,
+            }))
+          }
         />
 
         <TextInput
           style={styles.input}
           label="Senha"
-          value={password}
-          onChangeText={password => setPassword(password)}
+          value={form.password}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              password: value,
+            }))
+          }
           secureTextEntry
           right={<TextInput.Icon name="eye" />}
         />
@@ -61,6 +75,7 @@ const Login = ({ navigation }) => {
           labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
           mode="contained" 
           onPress={signInEmail}
+          disabled={!isFormValid}
         >
           Entrar
         </Button>
@@ -97,7 +112,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0
   },
   button: {
-    backgroundColor: '#585EED',
     padding: 12,
     borderRadius: 100,
     elevation: 0,

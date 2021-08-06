@@ -62,7 +62,7 @@ function LiveChat({ navigation }) {
         messages={messages}
         onSend={text => onSend(text)}
         user={{
-            _id: user.id,
+            _id: user?.id,
         }}
         renderBubble={(props)=>{
             return <Bubble

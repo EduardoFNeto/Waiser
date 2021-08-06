@@ -72,7 +72,7 @@ const Welcome = ({ navigation }) => {
       >
         Entrar com Email
       </Button>
-      <Caption style={styles.caption}>Ao entrar você concorda com os Termos e condições.</Caption>
+      <Caption style={styles.caption}>Ao entrar, você concorda com os Termos e condições.</Caption>
     </View>
   );
 };
@@ -124,6 +124,8 @@ const styles = StyleSheet.create({
   caption: {
     fontSize: 12,
     fontFamily: "InterLight",
+    maxWidth: 250,
+    textAlign: "center",
     color: "#333",
     marginTop: 60
   }

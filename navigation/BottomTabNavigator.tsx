@@ -98,7 +98,7 @@ function HomeNavigator() {
                 width: 70,
                 resizeMode: "contain",
               }}
-              source={require("../assets/images/logo.png")}
+              source={require("../assets/images/logo2.png")}
             />
           ),
         }}

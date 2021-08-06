@@ -104,7 +104,7 @@ const TagsView = ({ navigation }) => {
         extraData={tags}
         data={tags}
         renderItem={Tag}
-        keyExtractor={(item => item.index)}
+        keyExtractor={(item => item.objectId)}
         style={styles.flatlist}
         contentContainerStyle={{
           flexDirection:'row',
