@@ -34,7 +34,7 @@ export const postService = {
     return await post.save().then(buildPostFromParse);
   },
 
-  async getFeed(tagId?: string) {
+  async getFeed(tagId?: string, currentPage?: number) {
     const query = new Parse.Query("Post");
     query.include("user");
     query.include("tags");
@@ -42,6 +42,8 @@ export const postService = {
     query.doesNotExist("group");
     query.doesNotExist("parent");
     query.descending("createdAt");
+    query.limit(10);
+    query.skip((currentPage || 0) * 10);
 
     if (tagId) {
       const parseTag = new Parse.Object("Tag");
