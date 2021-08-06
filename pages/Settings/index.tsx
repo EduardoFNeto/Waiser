@@ -9,18 +9,19 @@ const Settings = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>Settings</Text>
       <TouchableOpacity
-        onPress={async () => {
-          await logOut();
-          setUser(null);
-          navigation.reset({
-            index: 0,
-            routes: [{ name: "Welcome" }],
-          });
-        }}
-      >
-        <Text>Sair</Text>
+        style={styles.logout}
+        onPress={
+          async () => {
+            await logOut();
+            setUser(null);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Welcome" }],
+            });
+          }}
+        >
+        <Text style={styles.text}>Sair</Text>
       </TouchableOpacity>
     </View>
   );
@@ -29,18 +30,22 @@ const Settings = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
-    width: 200,
-    height: 200,
+  logout: {
+    backgroundColor: "#F14336",
+    padding: 15,
+    minWidth: 100,
+    borderRadius: 100,
   },
   text: {
-    fontSize: 18,
-    textAlign: "center",
-  },
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "InterMedium",
+    textAlign: "center"
+  }
 });
 
 export default Settings;

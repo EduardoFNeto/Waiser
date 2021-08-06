@@ -1,8 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useState, useCallback, useEffect, useContext } from 'react'
-import { FlatList, View } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import { GiftedChat,Bubble,InputToolbar} from 'react-native-gifted-chat'
-import { Avatar, List } from 'react-native-paper';
 import { UserContext } from '../../../contexts/user';
 import { chatService } from '../../../services/api/chat';
 
@@ -44,32 +43,38 @@ function LiveChat({ navigation }) {
   }, [])
 
   return (
-    <View style={{flex:1,backgroundColor:"#f5f5f5"}}>
-       <GiftedChat
-            messages={messages}
-            onSend={text => onSend(text)}
-            user={{
-                _id: user.id,
+    <View style={styles.container}>
+      <GiftedChat
+        messages={messages}
+        onSend={text => onSend(text)}
+        user={{
+            _id: user.id,
+        }}
+        renderBubble={(props)=>{
+            return <Bubble
+            {...props}
+            wrapperStyle={{ 
+              right: {
+                backgroundColor: "#585EED",
+              }
             }}
-            renderBubble={(props)=>{
-                return <Bubble
-                {...props}
-                wrapperStyle={{ 
-                  right: {
-                    backgroundColor: "#585EED",
-                  }
-                  
-                }}
-              />
-            }}
-            renderInputToolbar={(props) => {
-                return <InputToolbar {...props}
-                 containerStyle={{borderTopWidth: 1.5, borderTopColor: 'green'}} 
-                 textInputStyle={{ color: "black" }}
-                 />
-            }}
-            />
+          />
+        }}
+        renderInputToolbar={(props) => {
+          return <InputToolbar {...props}
+            containerStyle={{ borderTopWidth: 1.5, borderTopColor: "#dadada" }}
+            textInputStyle={{ color: "black" }}
+          />
+        }}
+      />
     </View>
-  )}
+  )};
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: "#fff"
+    },
+  });
 
 export default LiveChat;

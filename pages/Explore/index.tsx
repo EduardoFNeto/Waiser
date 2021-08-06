@@ -1,8 +1,9 @@
-import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { useEffect } from "react";
+import { StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import { FlatList } from "react-native-gesture-handler";
 import { Avatar, List } from "react-native-paper";
+
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
 
@@ -10,7 +11,7 @@ const Explore = () => {
   const [profiles, setProfiles] = React.useState<User[]>([]);
   const navigation = useNavigation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     profileService.getProfileSuggestions().then((results) => {
       setProfiles(results);
     });
@@ -18,6 +19,7 @@ const Explore = () => {
 
   return (
     <FlatList
+      style={styles.container}
       keyExtractor={(item) => item.id}
       data={profiles}
       renderItem={({ item }) => (
@@ -35,5 +37,12 @@ const Explore = () => {
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: "#fff"
+  }
+});
 
 export default Explore;

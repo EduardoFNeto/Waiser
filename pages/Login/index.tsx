@@ -32,13 +32,11 @@ const Login = ({ navigation }) => {
   }
 
   const signUpEmail = async () => {
-    navigation.push("Register");
+    navigation.navigate("Register");
   }
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../../assets/images/logo2.png')} />
-
       <Title style={styles.text}>Entrar</Title>
 
       <View>
@@ -58,12 +56,17 @@ const Login = ({ navigation }) => {
           right={<TextInput.Icon name="eye" />}
         />
 
-        <Button mode="contained" onPress={signInEmail}>
+        <Button 
+          style={styles.button}
+          labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
+          mode="contained" 
+          onPress={signInEmail}
+        >
           Entrar
         </Button>
       </View>
 
-      <View>
+      <View style={styles.register}>
         <Text>Não possui conta?</Text>
         <Button onPress={signUpEmail}>Cadastre-se</Button>
       </View>
@@ -74,19 +77,41 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 30,
-    backgroundColor: "#f4f4f4",
+    flex: 1,
+    padding: 30,
+    backgroundColor: "#fff",
   },
   text: {
+    fontFamily: "PoppinsBlack",
     fontSize: 24,
-    marginBottom: 30
+    textAlign: "center",
+    marginTop: 30,
+    marginBottom: 60
   },
   input: {
     marginBottom: 15,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "#dadada",
+    elevation: 0,
+    borderBottomWidth: 0
+  },
+  button: {
+    backgroundColor: '#585EED',
+    padding: 12,
+    borderRadius: 100,
+    elevation: 0,
+    marginTop: 30
   },
   logo: {
     width: 280,
     height: 120,
+  },
+  register: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

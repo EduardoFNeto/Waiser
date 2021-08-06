@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react'
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat'
 import { Avatar, List } from 'react-native-paper';
 import { UserContext } from '../../contexts/user';
@@ -42,6 +42,7 @@ function Chat({ navigation }) {
 
   return (
     <FlatList
+      style={styles.container}
       keyExtractor={(item) => item.id}
       data={profiles}
       renderItem={({ item }) => (
@@ -57,7 +58,14 @@ function Chat({ navigation }) {
       )}
     />
   )
-}
+};
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: "#fff"
+  }
+});
 
 export default Chat;
 

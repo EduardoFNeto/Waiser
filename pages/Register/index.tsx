@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { Title, TextInput, Caption, Button } from "react-native-paper";
+import { Title, TextInput, Text, Button } from "react-native-paper";
 
 import { UserContext } from "../../contexts/user";
 import { userService } from "../../services/api/user";
@@ -33,6 +33,10 @@ const Register = ({ navigation }) => {
     }
   }
 
+  const signInEmail = async () => {
+    navigation.navigate("Login");
+  }
+
   return (
     <View style={styles.container}>
       <Title style={styles.text}>Cadastre-se</Title>
@@ -61,12 +65,20 @@ const Register = ({ navigation }) => {
           right={<TextInput.Icon name="eye" />}
         />
 
-        <Button mode="contained" onPress={handleProfileRegister}>
+        <Button 
+          style={styles.button}
+          mode="contained" 
+          labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
+          onPress={handleProfileRegister}
+        >
           Criar conta
         </Button>
       </View>
       
-      <Caption>Já possui uma conta? Faça Login.</Caption>
+      <View style={styles.login}>
+        <Text>Já possui uma conta?</Text>
+        <Button onPress={signInEmail}>Faça Login</Button>
+      </View>
       
     </View>
   );
@@ -74,15 +86,37 @@ const Register = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 30,
-    backgroundColor: "#f4f4f4",
+    flex: 1,
+    padding: 30,
+    backgroundColor: "#fff",
   },
   text: {
+    fontFamily: "PoppinsBlack",
     fontSize: 24,
-    marginBottom: 30
+    textAlign: "center",
+    marginTop: 30,
+    marginBottom: 60
   },
   input: {
     marginBottom: 15,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "#dadada",
+    elevation: 0,
+    borderBottomWidth: 0
+  },
+  button: {
+    backgroundColor: '#585EED',
+    padding: 12,
+    borderRadius: 100,
+    elevation: 0,
+    marginTop: 30
+  },
+  login: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center"
   }
 });
 

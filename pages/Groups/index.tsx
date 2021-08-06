@@ -12,7 +12,7 @@ const Groups = ({}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f4",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },

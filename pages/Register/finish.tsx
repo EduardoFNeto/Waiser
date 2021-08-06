@@ -44,6 +44,7 @@ const FinishRegister = ({ navigation }) => {
         />
 
         <TextInput
+          style={styles.input}
           multiline = {true}
           numberOfLines = {6}
           label="Biografia"
@@ -51,7 +52,12 @@ const FinishRegister = ({ navigation }) => {
           onChangeText={bio => setBio(bio)}
         />
 
-        <Button mode="contained" onPress={handleProfileFinishRegister}>
+        <Button 
+          mode="contained" 
+          style={styles.button}
+          labelStyle={{ color: "#fff", fontSize: 16, fontFamily: "InterMedium" }}
+          onPress={handleProfileFinishRegister}
+        >
           Continuar
         </Button>
       </View>
@@ -62,16 +68,32 @@ const FinishRegister = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 30,
-    backgroundColor: "#f4f4f4",
+    flex: 1,
+    padding: 30,
+    backgroundColor: "#fff",
   },
   text: {
+    fontFamily: "PoppinsBlack",
     fontSize: 24,
-    marginBottom: 30
+    textAlign: "center",
+    marginTop: 30,
+    marginBottom: 60
   },
   input: {
     marginBottom: 15,
-  }
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "#dadada",
+    elevation: 0,
+    borderBottomWidth: 0
+  },
+  button: {
+    backgroundColor: '#585EED',
+    padding: 12,
+    borderRadius: 100,
+    elevation: 0,
+    marginTop: 30
+  },
 });
 
 export default FinishRegister;

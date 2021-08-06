@@ -62,7 +62,8 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 30
+    padding: 30,
+    backgroundColor: "#fff"
   },
   profileInfo: {
     flexDirection: "row",
@@ -71,24 +72,24 @@ const styles = StyleSheet.create({
   profileName: {
     marginTop: 15,
     fontSize: 24,
-    fontWeight: "700"
+    fontFamily: "PoppinsBlack"
   },
   profileText: {
     marginTop: 30,
   },
   profileAbout: {
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "InterBold",
     textTransform: "uppercase",
     marginBottom: 10
   },
   profileBio: {
     fontSize: 16,
-    fontWeight: "400"
+    fontFamily: "InterRegular"
   },
   username: {
     fontSize: 16,
-    fontWeight: "400",
+    fontFamily: "InterMedium",
     marginLeft: 10,
     color: "#333"
   },
@@ -96,8 +97,11 @@ const styles = StyleSheet.create({
     marginRight: 15,
     backgroundColor: "#1ECD8C",
     color: "#fff",
+    fontFamily: "InterMedium",
+    fontSize: 16,
     borderRadius: 100,
-    padding: 10
+    paddingHorizontal: 18,
+    paddingVertical: 6
   }
 });
 

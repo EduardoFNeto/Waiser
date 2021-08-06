@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    width: 315,
-    height: 120,
+    width: 262,
+    height: 100,
   },
   caption: {
     fontSize: 12,

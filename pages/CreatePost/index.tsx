@@ -80,7 +80,7 @@ const CreatePost = ({ navigation }) => {
         multiline
         mode="flat"
         label="Adicione um título"
-        style={{ marginBottom: 16 }}
+        style={styles.input}
         value={form.title}
         onChangeText={(value) =>
           setForm((prevForm) => ({
@@ -94,7 +94,8 @@ const CreatePost = ({ navigation }) => {
         multiline
         mode="flat"
         label="Adicione seu texto..."
-        style={{ marginBottom: 16, minHeight: 150 }}
+        style={styles.input}
+        numberOfLines = {6}
         value={form.text}
         onChangeText={(value) =>
           setForm((prevForm) => ({
@@ -110,6 +111,7 @@ const CreatePost = ({ navigation }) => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
+            marginTop: 30
           }}
         >
           <Text>#Tags</Text>
@@ -123,10 +125,11 @@ const CreatePost = ({ navigation }) => {
         </View>
         <View
           style={{
-            backgroundColor: "#f2f2f2",
+            backgroundColor: "#f4f4f4",
             flexDirection: "row",
             flexWrap: "wrap",
-            padding: 12,
+            padding: 15,
+            marginTop: 15,
             borderRadius: 16,
           }}
         >
@@ -233,6 +236,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
+  input: {
+    marginBottom: 15,
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: "#dadada",
+    elevation: 0,
+    borderBottomWidth: 0
+  }
 });
 
 export default CreatePost;
