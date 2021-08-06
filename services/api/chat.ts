@@ -2,12 +2,10 @@ import Parse from "../parse";
 import {
   buildChatFromParse,
   buildMessageFromParse,
-  Message,
 } from "../../models/message";
 
 export const chatService = {
   async createMessage(friendId: string, messageText: string) {
-    const chatQuery = new Parse.Query("Chat");
     const user = Parse.User.current();
 
     const friend = new Parse.User();
@@ -29,6 +27,7 @@ export const chatService = {
     getChat.equalTo("user", user);
     getChat.equalTo("friend", friend);
     getChat.include("owner");
+    getChat.include("lastMessage");
 
     let chat = await getChat.first();
     if (!chat) return [];
@@ -68,6 +67,8 @@ export const chatService = {
 
     getChat.equalTo("user", user);
     getChat.include("friend");
+    getChat.include("lastMessage");
+    getChat.descending("updatedAt");
 
     return await getChat.find().then((results) => {
       return results.map(buildChatFromParse);
@@ -100,6 +101,9 @@ async function createMessageOwner(
   message.set("chat", chat);
 
   await message.save();
+
+  chat.set('lastMessage', message);
+  await chat.save();
 }
 
 async function createMessageFriend(
@@ -127,4 +131,7 @@ async function createMessageFriend(
   message.set("chat", chat);
 
   await message.save();
+
+  chat.set('lastMessage', message);
+  await chat.save();
 }
