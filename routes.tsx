@@ -43,7 +43,7 @@ const Routes = () => {
         ...CombinedDefaultTheme.colors,
         primary: "#585EED",
         accent: "#21CA8E",
-        background: "#fafafa",
+        background: "#fff",
         card: '#fff',
       },
     }),
