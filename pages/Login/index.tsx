@@ -51,7 +51,7 @@ const Login = ({ navigation }) => {
           onChangeText={(value) =>
             setForm((prevForm) => ({
               ...prevForm,
-              email: value,
+              username: value,
             }))
           }
         />
