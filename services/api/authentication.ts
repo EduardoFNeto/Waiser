@@ -18,6 +18,7 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
     return {
       id: result.id,
       name: result.get("name"),
+      bio: result.get("bio"),
       username: result.getUsername(),
       avatar: result.get("avatar")
     } as User
