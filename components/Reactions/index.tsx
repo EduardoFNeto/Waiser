@@ -72,7 +72,7 @@ export const Reactions = ({
           height: 32,
           justifyContent: "center",
           alignItems: "center",
-          marginRight: 16,
+          marginRight: 8,
         }}
       >
         <View
@@ -88,7 +88,7 @@ export const Reactions = ({
               color={isLiked ? theme.colors.accent : Colors.grey600}
             />
           </TouchableOpacity>
-          {totalLikes ? <Text>{totalLikes}</Text> : <Text>Votar</Text>}
+          {totalLikes ? <Text style={{color: Colors.grey600}}>{totalLikes}</Text> : <Text style={{color: Colors.grey600}}>Votar</Text>}
         </View>
         <TouchableOpacity style={{ marginLeft: 8 }} onPress={dislikePost}>
           <MaterialCommunityIcons
@@ -104,19 +104,22 @@ export const Reactions = ({
             onPress={() => navigation.push("PostDetail", { postId: post.id })}
             style={{
               height: 32,
-              width: 32,
               justifyContent: "center",
               alignItems: "center",
               borderWidth: 1,
               borderRadius: 16,
               borderColor: "#e9e9e9",
+              flexDirection: 'row',
+              paddingHorizontal: 6
             }}
           >
             <MaterialCommunityIcons
-              name="comment"
+              name="comment-outline"
               size={16}
               color={Colors.grey600}
+              style={{marginRight: 4}}
             />
+            <Text style={{color: Colors.grey600}}>Reponda e ganhe pontos</Text>
           </TouchableOpacity>
         </View>
       )}

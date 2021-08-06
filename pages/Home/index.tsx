@@ -1,10 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useLayoutEffect, useState } from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
-import { FAB } from "react-native-paper";
+import { Colors, FAB, Text } from "react-native-paper";
 import { Posts } from "../../components/Posts";
 import { TagItem } from "../../components/TagItem";
+import { UserContext } from "../../contexts/user";
 import { Post } from "../../models/post";
 import { Tag } from "../../models/tag";
 import { postService } from "../../services/api/posts";
@@ -22,6 +23,8 @@ const Home = ({}) => {
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
+
+  const [user] = useContext(UserContext);
 
   const onRefresh = () => {
     return postService
@@ -77,6 +80,17 @@ const Home = ({}) => {
       getResources();
     }, [selectedTag])
   );
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <View style={{ marginRight: 12, flexDirection: 'row', alignItems: "center" }}>
+          <Text style={{fontSize: 12, marginRight: 4, color: Colors.orangeA700}}>{user.totalPoints} pontos</Text>
+          <MaterialCommunityIcons name="trophy-variant" size={22} color={Colors.orangeA700} />
+        </View>
+      ),
+    });
+  }, [navigation, user]);
 
   const handleTag = (tag?: Tag | "explore" | "direct") => () => {
     setIsLoadingPosts(true);
