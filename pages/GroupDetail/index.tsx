@@ -91,7 +91,10 @@ const GroupDetail = ({}) => {
         </Text>
         <MiniTagList tags={group.tags} />
         <View style={{ marginTop: 24 }}>
-          <Button mode="outlined" onPress={joinGroup}>
+          <Button
+            mode={isJoined ? "outlined" : "contained"}
+            onPress={joinGroup}
+          >
             {isJoined ? "Deixar o grupo" : "Participar"}
           </Button>
         </View>
