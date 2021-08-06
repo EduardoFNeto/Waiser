@@ -1,6 +1,7 @@
 import { buildPostFromParse, Post } from "../../models/post";
 import { Tag } from "../../models/tag";
 import Parse from "../parse";
+import pointService from "./points";
 
 export const postService = {
   async createPost(title: string, text: string, tags?: Tag[], groupId?: string, profileId?: string) {
@@ -104,5 +105,11 @@ export const postService = {
 
     parentPost.increment("totalAnswers", 1);
     await parentPost.save();
+
+    const user = Parse.User.current();
+    if (!user) return;
+
+    user.increment('totalAnswers', 1);
+    await pointService.addPointToUser(user, 7);
   },
 };

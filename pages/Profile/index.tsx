@@ -57,7 +57,7 @@ const Profile = () => {
         source={{ uri: profile.avatar }}
         style={{
           resizeMode: "cover",
-          height: "90%",
+          height: 300,
         }}
       />
 
