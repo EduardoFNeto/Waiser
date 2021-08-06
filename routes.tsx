@@ -11,6 +11,8 @@ import { UserContext } from "./contexts/user";
 import Welcome from "./pages/Welcome";
 import Settings from "./pages/Settings";
 import Profile from "./pages/Profile";
+import CreatePost from "./pages/CreatePost";
+import { PostDetail } from "./pages/PostDetail";
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,8 @@ const Routes = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="CreatePost" component={CreatePost} />
+        <Stack.Screen name="PostDetail" component={PostDetail} />
       </Stack.Navigator>
     </PaperProvider>
   );
