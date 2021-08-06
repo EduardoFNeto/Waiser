@@ -1,9 +1,11 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useState, useCallback, useEffect, useContext } from 'react'
+import React, { useState, useCallback, useEffect, useContext, useLayoutEffect } from 'react'
 import { FlatList, View, StyleSheet } from 'react-native';
 import { GiftedChat,Bubble,InputToolbar} from 'react-native-gifted-chat'
+import { Avatar } from '../../../components/Avatar';
 import { UserContext } from '../../../contexts/user';
 import { Message } from '../../../models/message';
+import { User } from '../../../models/user';
 import { chatService } from '../../../services/api/chat';
 
 
@@ -13,47 +15,45 @@ function LiveChat({ navigation }) {
   const [user] = useContext(UserContext)
 
   const router = useRoute();
-  const friend = router!.params!.friend as any;
-  console.info(friend)
-
+  const friend = router!.params!.friend as User;
 
   useEffect(() => {
       async function getMessages(friendId: string) {
         const data = await chatService.getMessagesFromChat(friendId)
-        setMsg(data)
-
-        return data
+        setMsg(data);
       }
 
       getMessages(friend.id)
   }, [])
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        name: 'NEYMAU',
-        user: {
-          _id: friend.id,
-          name: friend.name,
-          avatar: friend.avatar,
-        },
+    const chatMessages = msg.reverse().map((message) => ({
+      _id: message.id,
+      text: message.text,
+      createdAt: message.createdAt,
+      name: 'NEYMAU',
+      user: {
+        _id: message.owner.id,
+        name: message.owner.name,
+        avatar: message.owner.avatar,
       },
-    ])
-  }, [])
+    }))
+
+    setMessages(chatMessages);    
+  }, [msg])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: friend.name,
+      headerRight: () => <View style={{marginRight: 12}}><Avatar user={friend} /></View>,
+    });
+  }, [navigation, friend]);
 
   const onSend = useCallback(async (messages = []) => {
     const firstMessage =  messages[0];
-    await chatService.createMessage(friend.id, firstMessage.text)
-    const ownMessages = {
-      ...firstMessage,
-      sentBy: user.id,
-      sentTo: friend.id,
-      createdAt: new Date()
-    }
-    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, ownMessages))
+    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, firstMessage))
+
+    await chatService.createMessage(friend.id, firstMessage.text);
   }, [])
 
   return (
