@@ -1,8 +1,8 @@
 import { useFocusEffect } from "@react-navigation/native";
 import React, { useState, useCallback, useContext } from "react";
-import { FlatList, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
-import { List } from "react-native-paper";
+import { ActivityIndicator, List, Text } from "react-native-paper";
 import { Avatar } from "../../components/Avatar";
 import { UserContext } from "../../contexts/user";
 import { Chat as ChatModel } from "../../models/message";
@@ -14,12 +14,22 @@ import dateUtils from "../../utils/dates";
 function Chat({ navigation }) {
   const [chats, setChats] = useState<ChatModel[]>([]);
   const [user] = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const getChats = () => {
+    return chatService
+      .getAllChats()
+      .then((results) => {
+        setChats(results);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   useFocusEffect(
     useCallback(() => {
-      chatService.getAllChats().then((results) => {
-        setChats(results);
-      });
+      getChats();
     }, [])
   );
 
@@ -40,11 +50,30 @@ function Chat({ navigation }) {
     return description;
   };
 
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
     <FlatList
       style={styles.container}
       keyExtractor={(item) => item.id}
       data={chats}
+      refreshing={false}
+      onRefresh={getChats}
+      ListEmptyComponent={() => {
+        return <Text style={{ textAlign: "center" }}>Nenhuma mensagem.</Text>;
+      }}
       renderItem={({ item }) => (
         <List.Item
           onPress={() => {

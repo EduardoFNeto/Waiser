@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Title,
   Avatar as PaperAvatar,
+  Colors,
 } from "react-native-paper";
 import { Avatar } from "../../components/Avatar";
 import { TagItem } from "../../components/TagItem";
@@ -146,8 +147,8 @@ const CreatePost = () => {
         multiline
         mode="flat"
         label="Adicione seu texto..."
-        style={styles.input}
-        numberOfLines = {6}
+        style={[styles.input, { minHeight: 180 }]}
+        numberOfLines={6}
         value={form.text}
         onChangeText={(value) =>
           setForm((prevForm) => ({
@@ -163,7 +164,7 @@ const CreatePost = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: 30
+            marginTop: 30,
           }}
         >
           <Text>#Tags</Text>
@@ -177,7 +178,8 @@ const CreatePost = () => {
         </View>
         <View
           style={{
-            backgroundColor: "#f4f4f4",
+            borderColor: Colors.grey300,
+            borderWidth: 1,
             flexDirection: "row",
             flexWrap: "wrap",
             padding: 15,
@@ -190,10 +192,10 @@ const CreatePost = () => {
               <TagItem key={tag.id} name={tag.name} onPress={removeTag(tag)} />
             ))
           ) : (
-            <Caption>
+            <Text>
               Adicione #tags para mandar sua pergunta para todas as pessoas
-              interessadas nesses assntos
-            </Caption>
+              interessadas nesses assuntos
+            </Text>
           )}
         </View>
       </View>
@@ -242,38 +244,46 @@ const AddTags = ({
     <Portal>
       <Dialog visible={isVisible} onDismiss={hideDialog}>
         <Dialog.ScrollArea>
-          <Title style={{ marginTop: 16, marginBottom: 16 }}>
-            Selecione suas tags
-          </Title>
-          <ScrollView
-            horizontal
+          <View
             style={{
-              minHeight: 200,
-            }}
-            contentContainerStyle={{
-              flexWrap: "wrap",
+              justifyContent: "space-between",
+              maxHeight: 250,
             }}
           >
-            {mergedTags.map((tag) => (
-              <TagItem
-                key={tag.id}
-                name={tag.name}
-                onPress={() => {
-                  handleSelectTag(tag);
-                }}
-                checked={selectedTags.some((t) => t.id === tag.id)}
-              />
-            ))}
-          </ScrollView>
-          <Button
-            mode="contained"
-            onPress={hideDialog}
-            style={{
-              marginBottom: 16,
-            }}
-          >
-            Fechar
-          </Button>
+            <Title style={{ marginTop: 16, marginBottom: 16 }}>
+              Selecione suas tags
+            </Title>
+            <ScrollView
+              style={{  }}
+              contentContainerStyle={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+              
+              }}
+            >
+              {mergedTags.map((tag) => (
+                <View key={tag.id} style={{ marginBottom: 6 }}>
+                  <TagItem
+                    name={tag.name}
+                    onPress={() => {
+                      handleSelectTag(tag);
+                    }}
+                    checked={selectedTags.some((t) => t.id === tag.id)}
+                  />
+                </View>
+              ))}
+            </ScrollView>
+            <IconButton
+              icon="close"
+              onPress={hideDialog}
+              style={{
+                marginBottom: 16,
+                position: 'absolute',
+                top: 12,
+                right: -16
+              }}
+            />
+          </View>
         </Dialog.ScrollArea>
       </Dialog>
     </Portal>
@@ -296,12 +306,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 15,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#dadada",
-    elevation: 0,
-    borderBottomWidth: 0
-  }
+  },
 });
 
 export default CreatePost;

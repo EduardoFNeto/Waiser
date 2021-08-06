@@ -1,4 +1,4 @@
-import { Tag } from "./tag";
+import { buildTagFromParse, Tag } from "./tag";
 
 export interface User {
   id: string;
@@ -8,6 +8,9 @@ export interface User {
   email: string;
   bio: string;
   tags: Tag[];
+  totalReceivedLikes: number;
+  totalAnswers: number;
+  totalPoints: number;
 }
 
 export const buildUserFromParse = (result: Parse.Object): User => ({
@@ -17,5 +20,10 @@ export const buildUserFromParse = (result: Parse.Object): User => ({
   email: result.get("email"),
   bio: result.get("bio"),
   avatar: result.get("avatar"),
-  tags: result.get("tags"),
+  tags: result.get("tags")
+    ? result.get("tags").map(buildTagFromParse)
+    : ([] as Tag[]),
+  totalReceivedLikes: result.get("totalReceivedLikes") || 0,
+  totalAnswers: result.get("totalAnswers") || 0,
+  totalPoints: result.get("totalPoints") || 0,
 });

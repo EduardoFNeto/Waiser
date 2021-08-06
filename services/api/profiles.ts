@@ -4,6 +4,7 @@ import Parse from '../parse';
 export const profileService = {
   async getProfileById(profileId: string) {
     const query = new Parse.Query(Parse.User);
+    query.include('tags')
 
     return await query.get(profileId).then(buildUserFromParse);
   },
