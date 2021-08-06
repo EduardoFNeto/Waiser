@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Button, FAB, IconButton } from "react-native-paper";
+import { StyleSheet, View } from "react-native";
+import { FAB } from "react-native-paper";
 import GroupList from "../../components/GroupList";
 import { Group } from "../../models/group";
 import { groupService } from "../../services/api/groups";
 
-const Groups = ({}) => {
+const ExploreGroups = ({}) => {
   const [groups, setGroups] = useState<Group[]>([]);
   const navigation = useNavigation();
 
@@ -15,7 +15,7 @@ const Groups = ({}) => {
 
   useEffect(() => {
     groupService
-      .getMyGroups()
+      .getAllGroups()
       .then((results) => {
         setGroups(results);
       })
@@ -26,47 +26,9 @@ const Groups = ({}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <IconButton
-          icon="magnify"
-          onPress={() => {
-            navigation.push("ExploreGroups");
-          }}
-        />
-      ),
+      title: "Grupos de estudos",
     });
   }, [navigation, isLoading]);
-
-  const renderEmpty = () => {
-    return (
-      <View style={styles.container}>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            paddingHorizontal: 32,
-            flex: 1,
-          }}
-        >
-          <Text style={{ textAlign: "center", marginBottom: 16 }}>
-            Você ainda não entrou em nenhum grupo
-          </Text>
-          <Button
-            mode="contained"
-            onPress={() => {
-              navigation.push("ExploreGroups");
-            }}
-          >
-            Buscar grupos
-          </Button>
-        </View>
-      </View>
-    );
-  };
-
-  if (!isLoading && !groups.length) {
-    return renderEmpty();
-  }
 
   return (
     <View style={styles.container}>
@@ -86,12 +48,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: 200,
-    height: 200,
   },
   createButton: {
     position: "absolute",
@@ -102,4 +58,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Groups;
+export default ExploreGroups;

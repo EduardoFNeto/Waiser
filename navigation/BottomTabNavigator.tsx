@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { useContext } from "react";
+import { Image } from "react-native";
 import { IconButton } from "react-native-paper";
 
 import Colors from "../constants/Colors";
@@ -14,9 +15,10 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import Chat from "../pages/Chat";
 import LiveChat from "../pages/Chat/LiveChat";
+
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator({ navigation }) {
+export default function BottomTabNavigator({ }) {
   const colorScheme = useColorScheme();
 
   return (
@@ -38,28 +40,34 @@ export default function BottomTabNavigator({ navigation }) {
         name="GroupsScreen"
         component={GroupsNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="account-group" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="account-group" color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
         name="ExploreScreen"
         component={ExploreNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="account-plus" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="cards-outline" color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
         name="ChatScreen"
         component={ChatNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="comment-account" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="comment-processing-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="ProfileScreen"
         component={ProfileNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="account-circle" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="account-circle" color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>
@@ -70,7 +78,9 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
   color: string;
 }) {
-  return <MaterialCommunityIcons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return (
+    <MaterialCommunityIcons size={30} style={{ marginBottom: -3 }} {...props} />
+  );
 }
 
 const HomeStack = createStackNavigator();
@@ -80,7 +90,18 @@ function HomeNavigator() {
       <HomeStack.Screen
         name="Home"
         component={Home}
-        options={{ headerTitle: "Início" }}
+        options={{
+          headerTitle: () => (
+            <Image
+              style={{
+                height: 30,
+                width: 70,
+                resizeMode: "contain",
+              }}
+              source={require("../assets/images/logo.png")}
+            />
+          ),
+        }}
       />
     </HomeStack.Navigator>
   );
@@ -93,7 +114,7 @@ function GroupsNavigator() {
       <TabTwoStack.Screen
         name="Groups"
         component={Groups}
-        options={{ headerTitle: "Grupos de estudos" }}
+        options={{ headerTitle: "Meus grupos de estudos" }}
       />
     </TabTwoStack.Navigator>
   );

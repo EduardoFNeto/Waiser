@@ -20,26 +20,6 @@ function Chat({ navigation }) {
     });
   }, []);
 
-  useEffect(() => {
-    setMessages([
-      {
-        _id: user.id,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        name: user.name,
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: user.avatar,
-        },
-      },
-    ])
-  }, [])
-
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages))
-  }, [])
-
   return (
     <FlatList
       style={styles.container}

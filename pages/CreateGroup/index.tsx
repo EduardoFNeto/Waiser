@@ -1,4 +1,3 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useMemo, useLayoutEffect, useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import {
@@ -12,28 +11,17 @@ import {
   Snackbar,
   ActivityIndicator,
   Title,
-  Avatar as PaperAvatar,
 } from "react-native-paper";
-import { Avatar } from "../../components/Avatar";
 import { TagItem } from "../../components/TagItem";
-import { Group } from "../../models/group";
 import { Tag } from "../../models/tag";
-import { User } from "../../models/user";
 import { groupService } from "../../services/api/groups";
 import { postService } from "../../services/api/posts";
-import { profileService } from "../../services/api/profiles";
 import { tagService } from "../../services/api/tags";
 
-const CreatePost = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-
-  const groupId = route.params?.groupId;
-  const profileId = route.params?.profileId;
-
+const CreateGroup = ({ navigation }) => {
   const [form, setForm] = useState({
     title: "",
-    text: "",
+    description: "",
   });
 
   const [isTagModalVisible, setIsTagModalVisible] = useState(false);
@@ -43,32 +31,17 @@ const CreatePost = () => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
 
-  const [group, setGroup] = useState<Group>();
-  const [profile, setProfile] = useState<User>();
-
   useEffect(() => {
     tagService.getAllTags().then((results) => {
       setTags(results);
     });
+  }, []);
 
-    if (groupId) {
-      groupService.getGroupById(groupId).then((result) => {
-        setGroup(result);
-      });
-    }
-
-    if (profileId) {
-      profileService.getProfileById(profileId).then((result) => {
-        setProfile(result);
-      });
-    }
-  }, [groupId, profileId]);
-
-  const isFormValid = useMemo(() => form.text && form.title, [form]);
+  const isFormValid = useMemo(() => form.description && form.title, [form]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "Perguntar",
+      title: "Criar grupo de estudo",
       headerRight: () =>
         isLoading ? (
           <ActivityIndicator />
@@ -76,19 +49,19 @@ const CreatePost = () => {
           <IconButton
             disabled={!isFormValid}
             icon="send"
-            onPress={createPost}
+            onPress={createGroup}
           />
         ),
     });
-  }, [navigation, isLoading, isFormValid, createPost]);
+  }, [navigation, isLoading, isFormValid, createGroup]);
 
-  function createPost() {
+  function createGroup() {
     setIsLoading(true);
 
-    postService
-      .createPost(form.title, form.text, selectedTags)
+    groupService
+      .createGroup(form.title, form.description, selectedTags)
       .then(() => {
-        setMessage("Pergunta enviada com sucesso!");
+        setMessage("Grupo criado com sucesso!");
         navigation.goBack();
       })
       .finally(() => {
@@ -104,35 +77,11 @@ const CreatePost = () => {
 
   return (
     <ScrollView style={styles.container}>
-      {group && (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 12,
-          }}
-        >
-          <PaperAvatar.Text size={32} label={group.title.charAt(0)} />
-          <Text style={{ marginLeft: 8 }}>{group.title}</Text>
-        </View>
-      )}
-      {profile && (
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 12,
-          }}
-        >
-          <Avatar size={32} user={profile} />
-          <Text style={{ marginLeft: 8 }}>{profile.name}</Text>
-        </View>
-      )}
       <TextInput
         multiline
         mode="flat"
         label="Adicione um título"
-        style={styles.input}
+        style={{ marginBottom: 16 }}
         value={form.title}
         onChangeText={(value) =>
           setForm((prevForm) => ({
@@ -140,19 +89,18 @@ const CreatePost = () => {
             title: value,
           }))
         }
-        maxLength={100}
+        maxLength={50}
       />
       <TextInput
         multiline
         mode="flat"
-        label="Adicione seu texto..."
-        style={styles.input}
-        numberOfLines = {6}
-        value={form.text}
+        label="Adicione uma descrição..."
+        style={{ marginBottom: 16, minHeight: 150 }}
+        value={form.description}
         onChangeText={(value) =>
           setForm((prevForm) => ({
             ...prevForm,
-            text: value,
+            description: value,
           }))
         }
         maxLength={500}
@@ -163,7 +111,6 @@ const CreatePost = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            marginTop: 30
           }}
         >
           <Text>#Tags</Text>
@@ -177,11 +124,10 @@ const CreatePost = () => {
         </View>
         <View
           style={{
-            backgroundColor: "#f4f4f4",
+            backgroundColor: "#f2f2f2",
             flexDirection: "row",
             flexWrap: "wrap",
-            padding: 15,
-            marginTop: 15,
+            padding: 12,
             borderRadius: 16,
           }}
         >
@@ -191,8 +137,7 @@ const CreatePost = () => {
             ))
           ) : (
             <Caption>
-              Adicione #tags para mandar sua pergunta para todas as pessoas
-              interessadas nesses assntos
+              Adicione #tags ajudar a definir quais assuntos serão discutidos nos seu grupo
             </Caption>
           )}
         </View>
@@ -261,19 +206,13 @@ const AddTags = ({
                 onPress={() => {
                   handleSelectTag(tag);
                 }}
-                checked={selectedTags.some((t) => t.id === tag.id)}
+                checked={selectedTags.some(t => t.id === tag.id)}
               />
             ))}
           </ScrollView>
-          <Button
-            mode="contained"
-            onPress={hideDialog}
-            style={{
-              marginBottom: 16,
-            }}
-          >
-            Fechar
-          </Button>
+          <Button mode="contained" onPress={hideDialog} style={{
+              marginBottom: 16
+          }}>Fechar</Button>
         </Dialog.ScrollArea>
       </Dialog>
     </Portal>
@@ -294,14 +233,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
   },
-  input: {
-    marginBottom: 15,
-    backgroundColor: "transparent",
-    borderWidth: 1,
-    borderColor: "#dadada",
-    elevation: 0,
-    borderBottomWidth: 0
-  }
 });
 
-export default CreatePost;
+export default CreateGroup;

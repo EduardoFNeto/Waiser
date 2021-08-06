@@ -7,7 +7,7 @@ export const AvatarWithProgress = ({ user, createdAt }: { user: User, createdAt?
   const theme = useTheme();
   return (
     <ProgressCircle
-      percent={40}
+      percent={80}
       radius={24}
       borderWidth={4}
       color={theme.colors.accent}

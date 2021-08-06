@@ -3,16 +3,30 @@ import React, { useState, useCallback, useEffect, useContext } from 'react'
 import { FlatList, View, StyleSheet } from 'react-native';
 import { GiftedChat,Bubble,InputToolbar} from 'react-native-gifted-chat'
 import { UserContext } from '../../../contexts/user';
+import { Message } from '../../../models/message';
 import { chatService } from '../../../services/api/chat';
 
 
 function LiveChat({ navigation }) {
   const [messages, setMessages] = useState<any>([]);
+  const [msg, setMsg] = useState<Message[]>([])
   const [user] = useContext(UserContext)
 
   const router = useRoute();
   const friend = router!.params!.friend as any;
   console.info(friend)
+
+
+  useEffect(() => {
+      async function getMessages(friendId: string) {
+        const data = await chatService.getMessagesFromChat(friendId)
+        setMsg(data)
+
+        return data
+      }
+
+      getMessages(friend.id)
+  }, [])
 
   useEffect(() => {
     setMessages([

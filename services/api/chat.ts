@@ -8,26 +8,12 @@ export const chatService = {
 
     const friend = new Parse.User()
     friend.id = friendId
-    chatQuery.equalTo('user', user)
-    chatQuery.equalTo('friend', friend)
-    
-    let chat = await chatQuery.first()
 
-    if(!chat) {
-      const _chat = new Parse.Object("Chat");
-      _chat.set("user", user);
-      _chat.set("friend", friend);
-      chat = await _chat.save()
-    }
-
-    const message = new Parse.Object("Message")
-    message.set("owner", user);
-    message.set("text", messageText);
-    message.set("chat", chat);
-
-    await message.save();
+    if(!user) return;
+   
+    await createMessage(user, friend, messageText);
+    await createMessage(friend, user, messageText);
   },
-
   async getMessagesFromChat(friendId: string) {
     const user = Parse.User.current();
     const friend = new Parse.User()
@@ -62,3 +48,27 @@ export const chatService = {
     })
   }
 };
+
+async function createMessage(user: Parse.User, friend: Parse.User, messageText: string) {
+  const chatQuery = new Parse.Query("Chat")
+
+  chatQuery.equalTo('user', user)
+  chatQuery.equalTo('friend', friend)
+  
+  let chat = await chatQuery.first()
+
+  if(!chat) {
+    const _chat = new Parse.Object("Chat");
+    _chat.set("user", user);
+    _chat.set("friend", friend);
+    chat = await _chat.save()
+  }
+
+  const message = new Parse.Object("Message")
+  message.set("owner", user);
+  message.set("text", messageText);
+  message.set("chat", chat);
+
+  await message.save();
+}
+
