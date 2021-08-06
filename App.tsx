@@ -18,24 +18,11 @@ import { renderDoneButton } from "./components/Intro/doneButton";
 
 function App() {
   const [fontLoaded, setIsFontsLoaded] = useState(false);
-  const [, setUser] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showApp, setShowApp] = useState(false);
 
-  // Check if user is logged in
-  useEffect(() => {
-    async function checkLogin() {
-      const user = await Parse.User.currentAsync();
-      if (user) {
-        setUser(buildUserFromParse(user));
-      }
-      setIsLoading(true);
-    }
-
-    checkLogin();
-  }, [setIsLoading]);
-
-  // Load custom fonts
+  // Check if user is logged in and load fonts
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -47,15 +34,23 @@ function App() {
       });
       setIsFontsLoaded(true);
     }
-
     loadFonts();
-  }, [setIsFontsLoaded])
 
-  if (!isLoading) {
+    async function checkLogin() {
+      const hasLoggedUser = await Parse.User.currentAsync();
+      if (hasLoggedUser) {
+        setUser(buildUserFromParse(hasLoggedUser));
+      }
+      setIsLoading(true);
+    }
+    checkLogin();
+  }, [setIsLoading, setIsFontsLoaded]);
+
+  if (!isLoading || !fontLoaded) {
     return <View />;
   }
 
-  if (!showApp && fontLoaded) {
+  if (!showApp && !user) {
     return (
       <AppIntroSlider
         dotStyle={styles.dotStyle}
