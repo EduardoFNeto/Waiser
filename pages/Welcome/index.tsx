@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { StyleSheet, View, Alert } from "react-native";
-import { Title, Text, Button } from 'react-native-paper'
+import { StyleSheet, View, Alert, Image } from "react-native";
+import { Caption, Text, Button } from "react-native-paper";
 
 import * as Facebook from "expo-facebook";
-import { FACEBOOK_APP_ID } from "../../config/constants";
-import { facebookLogin } from "../../services/api/authentication";
+
 import { UserContext } from "../../contexts/user";
+import { facebookLogin } from "../../services/api/authentication";
+import { FACEBOOK_APP_ID } from "../../config/constants";
 
 const Welcome = ({ navigation }) => {
   const [, setUser] = useContext(UserContext);
@@ -45,16 +46,27 @@ const Welcome = ({ navigation }) => {
     }
   };
 
-  const signUpEmail = () => {
+  const handleEmailLogin = () => {
     navigation.push("Login");
   }
 
   return (
     <View style={styles.container}>
-      <Title style={styles.title}>Waiser</Title>
+      <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
       <Text style={styles.text}>Pergunte, aprenda e conecte-se!</Text>
-      <Button mode="contained" onPress={signUpFacebook} style={styles.facebookBtn}>Entrar com Facebook</Button>
-      <Button mode="contained" onPress={signUpEmail} style={styles.emailBtn}>Entrar com Email</Button>
+      <Button 
+        mode="contained"
+        uppercase={false}
+        onPress={signUpFacebook} 
+        style={styles.facebookBtn}>Entrar com Facebook
+      </Button>
+      <Button 
+        mode="contained"
+        uppercase={false}
+        onPress={handleEmailLogin} 
+        style={styles.emailBtn}>Entrar com Email
+      </Button>
+      <Caption style={styles.caption}>Ao entrar você concorda com os Termos e condições.</Caption>
     </View>
   );
 };
@@ -66,29 +78,45 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  image: {
-    justifyContent: "center",
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 16,
-  },
-  title: {
-    fontSize: 32
-  },
   text: {
-    fontSize: 16,
+    color: "#333333",
+    fontSize: 20,
     marginTop: 30,
     marginBottom: 60
   },
   facebookBtn: {
     backgroundColor: "#4267B2",
     color: "#ffffff",
-    marginBottom: 15
+    marginBottom: 15,
+    fontSize: 16,
+    textTransform: "lowercase",
+    height: 58,
+    borderRadius: 58,
+    elevation: 0,
+    minWidth: 300,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   emailBtn: {
-    backgroundColor: "#1ECD8C",
-    color: "#ffffff"
+    backgroundColor: "#21CA8E",
+    color: "#ffffff",
+    fontSize: 16,
+    textTransform: "lowercase",
+    height: 58,
+    borderRadius: 58,
+    elevation: 0,
+    minWidth: 300,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  logo: {
+    width: 280,
+    height: 120,
+  },
+  caption: {
+    fontSize: 12,
+    color: "#333",
+    marginTop: 60
   }
 });
 

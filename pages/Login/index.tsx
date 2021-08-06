@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, View} from "react-native"
+import { StyleSheet, View, Image } from "react-native"
 import { Title, Text, TextInput, Button } from 'react-native-paper'
 import Parse from "../../services/parse"
 
@@ -28,6 +28,8 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
+
       <Title style={styles.text}>Entrar</Title>
 
       <View>
@@ -72,6 +74,10 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 15,
+  },
+  logo: {
+    width: 280,
+    height: 120,
   }
 });
 
