@@ -40,19 +40,6 @@ function Chat({ navigation }) {
     setMessages((previousMessages: any) => GiftedChat.append(previousMessages, messages))
   }, [])
 
-  const giftedChat = () => {
-    <GiftedChat
-      messages={messages}
-      onSend={messages => onSend(messages)}
-      showAvatarForEveryMessage={true}
-      user={{
-        _id: user.id,
-        name: user.username,
-        avatar: user.avatar
-      }}
-    />
-  }
-
   return (
     <FlatList
       keyExtractor={(item) => item.id}
@@ -60,10 +47,9 @@ function Chat({ navigation }) {
       renderItem={({ item }) => (
         <List.Item
           onPress={() => {
-            navigation.navigate("LiveChat", { name: item.name });
+            navigation.navigate("LiveChat", { name: item.name, friend: item });
           }}
           title={item.name}
-          description={item.username}
           left={(props) => (
             <Avatar.Image {...props} source={{ uri: item.avatar }} />
           )}

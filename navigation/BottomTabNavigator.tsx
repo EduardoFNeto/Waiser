@@ -107,7 +107,7 @@ function ChatNavigator() {
       <ChatStack.Screen
         name="Chat"
         component={Chat}
-        options={{ headerTitle: 'Chat' }}
+        options={{ headerTitle: 'Chat - Sugestões' }}
       />
 
       <ChatStack.Screen

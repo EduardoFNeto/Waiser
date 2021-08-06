@@ -50,5 +50,9 @@ export const userService = {
     })
 
     user?.set("tags", parseTags)  
+
+    await user.save()
+
+
   },
 };
