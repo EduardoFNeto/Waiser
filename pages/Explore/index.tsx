@@ -1,13 +1,10 @@
 import * as React from "react";
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, Image} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList } from "react-native-gesture-handler";
-import { Avatar, List } from "react-native-paper";
 
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
 import Swiper from "react-native-deck-swiper";
-import { canOpenURL } from "expo-linking";
 
 const Explore = () => {
   const [profiles, setProfiles] = React.useState<User[]>([]);
@@ -20,48 +17,41 @@ const Explore = () => {
     });
   }, []);
 
+  const onSwipe = () => {
+    setIndex(index + 1)
+  }
+
+  const Profile = ({ data }: { data: User}) => {
+    return (
+      <View style={styles.container}>
+         <Image resizeMode='cover' style={styles.card} source={{ uri: data?.avatar }} />
+         <Text style={styles.text}>{data?.name}</Text>
+         <Text style={styles.bio}>{data?.bio}</Text>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
     <Swiper
+        cardStyle={{ paddingTop: 0, marginTop: 0 }}
         cards={profiles}
-        renderCard={(user) => {
-            return (
-              <View style={styles.card}>
-                  <Text style={styles.text}>{user?.name}</Text>
-              </View>
-            )}}
-        onSwiped={(cardIndex) => {console.log(cardIndex)}}
-        onSwipedAll={() => {console.log('Swapou')}}
+        infinite={true}
+        renderCard={(user) => <Profile data={user} />}
+        onTapCard={(cardIndex) => {navigation.push("Profile", { userId: profiles[cardIndex].id })}}
+        onSwiped={onSwipe}
+        onSwipedAll={() => setIndex(0)}
         cardIndex={index}
-        backgroundColor={'#4FD0E9'}
-        stackSize={3}>
-        <Button
-            onPress={() => {console.log('oulala')}}
-            title="Press me">
-            You can press me
-        </Button>
+        backgroundColor={'#FFF'}
+        stackSize={2}
+        stackScale={10}
+        disableTopSwipe
+        disableBottomSwipe
+        cardVerticalMargin={0}
+        >
     </Swiper>
 </View>
   )}
-  //   <FlatList
-  //     style={styles.container}
-  //     keyExtractor={(item) => item.id}
-  //     data={profiles}
-  //     renderItem={({ item }) => (
-  //       <List.Item
-  //         onPress={() => {
-  //           navigation.push("Profile", { userId: item.id });
-  //         }}
-  //         title={item.name}
-  //         description={item.username}
-  //         left={(props) => (
-  //           <Avatar.Image {...props} source={{ uri: item.avatar }} />
-  //         )}
-  //       />
-  //     )}
-  //   />
-  // );
-// };
 
 const styles = StyleSheet.create({
   container: {
@@ -70,24 +60,29 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
+    maxHeight: "55%",
     borderRadius: 4,
     borderWidth: 2,
     borderColor: "#E8E8E8",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   text: {
     textAlign: "center",
-    fontSize: 50,
-    backgroundColor: "transparent"
+    fontSize: 30,
+    color: "#FFF",
+    backgroundColor: "#585EED",
+    alignSelf: "center",
+    flex: 0,
+    top: -30,
+    borderRadius: 20,
+    paddingVertical: 6,
+    paddingHorizontal: 40,
+  },
+  bio: {
+    textAlign: "center",
+    fontSize: 16,
   }
 });
-
-// const styles = StyleSheet.create({
-//   container: {
-//     padding: 10,
-//     backgroundColor: "#fff"
-//   }
-// });
 
 export default Explore;

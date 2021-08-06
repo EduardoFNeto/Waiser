@@ -1,15 +1,28 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { View, StyleSheet, Image, ScrollView } from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { FlatList } from "react-native-gesture-handler";
-import { Avatar, Headline, Text } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Avatar,
+  Button,
+  Headline,
+  IconButton,
+  Paragraph,
+  Text,
+  Title,
+} from "react-native-paper";
 
 import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
+import MiniTagList from "../../components/MiniTagList";
+import { UserContext } from "../../contexts/user";
 
 const Profile = () => {
   const [profile, setProfile] = React.useState<User>();
+  const [user] = React.useContext(UserContext);
   const route = useRoute();
+  const navigation = useNavigation();
 
   const userId = route.params?.userId;
 
@@ -17,92 +30,125 @@ const Profile = () => {
     profileService.getProfileById(userId).then((result) => {
       setProfile(result);
     });
-  }, []);
+  }, [userId]);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      title: profile?.username || "Perfil",
+      headerRight: () =>
+        profile?.id === user?.id ? (
+          <IconButton
+            icon="cog"
+            onPress={() => {
+              navigation.navigate("Settings");
+            }}
+          />
+        ) : null,
+    });
+  }, [navigation, profile, user]);
 
   if (!profile) {
-    return <View />;
+    return <ActivityIndicator />;
   }
 
-  const renderTagItem = ({ item }) => (
-    <View>
-      <Text style={styles.tagItem}>{item.get("name")}</Text>
-    </View>
-  );
-
   return (
-    <View style={styles.container}>
-      <View style={styles.profileInfo}>
-        <Avatar.Image size={84} source={{ uri: profile.avatar }} />
-        <Text style={styles.username}>{ profile.username }</Text>
-      </View>
+    <ScrollView style={styles.container}>
+      <Image
+        source={{ uri: profile.avatar }}
+        style={{
+          resizeMode: "cover",
+          height: 300,
+        }}
+      />
 
-      <Headline style={styles.profileName}>{profile.name}</Headline>
+      <View style={styles.content}>
+        <View style={styles.profileInfo}>
+          <View style={{}}>
+            <Headline style={{ marginBottom: 8 }}>{profile.username}</Headline>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{ marginRight: 8 }}>
+                <Text style={{ fontWeight: "bold" }}>{profile.totalAnswers}</Text>
+                <Paragraph>Respostas</Paragraph>
+              </View>
+              <View style={{ marginRight: 8 }}>
+                <Text style={{ fontWeight: "bold" }}>{profile.totalReceivedLikes}</Text>
+                <Paragraph>Curtidas</Paragraph>
+              </View>
+              <View>
+                <Text style={{ fontWeight: "bold" }}>{profile.totalPoints}</Text>
+                <Paragraph>Pontos</Paragraph>
+              </View>
+            </View>
+          </View>
+        </View>
 
-      <View style={styles.profileText}>
-        <Text style={styles.profileAbout}>Sobre mim</Text>
-        <Text style={styles.profileBio}>{ profile.bio }</Text>
-      </View>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <Button icon="help-circle" mode="contained" style={{ marginRight: 8, flex: 1 }} 
+          onPress={() => {
+            navigation.navigate("CreatePost", { userId: profile.id });
+          }}>
+            Perguntar
+          </Button>
+          <Button
+            icon="chat"
+            mode="contained"
+            style={{ flex: 1 }}
+            onPress={() => {
+              navigation.navigate("LiveChat", { friend: profile });
+            }}
+          >
+            Mensagem
+          </Button>
+        </View>
 
-      <View style={styles.profileText}>
-        <Text style={styles.profileAbout}>Interesses</Text>
-        
-        <FlatList
-          data={profile.tags}
-          renderItem={renderTagItem}
-          keyExtractor={(item => item.index)}
-          contentContainerStyle={{
-            flexDirection:'row'
-          }}
-        />
+        {profile.bio && (
+          <View style={styles.profileText}>
+            <Title style={styles.profileAbout}>Sobre mim</Title>
+            <Text style={styles.profileBio}>{profile.bio}</Text>
+          </View>
+        )}
+
+        <View style={styles.profileText}>
+          <Title style={styles.profileAbout}>Interesses</Title>
+          <MiniTagList tags={profile.tags} size="medium" />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 30,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+  },
+  content: {
+    padding: 16,
   },
   profileInfo: {
-    flexDirection: "row",
-    alignItems: "center",
+    marginBottom: 16,
   },
   profileName: {
     marginTop: 15,
     fontSize: 24,
-    fontFamily: "PoppinsBlack"
+    fontFamily: "PoppinsBlack",
   },
   profileText: {
-    marginTop: 30,
+    marginTop: 22,
   },
   profileAbout: {
-    fontSize: 16,
     fontFamily: "InterBold",
-    textTransform: "uppercase",
-    marginBottom: 10
+    marginBottom: 10,
   },
   profileBio: {
     fontSize: 16,
-    fontFamily: "InterRegular"
+    fontFamily: "InterRegular",
   },
   username: {
     fontSize: 16,
     fontFamily: "InterMedium",
     marginLeft: 10,
-    color: "#333"
+    color: "#333",
   },
-  tagItem: {
-    marginRight: 15,
-    backgroundColor: "#1ECD8C",
-    color: "#fff",
-    fontFamily: "InterMedium",
-    fontSize: 16,
-    borderRadius: 100,
-    paddingHorizontal: 18,
-    paddingVertical: 6
-  }
 });
 
 export default Profile;

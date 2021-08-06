@@ -1,9 +1,10 @@
 import { buildPostFromParse, Post } from "../../models/post";
 import { Tag } from "../../models/tag";
 import Parse from "../parse";
+import pointService from "./points";
 
 export const postService = {
-  async createPost(title: string, text: string, tags?: Tag[], groupId?: string) {
+  async createPost(title: string, text: string, tags?: Tag[], groupId?: string, profileId?: string) {
     const post = new Parse.Object("Post");
     post.set("title", title);
     post.set("text", text);
@@ -22,6 +23,12 @@ export const postService = {
       const group = new Parse.Object('Group');
       group.id = groupId;
       post.set("group", group);
+    }
+
+    if (profileId) {
+      const profile = new Parse.Object('User');
+      profile.id = profileId;
+      post.set("profile", profile);
     }
 
     return await post.save().then(buildPostFromParse);
@@ -98,5 +105,11 @@ export const postService = {
 
     parentPost.increment("totalAnswers", 1);
     await parentPost.save();
+
+    const user = Parse.User.current();
+    if (!user) return;
+
+    user.increment('totalAnswers', 1);
+    await pointService.addPointToUser(user, 7);
   },
 };

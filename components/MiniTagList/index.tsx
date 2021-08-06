@@ -5,7 +5,15 @@ import { Colors, Headline, Text, useTheme } from "react-native-paper";
 import { UserContext } from "../../contexts/user";
 import { Tag } from "../../models/tag";
 
-const MiniTagList = ({ tags, center }: { tags: Tag[], center?: boolean }) => {
+const MiniTagList = ({
+  tags,
+  center,
+  size,
+}: {
+  tags: Tag[];
+  center?: boolean;
+  size?: "medium" | "small";
+}) => {
   const [user] = useContext(UserContext);
   const theme = useTheme();
 
@@ -17,12 +25,18 @@ const MiniTagList = ({ tags, center }: { tags: Tag[], center?: boolean }) => {
   );
 
   const tagList = useMemo(
-    () => tags.sort((a, b) => a.name.localeCompare(b.name)),
+    () => tags.filter((t) => t.name).sort((a, b) => a.name?.localeCompare(b.name)),
     [tags]
   );
 
   return (
-    <View style={{ flexDirection: "row", flexWrap: 'wrap', justifyContent: center ? 'center' : 'flex-start' }}>
+    <View
+      style={{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: center ? "center" : "flex-start",
+      }}
+    >
       {tagList?.map((tag) => (
         <View
           key={tag.id}
@@ -30,15 +44,22 @@ const MiniTagList = ({ tags, center }: { tags: Tag[], center?: boolean }) => {
             backgroundColor: isMyTag(tag)
               ? theme.colors.accent
               : Colors.grey100,
-            height: 20,
-            paddingHorizontal: 8,
+            height: size == "medium" ? 32 : 22,
+            paddingHorizontal: size == "medium" ? 14 : 10,
             borderRadius: 100,
             alignItems: "center",
             justifyContent: "center",
-            marginBottom: 4
+            marginBottom: 4,
+            marginRight: 4,
           }}
         >
-          <Text numberOfLines={1} style={{ color: isMyTag(tag) ? Colors.white : Colors.grey800 }}>
+          <Text
+            numberOfLines={1}
+            style={{
+              fontSize: size == "medium" ? 17 : 14,
+              color: isMyTag(tag) ? Colors.white : Colors.grey800,
+            }}
+          >
             {tag.name}
           </Text>
         </View>
@@ -49,6 +70,7 @@ const MiniTagList = ({ tags, center }: { tags: Tag[], center?: boolean }) => {
 
 MiniTagList.defaultProps = {
   tags: [],
+  size: "small",
 };
 
 export default MiniTagList;
