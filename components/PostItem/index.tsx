@@ -55,7 +55,7 @@ export const PostItem = ({
           {post.title}
         </Headline>
         {post.text && isDetail && (
-          <Text style={{ color: Colors.grey800, fontSize: 16 }}>
+          <Text style={{ fontSize: 16 }}>
             {post.text}
           </Text>
         )}
