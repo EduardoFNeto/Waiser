@@ -108,10 +108,9 @@ const TagsView = ({ navigation }) => {
         style={styles.flatlist}
         contentContainerStyle={{
           flexDirection:'row',
-          flexWrap: 'wrap'
         }}
       />
-      <Button onPress={linkTagsToUser} style={styles.button}>Continuar</Button>
+      <Button mode="contained" onPress={linkTagsToUser} style={styles.button}>Continuar</Button>
     </View>
   );
 }
@@ -123,7 +122,7 @@ container: {
   justifyContent: 'center',
   paddingTop: 20,
   backgroundColor: '#E5E5E5',
-  padding: 8,
+  padding: 15,
 },
 paragraph: {
   margin: 24,
@@ -142,7 +141,7 @@ itemView: {
   margin: 4,
 },
 item: {
-  borderRadius: 20,
+  borderRadius: 40,
   padding: 12,
   justifyContent: 'flex-start',
 },
@@ -153,9 +152,10 @@ flatlist:{
 },
 button: {
   backgroundColor: '#1ECD8C',
-  color: '#FFF',
+  color: '#fff',
   padding: 12,
-  borderRadius: 20
+  borderRadius: 100,
+  elevation: 0,
 }
 });
 

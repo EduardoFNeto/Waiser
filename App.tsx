@@ -4,6 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import { UserContext, UserProvider } from "./contexts/user";
 
+import { buildUserFromParse } from "./models/user";
 import Parse from "./services/parse";
 import Routes from "./routes";
 
@@ -15,13 +16,7 @@ function App() {
     async function checkLogin() {
       const user = await Parse.User.currentAsync();
       if (user) {
-        setUser({
-          id: user.id,
-          username: user.getUsername(),
-          name: user.get("name"),
-          bio: user.get("bio"),
-          avatar: user.get("avatar"),
-        });
+        setUser(buildUserFromParse(user));
       }
       setIsLoading(true);
     }

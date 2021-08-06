@@ -22,7 +22,7 @@ export const PostItem = ({
 
   const isMyTag = useCallback(
     (tag: Tag) => {
-      return user.tags?.some((t: Tag) => t.id === tag.id);
+      return user?.tags?.some((t: Tag) => t.id === tag.id);
     },
     [user]
   );

@@ -12,14 +12,16 @@ const FinishRegister = ({ navigation }) => {
   const [bio, setBio] = React.useState('');
 
   const handleProfileFinishRegister = async () => {
-
     try {
       if (!!name && !!bio) {
         const user = await userService.finishProfile(name, bio);
   
         setUser(user);
   
-        navigation.push("Tags");
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Tags" }],
+        });
       }
       else {
         Alert.alert("Por favor, preencha todos os campos.");
