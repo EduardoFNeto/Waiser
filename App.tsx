@@ -17,7 +17,7 @@ import { introData } from "./constants/Intro";
 import { renderDoneButton } from "./components/Intro/doneButton";
 
 function App() {
-  const [, setIsFontsLoaded] = useState(false);
+  const [fontLoaded, setIsFontsLoaded] = useState(false);
   const [, setUser] = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
   const [showApp, setShowApp] = useState(false);
@@ -55,7 +55,7 @@ function App() {
     return <View />;
   }
 
-  if (!showApp) {
+  if (!showApp && fontLoaded) {
     return (
       <AppIntroSlider
         dotStyle={styles.dotStyle}
