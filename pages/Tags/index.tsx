@@ -17,23 +17,27 @@ enum FieldType {
 
 const TagsView = ({ navigation }) => {
   const [tags, setTags] = useState<Tag[]>([]);
+  const [myTags, setMyTags] = useState<Tag[]>([]);
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [user] = useContext(UserContext);
 
   useEffect(() => {
     tagService.getAllTags().then((results) => {
       setTags(results);
     });
+
+    tagService.getMyTags().then((results) => {
+      setMyTags(results);
+    });
   }, []);
 
   useEffect(() => {
     tags?.map((t) => {
-      if (t.id === user?.tags?.some((myTag) => myTag.id === t.id)) {
+      if (t.id === myTags?.some((myTag) => myTag.id === t.id)) {
         setSelectedTags((prevTags) => [...prevTags, myTag]);
       }
     });
-  }, [tags]);
+  }, [myTags]);
 
   const theme = useTheme();
 
