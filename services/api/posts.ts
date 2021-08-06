@@ -25,7 +25,7 @@ export const postService = {
     const query = new Parse.Query("Post");
     query.include("user");
     query.include("tags");
-    query.exists('user');
+    query.exists("user");
 
     if (tagId) {
       const parseTag = new Parse.Object("Tag");
@@ -34,7 +34,7 @@ export const postService = {
     }
 
     return await query.find().then((results) => {
-      return results.map(buildPostFromParse)
+      return results.map(buildPostFromParse);
     });
   },
 
@@ -45,7 +45,7 @@ export const postService = {
     const query = new Parse.Query("Post");
     query.equalTo("group", parseGroup);
     query.include("user");
-    query.exists('user');
+    query.exists("user");
 
     return await query.find().then((results) => {
       return results.map(buildPostFromParse);
@@ -59,7 +59,7 @@ export const postService = {
     const query = new Parse.Query("Post");
     query.equalTo("parent", parsePost);
     query.include("user");
-    query.exists('user');
+    query.exists("user");
 
     return await query.find().then((results) => {
       return results.map(buildPostFromParse);
@@ -80,8 +80,11 @@ export const postService = {
     const post = new Parse.Object("Post");
     post.set("title", text);
     post.set("user", await Parse.User.currentAsync());
-    post.set('parent', parentPost)
+    post.set("parent", parentPost);
 
     await post.save();
-  }
+
+    parentPost.increment("totalAnswers", 1);
+    await parentPost.save();
+  },
 };

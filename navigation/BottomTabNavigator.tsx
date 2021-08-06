@@ -50,7 +50,7 @@ export default function BottomTabNavigator({ }) {
         component={ExploreNavigator}
         options={{
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="account-plus" color={color} />
+            <TabBarIcon name="cards-outline" color={color} />
           ),
         }}
       />
@@ -58,7 +58,7 @@ export default function BottomTabNavigator({ }) {
         name="ChatScreen"
         component={ChatNavigator}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="comment-account" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="comment-processing-outline" color={color} />,
         }}
       />
       <BottomTab.Screen
