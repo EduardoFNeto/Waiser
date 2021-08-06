@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect, useContext } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useState, useCallback, useContext } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import { GiftedChat } from "react-native-gifted-chat";
 import { List } from "react-native-paper";
@@ -14,11 +15,13 @@ function Chat({ navigation }) {
   const [chats, setChats] = useState<ChatModel[]>([]);
   const [user] = useContext(UserContext);
 
-  useEffect(() => {
-    chatService.getAllChats().then((results) => {
-      setChats(results);
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      chatService.getAllChats().then((results) => {
+        setChats(results);
+      });
+    }, [])
+  );
 
   const getDescription = (item: ChatModel) => {
     let description = "";

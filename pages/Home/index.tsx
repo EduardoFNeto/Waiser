@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { ActivityIndicator, FAB, Text, useTheme } from "react-native-paper";
@@ -20,23 +20,25 @@ const Home = ({}) => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
 
-  useEffect(() => {
-    async function getResources() {
-      await Promise.all([
-        postService.getFeed().then((results) => {
-          setPosts(results);
-          setIsLoadingPosts(false);
-        }),
-        tagService.getAllTags().then((results) => {
-          setTags(results);
-        }),
-      ]).finally(() => {
-        setIsLoading(false);
-      });
-    }
+  useFocusEffect(
+    useCallback(() => {
+      async function getResources() {
+        await Promise.all([
+          postService.getFeed().then((results) => {
+            setPosts(results);
+            setIsLoadingPosts(false);
+          }),
+          tagService.getAllTags().then((results) => {
+            setTags(results);
+          }),
+        ]).finally(() => {
+          setIsLoading(false);
+        });
+      }
 
-    getResources();
-  }, []);
+      getResources();
+    }, [])
+  );
 
   const handleTag = (tag?: Tag) => () => {
     setIsLoadingPosts(true);
@@ -110,9 +112,8 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    elevation: 0
+    elevation: 0,
   },
 });
 
 export default Home;
-

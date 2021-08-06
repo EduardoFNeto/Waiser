@@ -1,5 +1,6 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import React, { useLayoutEffect } from "react";
+import { useCallback } from "react";
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button, FAB, IconButton } from "react-native-paper";
@@ -13,16 +14,18 @@ const Groups = ({}) => {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    groupService
-      .getMyGroups()
-      .then((results) => {
-        setGroups(results);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      groupService
+        .getMyGroups()
+        .then((results) => {
+          setGroups(results);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }, [])
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -60,6 +63,13 @@ const Groups = ({}) => {
             Buscar grupos
           </Button>
         </View>
+        <FAB
+          style={styles.createButton}
+          icon="plus"
+          onPress={() => {
+            navigation.push("CreateGroup");
+          }}
+        />
       </View>
     );
   };
@@ -86,8 +96,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
   image: {
     width: 200,

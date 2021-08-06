@@ -7,8 +7,8 @@ export const groupService = {
     const group = new Parse.Object("Group");
     group.set("title", title);
     group.set("description", description);
-    group.set("user", Parse.User.currentAsync());
-    group.set("users", [Parse.User.currentAsync()]);
+    group.set("user", Parse.User.current());
+    group.set("users", [Parse.User.current()]);
 
     if (tags?.length) {
       const parseTags = tags.map((tag) => {

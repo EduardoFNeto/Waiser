@@ -33,7 +33,7 @@ const MiniTagList = ({ tags }: { tags: Tag[] }) => {
           }}
         >
           <Text style={{ color: isMyTag(tag) ? Colors.white : Colors.grey800 }}>
-            #{tag.name}
+            {tag.name}
           </Text>
         </View>
       ))}

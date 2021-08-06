@@ -53,7 +53,7 @@ const CreateGroup = ({ navigation }) => {
           />
         ),
     });
-  }, [navigation, isLoading, isFormValid, createGroup]);
+  }, [navigation, isLoading, isFormValid, form, createGroup]);
 
   function createGroup() {
     setIsLoading(true);
