@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
+      <Image style={styles.logo} source={require('../../assets/images/logo2.png')} />
 
       <Title style={styles.text}>Entrar</Title>
 

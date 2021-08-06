@@ -52,7 +52,7 @@ const Welcome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Image style={styles.logo} source={require('../../assets/images/logo.png')} />
+      <Image style={styles.logo} source={require('../../assets/images/logo2.png')} />
       <Text style={styles.text}>Pergunte, aprenda e conecte-se!</Text>
       <Button 
         mode="contained"
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    width: 280,
+    width: 315,
     height: 120,
   },
   caption: {
