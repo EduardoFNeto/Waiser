@@ -33,8 +33,8 @@ const TagsView = ({ navigation }) => {
 
   useEffect(() => {
     tags?.map((t) => {
-      if (t.id === myTags?.some((myTag) => myTag.id === t.id)) {
-        setSelectedTags((prevTags) => [...prevTags, myTag]);
+      if (myTags?.some((myTag) => myTag.id === t.id)) {
+        setSelectedTags((prevTags) => [...prevTags, t]);
       }
     });
   }, [myTags, tags]);
