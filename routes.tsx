@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-
-import { Provider as PaperProvider } from "react-native-paper";
 
 import Register from "./pages/Register";
 import FinishRegister from "./pages/FinishRegister";
@@ -14,20 +12,55 @@ import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
 import { PostDetail } from "./pages/PostDetail";
 
+import {
+  NavigationContainer,
+  DarkTheme as NavigationDarkTheme,
+  DefaultTheme as NavigationDefaultTheme,
+} from "@react-navigation/native";
+
+import {
+  DarkTheme as PaperDarkTheme,
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
+
+import merge from "deepmerge";
+
+const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
+const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
+
 const Stack = createStackNavigator();
 
 const Routes = () => {
   const [user] = useContext(UserContext);
 
+  const theme = useMemo(
+    () => ({
+      ...CombinedDefaultTheme,
+      colors: {
+        ...CombinedDefaultTheme.colors,
+        // primary: "red",
+        // accent: 'black',
+        background: "#fff",
+        card: '#fff',
+      },
+    }),
+    [CombinedDefaultTheme]
+  );
+
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       <Stack.Navigator
-        initialRouteName={user ? 'Main' : 'Welcome'}
+        initialRouteName={user ? "Main" : "Welcome"}
         screenOptions={{}}
       >
-        <Stack.Screen name="Main" component={BottomTabNavigator} options={{
-          headerShown: false
-        }} />
+        <Stack.Screen
+          name="Main"
+          component={BottomTabNavigator}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="FinishRegister" component={FinishRegister} />

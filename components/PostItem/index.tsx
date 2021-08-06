@@ -44,6 +44,9 @@ export const PostItem = ({ post }: { post: Post }) => {
         <Headline style={{ fontSize: 20, lineHeight: 26 }}>
           {post.title}
         </Headline>
+        {post.text && <Text style={{marginTop: 10, color: "#4d4d4d"}}>
+          {post.text}
+        </Text>}
       </View>
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 12 }}

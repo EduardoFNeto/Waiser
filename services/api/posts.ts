@@ -56,4 +56,14 @@ export const postService = {
 
     return await query.get(postId).then(buildPostFromParse);
   },
+
+  async createPostAnswer(parentPostId: string, text: string) {
+    const parentPost = new Parse.Object("Post");
+    parentPost.id = parentPostId;
+
+    const post = new Parse.Object("Post");
+    post.set("title", text);
+    post.set("user", await Parse.User.currentAsync());
+    post.set('parent', parentPost)
+  }
 };
