@@ -128,7 +128,7 @@ function ChatNavigator() {
       <ChatStack.Screen
         name="Chat"
         component={Chat}
-        options={{ headerTitle: "Chat - Sugestões" }}
+        options={{ headerTitle: "Conversas" }}
       />
     </ChatStack.Navigator>
   );
@@ -157,7 +157,7 @@ function ProfileNavigator({ navigation }) {
           userId: user?.id,
         }}
         component={Profile}
-        options={{ headerTitle: "Profile" }}
+        options={{ headerTitle: "Meu Perfil" }}
       />
     </ProfileStack.Navigator>
   );

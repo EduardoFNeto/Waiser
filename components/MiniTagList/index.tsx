@@ -25,7 +25,7 @@ const MiniTagList = ({
   );
 
   const tagList = useMemo(
-    () => tags.filter((t) => t).sort((a, b) => a.name?.localeCompare(b.name)),
+    () => tags.filter((t) => t.name).sort((a, b) => a.name?.localeCompare(b.name)),
     [tags]
   );
 
@@ -56,7 +56,7 @@ const MiniTagList = ({
           <Text
             numberOfLines={1}
             style={{
-              fontSize: size == "medium" ? 17 : 15,
+              fontSize: size == "medium" ? 17 : 14,
               color: isMyTag(tag) ? Colors.white : Colors.grey800,
             }}
           >

@@ -30,7 +30,7 @@ const CreatePost = () => {
   const route = useRoute();
 
   const groupId = route.params?.groupId;
-  const profileId = route.params?.profileId;
+  const userId = route.params?.userId;
 
   const [form, setForm] = useState({
     title: "",
@@ -58,12 +58,12 @@ const CreatePost = () => {
       });
     }
 
-    if (profileId) {
-      profileService.getProfileById(profileId).then((result) => {
+    if (userId) {
+      profileService.getProfileById(userId).then((result) => {
         setProfile(result);
       });
     }
-  }, [groupId, profileId]);
+  }, [groupId, userId]);
 
   const isFormValid = useMemo(() => form.text && form.title, [form]);
 
@@ -87,7 +87,7 @@ const CreatePost = () => {
     setIsLoading(true);
 
     postService
-      .createPost(form.title, form.text, selectedTags, groupId)
+      .createPost(form.title, form.text, selectedTags, groupId, userId)
       .then(() => {
         setMessage("Pergunta enviada com sucesso!");
         navigation.goBack();
