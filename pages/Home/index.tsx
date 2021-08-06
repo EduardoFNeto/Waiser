@@ -16,6 +16,8 @@ const Home = ({}) => {
   const [selectedTag, setSelectedTag] = useState<null | undefined | Tag>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  
+  const [isExplore, setExplore] = useState(false);
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -56,11 +58,18 @@ const Home = ({}) => {
     }, [])
   );
 
-  const handleTag = (tag?: Tag) => () => {
+  const handleTag = (tag?: Tag | 'explore') => () => {
     setIsLoadingPosts(true);
-    setSelectedTag(tag);
+    
+    if (tag !== 'explore') {
+      setSelectedTag(tag)
+      setExplore(false);
+     } else {
+      setExplore(true);
+    }
+
     postService
-      .getFeed(tag?.id)
+      .getFeed(tag === 'explore' ? tag : tag?.id)
       .then((results) => {
         setPosts(results);
       })
@@ -99,7 +108,12 @@ const Home = ({}) => {
         <TagItem
           name="Para você"
           onPress={handleTag()}
-          checked={!selectedTag}
+          checked={!selectedTag && !isExplore}
+        />
+        <TagItem
+          name="Explorar"
+          onPress={handleTag('explore')}
+          checked={isExplore}
         />
         {tags.map((tag) => {
           return (
@@ -113,7 +127,7 @@ const Home = ({}) => {
         })}
       </ScrollView>
     );
-  }, [tags, selectedTag]);
+  }, [tags, selectedTag, isExplore]);
 
   return (
     <View style={styles.container}>

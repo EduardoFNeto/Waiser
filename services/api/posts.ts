@@ -4,7 +4,13 @@ import Parse from "../parse";
 import pointService from "./points";
 
 export const postService = {
-  async createPost(title: string, text: string, tags?: Tag[], groupId?: string, profileId?: string) {
+  async createPost(
+    title: string,
+    text: string,
+    tags?: Tag[],
+    groupId?: string,
+    profileId?: string
+  ) {
     const post = new Parse.Object("Post");
     post.set("title", title);
     post.set("text", text);
@@ -20,13 +26,13 @@ export const postService = {
     }
 
     if (groupId) {
-      const group = new Parse.Object('Group');
+      const group = new Parse.Object("Group");
       group.id = groupId;
       post.set("group", group);
     }
 
     if (profileId) {
-      const profile = new Parse.Object('User');
+      const profile = new Parse.Object("User");
       profile.id = profileId;
       post.set("profile", profile);
     }
@@ -45,10 +51,19 @@ export const postService = {
     query.limit(10);
     query.skip((currentPage || 0) * 10);
 
-    if (tagId) {
-      const parseTag = new Parse.Object("Tag");
-      parseTag.id = tagId;
-      query.containsAll("tags", [parseTag]);
+    if (tagId !== "explore") {
+      const user = Parse.User.current();
+      if (!user) return [];
+
+      if (user.get("tags") && user.get("tags").length) {
+        query.containedIn("tags", user.get("tags"));
+      }
+
+      if (tagId) {
+        const parseTag = new Parse.Object("Tag");
+        parseTag.id = tagId;
+        query.containedIn("tags", [parseTag]);
+      }
     }
 
     return await query.find().then((results) => {
@@ -111,7 +126,7 @@ export const postService = {
     const user = Parse.User.current();
     if (!user) return;
 
-    user.increment('totalAnswers', 1);
+    user.increment("totalAnswers", 1);
     await pointService.addPointToUser(user, 7);
   },
 };
