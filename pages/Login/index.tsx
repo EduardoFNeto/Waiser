@@ -13,6 +13,8 @@ const Login = ({ navigation }) => {
     password: ""
   });
 
+  const [hidePassword, setHidePassword] = useState(true)
+
   const isFormValid = useMemo(() => form.username && form.password, [form]);
 
   const signInEmail = async () => {    
@@ -66,8 +68,8 @@ const Login = ({ navigation }) => {
               password: value,
             }))
           }
-          secureTextEntry
-          right={<TextInput.Icon name="eye" />}
+          secureTextEntry={hidePassword}
+          right={<TextInput.Icon name="eye" onPress={() => setHidePassword(!hidePassword)} />}
         />
 
         <Button 
