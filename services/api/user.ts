@@ -50,5 +50,6 @@ export const userService = {
     })
 
     user?.set("tags", parseTags)  
+    return await user.save().then((result: Parse.User) => buildUserFromParse(result));
   },
 };
