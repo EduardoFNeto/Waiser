@@ -51,13 +51,13 @@ export const PostItem = ({
         </View>
       </View>
       <View>
-        <Headline style={{ fontSize: 20, lineHeight: 26, marginBottom: 8 }}>
+        <Headline style={{ fontSize: 20, lineHeight: 26, marginBottom: 0 }}>
           {post.title}
         </Headline>
         {post.text && isDetail && (
-          <Text style={{ color: Colors.grey800, fontSize: 16 }}>
+          <Headline style={{ fontSize: 16, lineHeight: 20, marginTop: 7 }}>
             {post.text}
-          </Text>
+          </Headline>
         )}
       </View>
       <Reactions post={post} showCommentButton={!isDetail} />

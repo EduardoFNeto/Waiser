@@ -104,28 +104,41 @@ export const PostDetail = () => {
         style={{
           backgroundColor: "#fff",
         }}
+        contentContainerStyle={{
+          paddingBottom: 80
+        }}
       />
       <View
         style={{
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 16,
+          paddingLeft: 16,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          paddingTop: 8,
+          paddingBottom: 8,
+          backgroundColor: Colors.white,
         }}
       >
         <Avatar user={user} />
         <View
           style={{
-            backgroundColor: "#ebebeb",
+            backgroundColor: Colors.grey100,
             flex: 1,
             marginLeft: 8,
-            height: 38,
+            height: 50,
             justifyContent: "center",
             paddingLeft: 16,
             borderRadius: 100,
           }}
         >
           <TextInput
-            style={{}}
+            style={{
+              fontSize: 17
+            }}
+            placeholderTextColor={Colors.grey700}
             maxLength={500}
             disableFullscreenUI
             multiline
