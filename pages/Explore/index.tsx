@@ -12,25 +12,18 @@ const Explore = () => {
   const navigation = useNavigation();
 
   React.useEffect(() => {
-    profileService.getProfileSuggestions().then((results) => {
-      setProfiles(results);
-    });
+    profileService
+      .getProfileSuggestions()
+      .then((results) => {
+        setProfiles(results);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [profiles])
 
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      profileService
-        .getProfileSuggestions()
-        .then((results) => {
-          setProfiles(results);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }, [])
-  );
-
+    
+  
   const renderEmpty = () => {
     return (
       <View style={styles.container}>
@@ -40,9 +33,10 @@ const Explore = () => {
             alignItems: "center",
             paddingHorizontal: 32,
             flex: 1,
+            marginBottom: 40
           }}
         >
-          <Text style={{ textAlign: "center", marginBottom: 16 }}>
+          <Text style={{ textAlign: "center", fontSize: 18, color: "#333" }}>
             Não temos nenhum usuário cadasdtrado no momento.
           </Text>
           <Button
@@ -57,9 +51,9 @@ const Explore = () => {
     );
   };
 
-  if (!isLoading || !profiles.length) {
-    return renderEmpty();
-  } 
+  if(!isLoading || !profiles.length) {
+    return renderEmpty()
+  }
 
   return (
     <View style={styles.container}>
