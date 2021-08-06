@@ -13,7 +13,6 @@ import MiniTagList from "../MiniTagList";
 import { User } from "../../models/user";
 
 const ProfileList = ({ users, isLoading }: { users: User[], isLoading: boolean }) => {
-  console.log(users, 'USUÁRIOS')
   const navigation = useNavigation();
 
   const renderItem = ({ item }: { item: User }) => {
