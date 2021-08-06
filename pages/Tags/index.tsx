@@ -37,7 +37,7 @@ const TagsView = ({ navigation }) => {
         setSelectedTags((prevTags) => [...prevTags, myTag]);
       }
     });
-  }, [myTags]);
+  }, [myTags, tags]);
 
   const theme = useTheme();
 
