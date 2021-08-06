@@ -1,4 +1,4 @@
-import { User } from '../../models/user';
+import { buildUserFromParse, User } from '../../models/user';
 import Parse from '../parse';
 
 export async function facebookLogin({ id, name, access_token, expiration_date, picture }: any) {
@@ -22,6 +22,19 @@ export async function facebookLogin({ id, name, access_token, expiration_date, p
       avatar: result.get("avatar")
     } as User
   })
+}
+
+export async function createProfile(username: string, bio: string) {
+  const parseUser = await Parse.User.currentAsync();
+
+  if (!parseUser) {
+    return;
+  }
+
+  parseUser.set("username", username);
+  parseUser.set("bio",  bio);
+
+  return await parseUser.save().then((result: Parse.User) => buildUserFromParse(result))
 }
 
 
