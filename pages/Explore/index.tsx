@@ -17,6 +17,10 @@ const Explore = () => {
     });
   }, []);
 
+  const onSwipe = () => {
+    setIndex(index + 1)
+  }
+
   const Profile = ({ data }: { data: User}) => {
     return (
       <View style={styles.container}>
@@ -30,13 +34,21 @@ const Explore = () => {
   return (
     <View style={styles.container}>
     <Swiper
+        cardStyle={{ paddingTop: 0, marginTop: 0 }}
         cards={profiles}
-        infinite={false}
+        infinite={true}
         renderCard={(user) => <Profile data={user} />}
         onTapCard={(cardIndex) => {navigation.push("Profile", { userId: profiles[cardIndex].id })}}
-        cardIndex={0}
+        onSwiped={onSwipe}
+        onSwipedAll={() => setIndex(0)}
+        cardIndex={index}
         backgroundColor={'#FFF'}
-        stackSize={2}>
+        stackSize={2}
+        stackScale={10}
+        disableTopSwipe
+        disableBottomSwipe
+        cardVerticalMargin={0}
+        >
     </Swiper>
 </View>
   )}
@@ -48,11 +60,11 @@ const styles = StyleSheet.create({
   },
   card: {
     flex: 1,
-    maxHeight: '60%',
+    maxHeight: "55%",
     borderRadius: 4,
     borderWidth: 2,
     borderColor: "#E8E8E8",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: "white"
   },
   text: {
