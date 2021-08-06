@@ -9,27 +9,27 @@ import {
   Divider,
   IconButton,
 } from "react-native-paper";
-import MiniTagList from "../../components/MiniTagList";
-import { Group } from "../../models/group";
+import MiniTagList from "../MiniTagList";
+import { User } from "../../models/user";
 
-const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean }) => {
+const ProfileList = ({ users, isLoading }: { users: User[], isLoading: boolean }) => {
+  console.log(users, 'USUÁRIOS')
   const navigation = useNavigation();
 
-  const renderItem = ({ item }: { item: Group }) => {
-    console.log(item)
+  const renderItem = ({ item }: { item: User }) => {
     return (
       <TouchableOpacity
         activeOpacity={0.9}
         onPress={() => {
-          navigation.push("GroupDetail", { groupId: item.id });
+          navigation.push("Profile", { userId: item.id });
         }}
         style={{ paddingLeft: 16 }}
       >
         <View style={{ flexDirection: "row", alignItems: 'flex-start' }}>
-          <Avatar.Text size={50} label={item.title.charAt(0)} />
+          <Avatar.Text size={50} label={item.name.charAt(0)} />
           <View style={{ marginLeft: 12, flex: 1 }}>
             <Text style={{ fontWeight: "bold", marginBottom: 6 }}>
-              {item.title}
+              {item.name}
             </Text>
             <MiniTagList tags={item.tags} />
           </View>
@@ -42,9 +42,13 @@ const GroupList = ({ groups, isLoading }: { groups: Group[], isLoading: boolean 
   return (
     <View style={styles.container}>
       <FlatList
-        data={groups}
+        data={users}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
+        ItemSeparatorComponent={() => (
+          <Divider style={{ marginVertical: 12 }} />
+        )}
+        contentContainerStyle={{ paddingVertical: 16 }}
       />
     </View>
   );
@@ -64,4 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GroupList;
+export default ProfileList;
