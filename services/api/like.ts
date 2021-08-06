@@ -1,26 +1,62 @@
 import { User } from "../../models/user";
+import Parse from "../parse";
 
-export const followService = {
-  async follow(profileId: string) {
-    const parseProfile = new Parse.User();
-    parseProfile.id = profileId
+export const likeService = {
+  async like(postId: string) {
+    const query = new Parse.Query("Post");
+    const parsePost = await query.get(postId);
+    if (!parsePost) return;
 
-    const userFollowQuery = new Parse.Query('UserFollow');
-    userFollowQuery.equalTo('from', Parse.User.current());
-    userFollowQuery.equalTo('to', parseProfile);
+    const parseUser = await Parse.User.currentAsync();
+    if (!parseUser) return;
 
-    const isFollowing = await userFollowQuery.first();
-
-    if (isFollowing) {
-        await isFollowing.destroy()
-        return true;
+    if (await removeReactionIfExists(parsePost, parseUser, "userLikes")) {
+      return true;
     }
 
-    const userFollow = new Parse.Object('UserFollow');
-    userFollow.set('from', parseProfile);
-    userFollow.set('to', Parse.User.current());
+    await removeReactionIfExists(parsePost, parseUser, "userDislikes");
 
-    await userFollow.save();
+    parsePost.add("userLikes", parseUser);
+    parsePost.increment('totalUserLikes', 1);
+    await parsePost?.save();
+
     return true;
   },
+
+  async dislike(postId: string) {
+    const query = new Parse.Query("Post");
+    const parsePost = await query.get(postId);
+    if (!parsePost) return;
+
+    const parseUser = await Parse.User.currentAsync();
+    if (!parseUser) return;
+
+    if (await removeReactionIfExists(parsePost, parseUser, "userDislikes")) {
+      return true;
+    }
+
+    await removeReactionIfExists(parsePost, parseUser, "userLikes");
+
+    parsePost.add("userDislikes", parseUser);
+    parsePost.increment('totalUserDislikes', 1);
+    await parsePost.save();
+    return true;
+  },
+};
+
+const removeReactionIfExists = async (
+  parsePost: Parse.Object,
+  parseUser: Parse.User,
+  reaction: 'userLikes' | 'userDislikes' 
+) => {
+  const isLiked = parsePost
+    ?.get(reaction)
+    ?.some((user: User) => user.id === parseUser.id);
+
+  if (isLiked) {
+    parsePost?.remove(reaction, parseUser);
+    parsePost.increment(reaction === 'userLikes' ? 'totalUserLikes' : 'totalUserDislikes', -1);
+    await parsePost?.save();
+    return true;
+  }
 };

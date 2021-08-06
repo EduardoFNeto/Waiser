@@ -1,18 +1,32 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { useRoute } from "@react-navigation/native";
-import React from "react";
+import React, { useCallback, useLayoutEffect } from "react";
+import { useContext } from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
-import { TouchableOpacity, View } from "react-native";
-import { ActivityIndicator, IconButton, TextInput } from "react-native-paper";
+import { FlatList, StyleSheet } from "react-native";
+import { TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Colors,
+  Divider,
+  IconButton,
+  Text,
+} from "react-native-paper";
+import { AnswerItem } from "../../components/AnswerItem";
+import { Avatar } from "../../components/Avatar";
 import { PostItem } from "../../components/PostItem";
+import { UserContext } from "../../contexts/user";
 import { Post } from "../../models/post";
 import { postService } from "../../services/api/posts";
 
 export const PostDetail = () => {
   const [post, setPost] = useState<Post>();
+  const [answers, setAnswers] = useState<Post[]>([]);
+
+  const navigation = useNavigation();
   const router = useRoute();
+
+  const [user] = useContext(UserContext);
 
   const [form, setForm] = useState({ text: "" });
   const [submittingAnswer, setSubmittingAnswer] = useState(false);
@@ -23,17 +37,51 @@ export const PostDetail = () => {
     postService.getPostById(postId).then((result) => {
       setPost(result);
     });
+
+    postService.getAnswersByPostId(postId).then((results) => {
+      setAnswers(results);
+    });
   }, [postId]);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: "Pergunta",
+    });
+  }, [navigation]);
 
   const sendPostAnswer = () => {
     setSubmittingAnswer(true);
     postService
       .createPostAnswer(postId, form.text)
-      .then(() => {})
+      .then(() => {
+        setForm({
+          ...form,
+          text: "",
+        });
+      })
       .finally(() => {
         setSubmittingAnswer(false);
       });
   };
+
+  const renderHeader = useCallback(() => {
+    return (
+      <View style={styles.container}>
+        <PostItem post={post!} isDetail />
+        <View
+          style={{
+            paddingHorizontal: 16,
+            paddingTop: 12,
+            borderTopWidth: 8,
+            borderColor: Colors.grey100,
+            marginTop: 16,
+          }}
+        >
+          <Text>{post?.totalAnswers} respostas</Text>
+        </View>
+      </View>
+    );
+  }, [post]);
 
   if (!post) {
     return (
@@ -44,43 +92,57 @@ export const PostDetail = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <PostItem post={post} showText/>
+    <>
+      <FlatList
+        ListHeaderComponent={renderHeader}
+        data={answers}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <AnswerItem post={item} />}
+        ItemSeparatorComponent={() => (
+          <Divider style={{ marginVertical: 12 }} />
+        )}
+        style={{
+          backgroundColor: "#fff",
+        }}
+      />
       <View
         style={{
           flexDirection: "row",
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          left: 0,
           alignItems: "center",
+          paddingHorizontal: 16,
         }}
       >
-        <TextInput
+        <Avatar user={user} />
+        <View
           style={{
+            backgroundColor: "#ebebeb",
             flex: 1,
-            margin: 4,
-            borderTopRightRadius: 100,
-            borderTopLeftRadius: 100,
-            borderBottomLeftRadius: 100,
-            borderBottomRightRadius: 100,
+            marginLeft: 8,
+            height: 38,
+            justifyContent: "center",
+            paddingLeft: 16,
+            borderRadius: 100,
           }}
-          maxLength={500}
-          disableFullscreenUI
-          multiline
-          underlineColor="transparent"
-          underlineColorAndroid="transparent"
-          label="Escreva sua resposta..."
-          value={form.text}
-          onChangeText={(value) => setForm({ text: value })}
-        />
+        >
+          <TextInput
+            style={{}}
+            maxLength={500}
+            disableFullscreenUI
+            multiline
+            underlineColorAndroid="transparent"
+            placeholder="Escreva sua resposta..."
+            value={form.text}
+            onChangeText={(value) => setForm({ text: value })}
+            editable={!submittingAnswer}
+          />
+        </View>
         <IconButton
           icon="send"
           onPress={sendPostAnswer}
-          disabled={submittingAnswer}
+          disabled={!form.text || submittingAnswer}
         />
       </View>
-    </View>
+    </>
   );
 };
 

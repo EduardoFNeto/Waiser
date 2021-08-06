@@ -8,12 +8,28 @@ export interface Post {
   text: string;
   user: User;
   tags?: Tag[];
+  isLiked: boolean;
+  isDisliked: boolean;
+  totalLikes: number;
+  totalAnswers: number;
+  createdAt: Date;
 }
 
 export const buildPostFromParse = (result: Parse.Object): Post => ({
   id: result.id,
-  title: result.get("title"),
-  text: result.get("text"),
+  title: result.get("title")?.trim(),
+  text: result.get("text")?.trim(),
   user: buildUserFromParse(result.get("user")),
-  tags: (result.get('tags') || []).map((parseTag: Parse.Object) => buildTagFromParse(parseTag))
+  tags: (result.get('tags') || []).map((parseTag: Parse.Object) => buildTagFromParse(parseTag)),
+  isLiked: getReaction(result.get("userLikes")),
+  isDisliked: getReaction(result.get("userDislikes")),
+  totalLikes: result.get("totalUserLikes") || 0,
+  totalAnswers: result.get("totalAnswers") || 0,
+  createdAt: result.createdAt,
 });
+
+const getReaction = (reactions?: Parse.User[]) => {
+  if (!reactions) return false;
+
+  return reactions?.some(user => user.id === Parse.User.current()!.id);
+}
