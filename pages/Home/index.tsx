@@ -1,6 +1,11 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import React, { useCallback, useContext, useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useLayoutEffect,
+  useState,
+} from "react";
 import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Colors, FAB, IconButton, Text } from "react-native-paper";
 import { Posts } from "../../components/Posts";
@@ -10,6 +15,7 @@ import { Post } from "../../models/post";
 import { Tag } from "../../models/tag";
 import { postService } from "../../services/api/posts";
 import { tagService } from "../../services/api/tags";
+import { signOutOnSessionError } from "../../utils/erros";
 
 const Home = ({}) => {
   const navigation = useNavigation();
@@ -72,9 +78,13 @@ const Home = ({}) => {
           tagService.getMyTags().then((results) => {
             setTags(results);
           }),
-        ]).finally(() => {
-          setIsLoading(false);
-        });
+        ])
+          .catch((e) => {
+            signOutOnSessionError(e, navigation);
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       }
 
       getResources();
@@ -84,12 +94,29 @@ const Home = ({}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <IconButton icon="account-plus" onPress={() => navigation.navigate('Explore')} />
+        <IconButton
+          icon="account-plus"
+          onPress={() => navigation.navigate("Explore")}
+        />
       ),
       headerRight: () => (
-        <View style={{ marginRight: 12, flexDirection: 'row', alignItems: "center" }}>
-          <Text style={{fontSize: 12, marginRight: 4, color: Colors.orangeA700}}>{user.totalPoints} pontos</Text>
-          <MaterialCommunityIcons name="trophy-variant" size={22} color={Colors.orangeA700} />
+        <View
+          style={{
+            marginRight: 12,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{ fontSize: 12, marginRight: 4, color: Colors.orangeA700 }}
+          >
+            {user?.totalPoints} pontos
+          </Text>
+          <MaterialCommunityIcons
+            name="trophy-variant"
+            size={22}
+            color={Colors.orangeA700}
+          />
         </View>
       ),
     });

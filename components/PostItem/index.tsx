@@ -54,7 +54,7 @@ export const PostItem = ({
         <Headline style={{ fontSize: 20, lineHeight: 26, marginBottom: 0 }}>
           {post.title}
         </Headline>
-        {post.text && isDetail && (
+        {!!post.text && isDetail && (
           <Headline style={{ fontSize: 16, lineHeight: 20, marginTop: 7 }}>
             {post.text}
           </Headline>

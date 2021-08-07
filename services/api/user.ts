@@ -36,7 +36,9 @@ export const userService = {
   },
 
   async loginProfile(username: string, password: string) {
-    await Parse.User.logIn(username, password);
+    return await Parse.User.logIn(username, password).then((user) => {
+      return buildUserFromParse(user)
+    });
   },
   
   async addUserTags(tags: Tag[]) {

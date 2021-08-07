@@ -17,6 +17,8 @@ import { User } from "../../models/user";
 import { profileService } from "../../services/api/profiles";
 import MiniTagList from "../../components/MiniTagList";
 import { UserContext } from "../../contexts/user";
+import { logOut } from "../../services/api/authentication";
+import { signOutOnSessionError } from "../../utils/erros";
 
 const Profile = () => {
   const [profile, setProfile] = React.useState<User>();
@@ -29,6 +31,8 @@ const Profile = () => {
   React.useEffect(() => {
     profileService.getProfileById(userId).then((result) => {
       setProfile(result);
+    }).catch((e) => {
+      signOutOnSessionError(e, navigation);
     });
   }, [userId]);
 

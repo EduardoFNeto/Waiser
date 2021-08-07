@@ -66,7 +66,13 @@ const CreatePost = () => {
     }
   }, [groupId, userId]);
 
-  const isFormValid = useMemo(() => form.title, [form]);
+  const isFormValid = useMemo(() => {
+    if (groupId || userId) {
+      return !!form.title;
+    }
+
+    return form.title && selectedTags.length;
+  }, [form, groupId, userId, selectedTags]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -190,7 +196,9 @@ const CreatePost = () => {
         >
           {selectedTags.length ? (
             selectedTags.map((tag) => (
-              <TagItem key={tag.id} name={tag.name} onPress={removeTag(tag)} />
+              <View style={{marginBottom: 6}}>
+                <TagItem key={tag.id} name={tag.name} onPress={removeTag(tag)} />
+              </View>
             ))
           ) : (
             <Text>

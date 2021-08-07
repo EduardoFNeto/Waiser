@@ -50,6 +50,8 @@ const Login = ({ navigation }) => {
           style={styles.input}
           label="Usuário"
           value={form.username}
+          keyboardType="email-address"
+          textContentType="nickname"
           onChangeText={(value) =>
             setForm((prevForm) => ({
               ...prevForm,
