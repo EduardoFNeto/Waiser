@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useCallback, useState } from "react";
+import { useEffect } from "react";
 import { useRef } from "react";
 import { RefreshControl, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
@@ -25,6 +26,13 @@ export const Posts = ({
   const isGetMoreLoading = useRef(false);
   const endList = useRef(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  useEffect(() => {
+    if (isLoading) {
+      currentPage.current = 0;
+      endList.current = false;
+    }
+  }, [endList, isLoading])
 
   const renderItem = useCallback(({ item }: { item: Post }) => {
     return (

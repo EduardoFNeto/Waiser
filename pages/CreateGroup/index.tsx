@@ -11,6 +11,7 @@ import {
   Snackbar,
   ActivityIndicator,
   Title,
+  Paragraph,
 } from "react-native-paper";
 import { TagItem } from "../../components/TagItem";
 import { Tag } from "../../models/tag";
@@ -186,32 +187,45 @@ const AddTags = ({
     <Portal>
       <Dialog visible={isVisible} onDismiss={hideDialog}>
         <Dialog.ScrollArea>
-          <Title style={{ marginTop: 16, marginBottom: 16 }}>
-            Selecione suas tags
-          </Title>
-          <ScrollView
-            horizontal
+          <View
             style={{
-              minHeight: 200,
-            }}
-            contentContainerStyle={{
-              flexWrap: "wrap",
+              justifyContent: "space-between",
+              maxHeight: 250,
             }}
           >
-            {mergedTags.map((tag) => (
-              <TagItem
-                key={tag.id}
-                name={tag.name}
-                onPress={() => {
-                  handleSelectTag(tag);
-                }}
-                checked={selectedTags.some(t => t.id === tag.id)}
-              />
-            ))}
-          </ScrollView>
-          <Button mode="contained" onPress={hideDialog} style={{
-              marginBottom: 16
-          }}>Fechar</Button>
+            <Paragraph style={{ marginTop: 16, marginBottom: 16, }}>
+              Selecione suas tags
+            </Paragraph>
+            <ScrollView
+              style={{  }}
+              contentContainerStyle={{
+                flexWrap: "wrap",
+                flexDirection: "row",
+              
+              }}
+            >
+              {mergedTags.map((tag) => (
+                <View key={tag.id} style={{ marginBottom: 6 }}>
+                  <TagItem
+                    name={tag.name}
+                    onPress={() => {
+                      handleSelectTag(tag);
+                    }}
+                    checked={selectedTags.some((t) => t.id === tag.id)}
+                  />
+                </View>
+              ))}
+            </ScrollView>
+            <Button
+              onPress={hideDialog}
+              style={{
+                marginBottom: 16,
+                position: 'absolute',
+                top: 12,
+                right: -16
+              }}
+            >Concluir</Button>
+          </View>
         </Dialog.ScrollArea>
       </Dialog>
     </Portal>

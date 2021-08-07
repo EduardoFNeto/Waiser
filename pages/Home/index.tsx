@@ -33,6 +33,7 @@ const Home = ({}) => {
   const [user] = useContext(UserContext);
 
   const onRefresh = () => {
+    setIsLoadingPosts(true);
     return postService
       .getFeed(
         selectedTag === "explore" || selectedTag === "direct"
@@ -55,8 +56,7 @@ const Home = ({}) => {
         currentPage
       )
       .then((results) => {
-        setPosts((prev) => [...results, ...prev]);
-        setIsLoadingPosts(false);
+        setPosts((prev) => [...prev, ...results]);
         return results;
       });
   };
