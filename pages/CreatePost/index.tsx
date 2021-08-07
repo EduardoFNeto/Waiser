@@ -14,6 +14,7 @@ import {
   Title,
   Avatar as PaperAvatar,
   Colors,
+  Paragraph,
 } from "react-native-paper";
 import { Avatar } from "../../components/Avatar";
 import { TagItem } from "../../components/TagItem";
@@ -250,9 +251,9 @@ const AddTags = ({
               maxHeight: 250,
             }}
           >
-            <Title style={{ marginTop: 16, marginBottom: 16 }}>
+            <Paragraph style={{ marginTop: 16, marginBottom: 16, }}>
               Selecione suas tags
-            </Title>
+            </Paragraph>
             <ScrollView
               style={{  }}
               contentContainerStyle={{
@@ -273,8 +274,7 @@ const AddTags = ({
                 </View>
               ))}
             </ScrollView>
-            <IconButton
-              icon="close"
+            <Button
               onPress={hideDialog}
               style={{
                 marginBottom: 16,
@@ -282,7 +282,7 @@ const AddTags = ({
                 top: 12,
                 right: -16
               }}
-            />
+            >Concluir</Button>
           </View>
         </Dialog.ScrollArea>
       </Dialog>

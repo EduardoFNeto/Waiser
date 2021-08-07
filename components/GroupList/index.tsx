@@ -22,7 +22,6 @@ const GroupList = ({
   const navigation = useNavigation();
 
   const renderItem = ({ item }: { item: Group }) => {
-    console.log(item);
     return (
       <TouchableOpacity
         activeOpacity={0.9}

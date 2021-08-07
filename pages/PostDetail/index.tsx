@@ -131,6 +131,7 @@ export const PostDetail = () => {
           paddingTop: 8,
           paddingBottom: 8,
           backgroundColor: Colors.white,
+          zIndex: 1000
         }}
       >
         <Avatar user={user} />

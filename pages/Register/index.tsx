@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, ScrollView } from "react-native";
 import { Title, TextInput, Text, Button } from "react-native-paper";
 
 import { UserContext } from "../../contexts/user";
@@ -43,7 +43,7 @@ const Register = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Title style={styles.text}>Cadastre-se</Title>
 
       <View>
@@ -101,13 +101,12 @@ const Register = ({ navigation }) => {
         <Button onPress={signInEmail}>Faça Login</Button>
       </View>
       
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 30,
     backgroundColor: "#fff",
   },

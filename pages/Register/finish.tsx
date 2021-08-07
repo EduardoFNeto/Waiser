@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from "react";
-import { Alert, StyleSheet, View} from "react-native";
+import { Alert, ScrollView, StyleSheet, View} from "react-native";
 import { Title, TextInput, Button } from "react-native-paper";
 
 import { UserContext } from "../../contexts/user";
@@ -36,7 +36,7 @@ const FinishRegister = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Title style={styles.text}>Complete seu cadastro</Title>
 
       <View>
@@ -77,13 +77,12 @@ const FinishRegister = ({ navigation }) => {
         </Button>
       </View>
       
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 30,
     backgroundColor: "#fff",
   },

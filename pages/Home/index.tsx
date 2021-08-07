@@ -107,13 +107,15 @@ const Home = ({}) => {
 
       if (tag === "explore") {
         setExplore(true);
+        setIsDirect(false);
       } else if (tag === "direct") {
         setIsDirect(true);
+        setExplore(false);
       }
     }
 
     postService
-      .getFeed(tag === "explore" || selectedTag === "direct" ? tag : tag?.id)
+      .getFeed(tag === "explore" || tag === "direct" ? tag : tag?.id)
       .then((results) => {
         setPosts(results);
       })

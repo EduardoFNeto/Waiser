@@ -60,7 +60,7 @@ const Routes = () => {
       <Stack.Navigator
         initialRouteName={user ? "Main" : "Welcome"}
         screenOptions={{
-          headerBackTitleVisible: false
+          headerBackTitleVisible: false,
         }}
       >
         <Stack.Screen
@@ -70,10 +70,28 @@ const Routes = () => {
             headerShown: false,
           }}
         />
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen
+          name="Welcome"
+          component={Welcome}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Register"
+          component={Register}
+          options={{
+            title: "",
+          }}
+        />
         <Stack.Screen name="FinishRegister" component={FinishRegister} />
-        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            title: "",
+          }}
+        />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="CreatePost" component={CreatePost} />
@@ -83,9 +101,13 @@ const Routes = () => {
         <Stack.Screen name="ExploreGroups" component={ExploreGroups} />
         <Stack.Screen name="Tags" component={TagsView} />
         <Stack.Screen name="LiveChat" component={LiveChat} />
-        <Stack.Screen name="Explore" component={Explore} options={{
-          title: 'Explorar usuários'
-        }} />
+        <Stack.Screen
+          name="Explore"
+          component={Explore}
+          options={{
+            title: "Explorar usuários",
+          }}
+        />
       </Stack.Navigator>
     </PaperProvider>
   );

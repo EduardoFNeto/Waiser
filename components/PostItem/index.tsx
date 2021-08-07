@@ -22,7 +22,7 @@ export const PostItem = ({
       <View
         style={{
           flexDirection: "row",
-          alignItems: "center",
+          alignItems: "flex-start",
           marginBottom: 8,
         }}
       >
