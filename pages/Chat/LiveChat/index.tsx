@@ -15,6 +15,7 @@ import { buildMessageFromParse, Message } from "../../../models/message";
 import { User } from "../../../models/user";
 import { chatService } from "../../../services/api/chat";
 import Parse from "../../../services/parse";
+import { PARSE_APPLICATION_ID, PARSE_JS_KEY } from "../../../config/constants";
 
 function LiveChat({ navigation }) {
   const [messages, setMessages] = useState<any>([]);
@@ -27,9 +28,18 @@ function LiveChat({ navigation }) {
   useEffect(() => {
     let subscription: any;
 
+    const client = new Parse.LiveQueryClient({
+      applicationId: PARSE_APPLICATION_ID,
+      serverURL: 'ws://waiserdev.b4a.io',
+      javascriptKey: PARSE_JS_KEY
+    });
+    client.open();
+
     async function getMessagesLiveQuery(friendId: string) {
       const query = await chatService.getMessagesQuery(friendId);
-      subscription = await query.subscribe();
+      // subscription = await query.subscribe();
+      subscription = client.subscribe(query); 
+
 
       subscription.on("create", (object: Parse.Object) => {
         if (object.get('owner').id === user.id) return;
@@ -56,7 +66,7 @@ function LiveChat({ navigation }) {
 
     getMessagesLiveQuery(friend.id);
 
-    return () => subscription?.removeAllListeners();
+    return () => client.unsubscribe(subscription); 
   }, []);
 
   useEffect(() => {

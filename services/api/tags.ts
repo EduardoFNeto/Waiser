@@ -13,6 +13,6 @@ export const tagService = {
   async getMyTags() {
     const user = await Parse.User.currentAsync();
 
-    return user?.get('tags')?.map(buildTagFromParse);
+    return user?.get('tags')?.map(buildTagFromParse) || [];
   },
 };
