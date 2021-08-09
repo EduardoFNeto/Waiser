@@ -13,12 +13,13 @@ const Settings = ({ navigation }) => {
         style={styles.logout}
         onPress={
           async () => {
-            await logOut();
-            setUser(null);
             navigation.reset({
               index: 0,
               routes: [{ name: "Welcome" }],
             });
+
+            await logOut();
+            setUser(null);
           }}
         >
         <Text style={styles.text}>Sair</Text>

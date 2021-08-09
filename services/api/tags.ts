@@ -11,7 +11,8 @@ export const tagService = {
   },
 
   async getMyTags() {
-    const user = await Parse.User.currentAsync();
+    const user = Parse.User.current();
+    await user?.fetchWithInclude('tags')
 
     return user?.get('tags')?.map(buildTagFromParse) || [];
   },

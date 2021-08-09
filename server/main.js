@@ -1,22 +1,31 @@
-var rug = require('random-username-generator');
+var rug = require("random-username-generator");
 
-Parse.Cloud.beforeSave("Post", async (request) => {
+Parse.Cloud.beforeSave("Post", (request) => {
   const post = request.object;
+  console.log("Post beforeSave after run");
 
-  if (post.get("text") && post.get("text").trim() === "") {
-    post.set("text", undefined);
+  if (post.get("text") === "") {
+    console.log("update text");
+
+    post.set("text", null);
   }
+
+  console.log("Post beforeSave run!");
 });
 
-Parse.Cloud.beforeSave("Group", async (request) => {
-    const group = request.object;
-  
-    if (group.get("description") && group.get("text").trim() === "") {
-        group.set("description", undefined);
-    }
-  });
+Parse.Cloud.beforeSave("Group", (request) => {
+  const group = request.object;
+  console.log("Group beforeSave after run");
 
-Parse.Cloud.beforeSave("User", async (request) => {
+  if (group.get("description") === "") {
+    console.log("update description");
+
+    group.set("description", null);
+  }
+  console.log("Group beforeSave run!");
+});
+
+Parse.Cloud.beforeSave(Parse.User, (request) => {
   const user = request.object;
 
   if (!user.get("avatar")) {
@@ -29,6 +38,6 @@ Parse.Cloud.beforeSave("User", async (request) => {
   if (!request.original) {
     const new_username = rug.generate();
 
-    user.set('username', new_username);
+    user.set("username", new_username);
   }
 });
