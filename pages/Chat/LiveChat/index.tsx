@@ -30,7 +30,7 @@ function LiveChat({ navigation }) {
 
     const client = new Parse.LiveQueryClient({
       applicationId: PARSE_APPLICATION_ID,
-      serverURL: 'ws://waiserdev.b4a.io',
+      serverURL: 'ws://dask.b4a.io',
       javascriptKey: PARSE_JS_KEY
     });
     client.open();

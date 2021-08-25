@@ -35,7 +35,7 @@ Parse.Cloud.beforeSave(Parse.User, (request) => {
     );
   }
 
-  if (!request.original) {
+  if (!request.original && user.get("authData")) {
     const new_username = rug.generate();
 
     user.set("username", new_username);

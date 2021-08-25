@@ -20,13 +20,14 @@ export const userService = {
       .then((result: Parse.User) => buildUserFromParse(result));
   },
 
-  async finishProfile(name: string, bio: string) {
+  async finishProfile(username: string, name: string, bio: string) {
     const parseUser = await Parse.User.currentAsync();
 
     if (!parseUser) {
       return;
     }
 
+    parseUser.set("username", username);
     parseUser.set("name", name);
     parseUser.set("bio", bio);
 

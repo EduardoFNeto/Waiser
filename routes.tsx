@@ -84,7 +84,13 @@ const Routes = () => {
             title: "",
           }}
         />
-        <Stack.Screen name="FinishRegister" component={FinishRegister} />
+        <Stack.Screen
+          options={{
+            title: "Cadastrar",
+          }}
+          name="FinishRegister"
+          component={FinishRegister}
+        />
         <Stack.Screen
           name="Login"
           component={Login}

@@ -119,7 +119,7 @@ export const Reactions = ({
               color={Colors.grey600}
               style={{marginRight: 4}}
             />
-            <Text style={{color: Colors.grey600}}>Reponda e ganhe pontos</Text>
+            <Text style={{color: Colors.grey600}}>Responda e ganhe pontos</Text>
           </TouchableOpacity>
         </View>
       )}

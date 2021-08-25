@@ -6,19 +6,20 @@ import { UserContext } from "../../contexts/user";
 import { userService } from "../../services/api/user";
 
 const FinishRegister = ({ navigation }) => {
-  const [, setUser] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   const [form, setForm] = useState({
-    name: "",
-    bio: ""
+    username: user.username || '',
+    name: user.name || '',
+    bio: user.bio || ''
   });
 
-  const isFormValid = useMemo(() => form.name && form.bio, [form]);
+  const isFormValid = useMemo(() => user.username && form.name && form.bio, [form]);
 
   const handleProfileFinishRegister = async () => {
     try {
       if (!!isFormValid) {
-        const user = await userService.finishProfile(form.name, form.bio);
+        const user = await userService.finishProfile(form.username, form.name, form.bio);
   
         setUser(user);
   
@@ -31,7 +32,7 @@ const FinishRegister = ({ navigation }) => {
         Alert.alert("Por favor, preencha todos os campos.");
       }
     } catch (err) {
-      throw new Error(err.message);
+      Alert.alert("Ocorreu um erro.");
     }
   }
 
@@ -40,6 +41,18 @@ const FinishRegister = ({ navigation }) => {
       <Title style={styles.text}>Complete seu cadastro</Title>
 
       <View>
+        <TextInput
+          style={styles.input}
+          label="Username"
+          value={form.username}
+          onChangeText={(value) =>
+            setForm((prevForm) => ({
+              ...prevForm,
+              username: value.replace(/\s/, '').trim(),
+            }))
+          }
+        />
+
         <TextInput
           style={styles.input}
           label="Nome"
@@ -56,7 +69,7 @@ const FinishRegister = ({ navigation }) => {
           style={styles.input}
           multiline = {true}
           numberOfLines = {6}
-          label="Biografia"
+          label="Sobre mim"
           value={form.bio}
           onChangeText={(value) =>
             setForm((prevForm) => ({

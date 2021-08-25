@@ -49,12 +49,12 @@ const Register = ({ navigation }) => {
       <View>
         <TextInput
           style={styles.input}
-          label="Usuário"
+          label="Username"
           value={form.username}
           onChangeText={(value) =>
             setForm((prevForm) => ({
               ...prevForm,
-              username: value,
+              username: value.replace(/\s/, '').trim(),
             }))
           }
         />
@@ -62,6 +62,7 @@ const Register = ({ navigation }) => {
         <TextInput
           style={styles.input}
           label="Email"
+          keyboardType="email-address"
           value={form.email}
           onChangeText={(value) =>
             setForm((prevForm) => ({

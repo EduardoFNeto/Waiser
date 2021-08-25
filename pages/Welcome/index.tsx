@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     color: "#333333",
     fontSize: 20,
     fontFamily: "InterRegular",
-    marginTop: 30,
-    marginBottom: 120
+    marginTop: 16,
+    marginBottom: 50
   },
   facebookBtn: {
     backgroundColor: "#4267B2",
@@ -118,8 +118,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    width: 262,
-    height: 100,
+    width: 180,
+    height: 80,
+    resizeMode: 'center'
   },
   caption: {
     fontSize: 12,
